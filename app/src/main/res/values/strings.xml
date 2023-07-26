@@ -3,4 +3,6 @@
     <string name="cont_desc_main_background">main_background</string>
     <string name="cont_desc_search">search</string>
     <string name="cont_desc_synchronize">synchronize</string>
+    <string name="pager_bar_hours">Hours</string>
+    <string name="pager_bar_days">Days</string>
 </resources>

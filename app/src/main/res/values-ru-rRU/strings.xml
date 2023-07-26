@@ -4,4 +4,6 @@
     <string name="cont_desc_main_background">основной фон</string>
     <string name="cont_desc_search">поиск</string>
     <string name="cont_desc_synchronize">синхронизация</string>
+    <string name="pager_bar_hours">Часы</string>
+    <string name="pager_bar_days">Дни</string>
 </resources>
