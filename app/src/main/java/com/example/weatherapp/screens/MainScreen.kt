@@ -44,7 +44,8 @@ fun MainCard() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .alpha(0.5f), shape = RoundedCornerShape(20.dp)
+                .alpha(0.5f), shape = RoundedCornerShape(20.dp),
+            contentColor = Color.Blue
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -67,9 +68,9 @@ fun MainCard() {
                             .size(35.dp)
                     )
                 }
-                Text(text = "London", fontSize = 24.sp, color = Color.Blue)
-                Text(text = "23°C", fontSize = 65.sp, color = Color.Blue)
-                Text(text = "Sunny", fontSize = 16.sp, color = Color.Blue)
+                Text(text = "London", fontSize = 24.sp)
+                Text(text = "23°C", fontSize = 65.sp)
+                Text(text = "Sunny", fontSize = 16.sp)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -80,26 +81,20 @@ fun MainCard() {
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_search),
-                            contentDescription = stringResource(R.string.cont_desc_search),
-                            tint = Color.Blue
-                        )
+                            contentDescription = stringResource(R.string.cont_desc_search)
+                            )
                     }
-
                     Text(
                         text = "25°C/12°C",
                         Modifier.padding(top = 10.dp),
-                        fontSize = 18.sp,
-                        color = Color.Blue
+                        fontSize = 18.sp
                     )
-
                     IconButton(onClick = {
-
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_sync),
-                            contentDescription = stringResource(R.string.cont_desc_synchronize),
-                            tint = Color.Blue
-                        )
+                            contentDescription = stringResource(R.string.cont_desc_synchronize)
+                            )
                     }
                 }
             }
@@ -112,8 +107,10 @@ fun MainCard() {
 @Composable
 fun TabLayout() {
 
-    val tablist = listOf(stringResource(R.string.pager_bar_hours),
-        stringResource(R.string.pager_bar_days))
+    val tablist = listOf(
+        stringResource(R.string.pager_bar_hours),
+        stringResource(R.string.pager_bar_days)
+    )
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
