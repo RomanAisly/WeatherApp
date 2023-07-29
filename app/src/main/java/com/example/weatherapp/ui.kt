@@ -14,7 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -26,9 +29,9 @@ fun ListItem(item: WeatherModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 5.dp)
-            .alpha(0.6f),
+            .alpha(0.7f),
         shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(10.dp)
+        elevation = CardDefaults.cardElevation(20.dp)
 
     ) {
         Row(
@@ -37,19 +40,21 @@ fun ListItem(item: WeatherModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.padding(start = 8.dp, top = 5.dp, bottom = 5.dp)) {
-                Text(text = item.time, fontWeight = FontWeight.Medium)
-                Text(text = item.condition, fontWeight = FontWeight.Medium)
+                Text(text = item.time, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif ,color = Color.Blue)
+                Text(text = item.condition, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif,color = Color.Blue)
 
             }
             Text(
                 text = item.currentTemp.ifEmpty { "${item.maxTemp}/${item.minTemp}" },
                 fontWeight = FontWeight.Medium,
-                fontSize = 23.sp
+                fontFamily = FontFamily.Serif,
+                fontSize = 23.sp,
+                color = Color.Blue
             )
 
             AsyncImage(
                 model = "https://cdn.weatherapi.com/weather/64x64/day/116.png",
-                contentDescription = "fhy",
+                contentDescription = "",
                 modifier = Modifier
                     .padding(end = 5.dp)
                     .size(35.dp)
@@ -57,4 +62,10 @@ fun ListItem(item: WeatherModel) {
         }
 
     }
+}
+
+@Preview
+@Composable
+fun Prev() {
+    ListItem(item = WeatherModel("", "", "", "", "", "", "", ""))
 }

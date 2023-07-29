@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,7 +67,8 @@ fun MainCard() {
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp),
                         text = "26 july 2023",
                         fontSize = 15.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = FontFamily.Serif
                     )
                     AsyncImage(
                         model = "https://cdn.weatherapi.com/weather/64x64/day/116.png",
@@ -76,9 +78,9 @@ fun MainCard() {
                             .size(35.dp)
                     )
                 }
-                Text(text = "London", fontSize = 24.sp, fontWeight = FontWeight.Medium)
-                Text(text = "23°C", fontSize = 65.sp, fontWeight = FontWeight.Medium)
-                Text(text = "Sunny", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Text(text = "London", fontSize = 24.sp, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif)
+                Text(text = "23°C", fontSize = 65.sp, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif)
+                Text(text = "Sunny", fontSize = 16.sp, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -96,7 +98,8 @@ fun MainCard() {
                         text = "25°C/12°C",
                         Modifier.padding(top = 10.dp),
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = FontFamily.Serif
                     )
                     IconButton(onClick = {
                     }) {
@@ -143,7 +146,7 @@ fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
                         pagerState.animateScrollToPage(index)
                     }
                 },
-                    text = { Text(text = text) })
+                    text = { Text(text = text, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif) })
             }
         }
         HorizontalPager(
