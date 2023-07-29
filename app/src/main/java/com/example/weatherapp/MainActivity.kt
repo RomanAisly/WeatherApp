@@ -78,7 +78,7 @@ private fun getWeatherByDays(response: String): List<WeatherModel> {
     val list = ArrayList<WeatherModel>()
     val mainObject = JSONObject(response)
     val city = mainObject.getJSONObject("location").getString("name")
-    val days = mainObject.getJSONObject("forecast").getJSONArray("farecastday")
+    val days = mainObject.getJSONObject("forecast").getJSONArray("forecastday")
     for (i in 0 until days.length()) {
         val item = days[i] as JSONObject
         list.add(

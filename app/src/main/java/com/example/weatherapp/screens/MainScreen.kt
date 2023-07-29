@@ -151,16 +151,14 @@ fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { index ->
-        }
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                itemsIndexed(
+                    daysList.value
+                ) { _, item ->
+                    ListItem(item)
+                }
 
-        //Заглушка
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(
-                daysList.value
-            ) { _, item ->
-                ListItem(item)
             }
-
         }
     }
 }
