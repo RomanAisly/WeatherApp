@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
                     contentScale = ContentScale.FillBounds)
                 Column {
                     MainCard(currentDay, onclickSync = {
-                        getData("London", this@MainActivity, daysList, currentDay)
+                        getData(city = currentDay.value.city, this@MainActivity, daysList, currentDay)
                     }, onclickSearch = {
                     dialogState.value = true
                     })
@@ -71,7 +71,7 @@ private fun getData(city: String,
                     daysList: MutableState<List<WeatherModel>>,
                     currentDay: MutableState<WeatherModel>) {
     val url =
-        "https://api.weatherapi.com/v1/forecast.json?key=$API_KEY" + "&q=$city" + "&days=" + "3" + "&aqi=no&alerts=no"
+        "https://api.weatherapi.com/v1/forecast.json?key=$API_KEY&q=$city&days=3&aqi=no&alerts=no"
     
     val queue = Volley.newRequestQueue(context)
     val strRequest = StringRequest(Request.Method.GET, url, { response ->

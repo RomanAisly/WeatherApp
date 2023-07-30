@@ -5,4 +5,7 @@
     <string name="cont_desc_synchronize">synchronize</string>
     <string name="pager_bar_hours">Hours</string>
     <string name="pager_bar_days">Days</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="alert_dialog_enter_the_city_name">Enter the city name</string>
 </resources>

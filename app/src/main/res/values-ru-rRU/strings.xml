@@ -6,4 +6,7 @@
     <string name="cont_desc_synchronize">синхронизация</string>
     <string name="pager_bar_hours">Часы</string>
     <string name="pager_bar_days">Дни</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Отмена</string>
+    <string name="alert_dialog_enter_the_city_name">Введите название города</string>
 </resources>

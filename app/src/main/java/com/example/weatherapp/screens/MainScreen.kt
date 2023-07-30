@@ -44,20 +44,19 @@ import org.json.JSONObject
 fun MainCard(currentDay: MutableState<WeatherModel>,
              onclickSync: () -> Unit,
              onclickSearch: () -> Unit) {
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(7.dp)) {
         Card(modifier = Modifier
             .fillMaxWidth()
-            .alpha(0.6f),
-            shape = RoundedCornerShape(20.dp),
-            contentColor = Color.Blue) {
+            .alpha(0.6f), shape = RoundedCornerShape(20.dp),
+        contentColor = Color.Blue) {
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(modifier = Modifier.padding(top = 8.dp, start = 8.dp),
                         text = currentDay.value.time,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.ExtraBold,
                         fontFamily = FontFamily.Serif)
                     AsyncImage(model = "https:" + currentDay.value.icon,
                         contentDescription = "",
@@ -67,7 +66,7 @@ fun MainCard(currentDay: MutableState<WeatherModel>,
                 }
                 Text(text = currentDay.value.city,
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Serif)
                 Text(text = if (currentDay.value.currentTemp.isNotEmpty()) {
                     currentDay.value.currentTemp.toFloat().toInt().toString() + "°C"
@@ -77,7 +76,7 @@ fun MainCard(currentDay: MutableState<WeatherModel>,
                 }, fontSize = 65.sp, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif)
                 Text(text = currentDay.value.condition,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Serif)
                 
                 Row(modifier = Modifier.fillMaxWidth(),
@@ -93,7 +92,7 @@ fun MainCard(currentDay: MutableState<WeatherModel>,
                     }°C/${currentDay.value.minTemp.toFloat().toInt()}°C",
                         Modifier.padding(top = 10.dp),
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.ExtraBold,
                         fontFamily = FontFamily.Serif)
                     IconButton(onClick = {
                         onclickSync.invoke()
@@ -118,7 +117,7 @@ fun TabLayout(daysList: MutableState<List<WeatherModel>>, currentDay: MutableSta
     val coroutineScope = rememberCoroutineScope()
     
     Column(modifier = Modifier
-        .padding(start = 8.dp, end = 8.dp)
+        .padding(start = 7.dp, end = 7.dp)
         .clip(RoundedCornerShape(10.dp))
         .alpha(0.7f)) {
         TabRow(selectedTabIndex = tabIndex, indicator = { pos ->
@@ -130,7 +129,9 @@ fun TabLayout(daysList: MutableState<List<WeatherModel>>, currentDay: MutableSta
                         pagerState.animateScrollToPage(index)
                     }
                 }, text = {
-                    Text(text = text, fontWeight = FontWeight.Medium, fontFamily = FontFamily.Serif)
+                    Text(text = text,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontFamily = FontFamily.Serif)
                 })
             }
         }
