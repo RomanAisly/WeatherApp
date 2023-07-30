@@ -41,7 +41,9 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 @Composable
-fun MainCard(currentDay: MutableState<WeatherModel>) {
+fun MainCard(currentDay: MutableState<WeatherModel>,
+             onclickSync: () -> Unit,
+             onclickSearch: () -> Unit) {
     Column(modifier = Modifier.padding(8.dp)) {
         Card(modifier = Modifier
             .fillMaxWidth()
@@ -81,7 +83,7 @@ fun MainCard(currentDay: MutableState<WeatherModel>) {
                 Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween) {
                     IconButton(onClick = {
-                    
+                        onclickSearch.invoke()
                     }) {
                         Icon(painter = painterResource(id = R.drawable.ic_search),
                             contentDescription = stringResource(R.string.cont_desc_search))
@@ -93,7 +95,9 @@ fun MainCard(currentDay: MutableState<WeatherModel>) {
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = FontFamily.Serif)
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        onclickSync.invoke()
+                    }) {
                         Icon(painter = painterResource(id = R.drawable.ic_sync),
                             contentDescription = stringResource(R.string.cont_desc_synchronize))
                     }
