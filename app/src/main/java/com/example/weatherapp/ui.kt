@@ -100,27 +100,30 @@ fun DialogSearch(dialogState: MutableState<Boolean>, onSubmit: (String) -> Unit)
                 dialogState.value = false
             }) {
                 Text(text = stringResource(R.string.alert_dialog_ok),
-                fontFamily = FontFamily.Serif,
-                fontSize = 18.sp)
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 18.sp)
             }
         },
         dismissButton = {
             TextButton(onClick = { dialogState.value = false }) {
-                Text(text = stringResource(R.string.alert_dialog_cancel), color = Color.Red,
-                fontFamily = FontFamily.Serif,
-                fontSize = 18.sp)
+                Text(text = stringResource(R.string.alert_dialog_cancel),
+                    color = Color.Red,
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 18.sp)
             }
         },
         title = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(text = stringResource(R.string.alert_dialog_enter_the_city_name),
-                fontFamily = FontFamily.Serif,
-                fontSize = 22.sp,
-                color = Color.Blue)
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 22.sp,
+                    color = Color.Blue)
                 TextField(value = dialogText.value, onValueChange = {
                     dialogText.value = it
                 })
             }
         })
 }
+
+
     

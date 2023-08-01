@@ -1,6 +1,7 @@
 package com.example.weatherapp.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.weatherapp.MainList
 import com.example.weatherapp.R
 import com.example.weatherapp.data.WeatherModel
@@ -47,8 +54,9 @@ fun MainCard(currentDay: MutableState<WeatherModel>,
     Column(modifier = Modifier.padding(7.dp)) {
         Card(modifier = Modifier
             .fillMaxWidth()
-            .alpha(0.6f), shape = RoundedCornerShape(20.dp),
-        contentColor = Color.Blue) {
+            .alpha(0.6f),
+            shape = RoundedCornerShape(20.dp),
+            contentColor = Color.Blue) {
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(modifier = Modifier.fillMaxWidth(),
@@ -63,7 +71,9 @@ fun MainCard(currentDay: MutableState<WeatherModel>,
                         modifier = Modifier
                             .padding(5.dp)
                             .size(35.dp))
+                    AnimLoad()
                 }
+                
                 Text(text = currentDay.value.city,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.ExtraBold,
@@ -165,4 +175,16 @@ private fun getWeatherByHours(hours: String): List<WeatherModel> {
         
     }
     return list
+}
+
+@Composable
+fun AnimLoad() {
+    Box(modifier = Modifier.padding(5.dp).size(size = 100.dp), contentAlignment = Alignment.TopEnd,
+    propagateMinConstraints = true) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_lks55gli))
+        val progres by animateLottieCompositionAsState(composition,
+            iterations = LottieConstants.IterateForever,
+            isPlaying = true)
+        LottieAnimation(composition = composition, progress = { progres })
+    }
 }
