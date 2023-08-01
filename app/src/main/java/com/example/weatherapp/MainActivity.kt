@@ -24,7 +24,7 @@ import com.example.weatherapp.screens.TabLayout
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import org.json.JSONObject
 
-const val API_KEY = "d74dd26c6a1144e1ad583505232707"
+private const val API_KEY = "d74dd26c6a1144e1ad583505232707"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

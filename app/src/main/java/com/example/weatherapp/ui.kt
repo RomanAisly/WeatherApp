@@ -80,7 +80,7 @@ fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
                 contentDescription = "",
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .size(35.dp))
+                    .size(40.dp))
         }
         
     }
