@@ -20,8 +20,7 @@ espresso = "3.7.0"
 koin = "4.0.1"
 ktor = "3.0.3"
 jetbrainsKotlinJvm = "2.2.20"
-kotlinBom = "1.8.0"
-material = "1.14.0"
+
 
 [libraries]
 # AndroidX & UI
@@ -76,8 +75,6 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 junit = { group = "junit", name = "junit", version.ref = "junit4" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
-kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -97,6 +94,7 @@ androidx-compose = [
     "androidx-lifecycle-viewmodel-compose",
     "androidx-compose-ui",
     "androidx-compose-ui-graphics",
+    "androidx-compose-ui-tooling",
     "androidx-compose-ui-tooling-preview",
     "androidx-compose-material3"
 ]
