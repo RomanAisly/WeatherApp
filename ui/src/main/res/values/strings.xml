@@ -3,4 +3,7 @@
     <string name="theme_system">System</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_light">Light</string>
+    <string name="choose_your_city">Choose your city</string>
+    <string name="your_city">Your city</string>
+    <string name="cancel">Cancel</string>
 </resources>

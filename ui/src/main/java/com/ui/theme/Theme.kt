@@ -21,9 +21,14 @@ import com.domain.AppTheme
 data class BaseColors(
     val screenBack: Color,
     val text: Color,
+    val textButton: Color,
     val bottomBarStart: Color,
     val bottomBarEnd: Color,
-    val bottBarIconShadow: Color
+    val bottBarIconShadow: Color,
+    val alertBack: Color,
+    val bgCenter: Color,
+    val bgHalo: Color,
+    val bgEdge: Color
 ) {
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
@@ -37,17 +42,27 @@ data class BaseColors(
 val lightColors = BaseColors(
     screenBack = mintCream,
     text = black,
+    textButton = darkStateBlue,
     bottomBarStart = skyBlue,
     bottomBarEnd = azure,
-    bottBarIconShadow = iris
+    bottBarIconShadow = iris,
+    alertBack = lightGray,
+    bgCenter = azure,
+    bgHalo = lightBlue,
+    bgEdge = skyBlue
 )
 
 val darkColors = BaseColors(
     screenBack = twilight,
     text = white,
+    textButton = deepSkyBlue,
     bottomBarStart = indigo,
     bottomBarEnd = gray,
-    bottBarIconShadow = lightBlue
+    bottBarIconShadow = lightBlue,
+    alertBack = dimGray,
+    bgCenter = deepIndigo,
+    bgHalo = plum,
+    bgEdge = indigo
 )
 
 object BaseTheme {
@@ -103,8 +118,13 @@ private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
     return BaseColors(
         screenBack = animateColorAsState(targetColor.screenBack, animationSpec).value,
         text = animateColorAsState(targetColor.text, animationSpec).value,
+        textButton = animateColorAsState(targetColor.textButton, animationSpec).value,
         bottomBarStart = animateColorAsState(targetColor.bottomBarStart, animationSpec).value,
         bottomBarEnd = animateColorAsState(targetColor.bottomBarEnd, animationSpec).value,
-        bottBarIconShadow = animateColorAsState(targetColor.bottBarIconShadow, animationSpec).value
+        bottBarIconShadow = animateColorAsState(targetColor.bottBarIconShadow, animationSpec).value,
+        alertBack = animateColorAsState(targetColor.alertBack, animationSpec).value,
+        bgCenter = animateColorAsState(targetColor.bgCenter, animationSpec).value,
+        bgHalo = animateColorAsState(targetColor.bgHalo, animationSpec).value,
+        bgEdge = animateColorAsState(targetColor.bgEdge, animationSpec).value
     )
 }

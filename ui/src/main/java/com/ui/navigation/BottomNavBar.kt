@@ -81,7 +81,7 @@ fun BottomNavBar(
                 .drawBehind {
                     val w = size.width
                     val h = size.height
-                    val bumpW = 33.dp.toPx()
+                    val bumpW = 60.dp.toPx()
                     val bumpH = 144.dp.toPx()
                     val flatW = w - bumpW
 
@@ -127,13 +127,12 @@ fun BottomNavBar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()
                 .height(95.dp)
                 .drawBehind {
                     val w = size.width
                     val h = size.height
-                    val bumpH = 30.dp.toPx()
-                    val bumpW = 144.dp.toPx()
+                    val bumpH = 44.dp.toPx()
+                    val bumpW = 124.dp.toPx()
 
                     val tabWidth = w / bottomScreens.size
                     val midX = (tabWidth * animatedIndex) + (tabWidth / 2f)
@@ -152,7 +151,8 @@ fun BottomNavBar(
                         close()
                     }
                     drawPath(path = path, brush = portGrad)
-                },
+                }
+                .navigationBarsPadding(),
             contentAlignment = Alignment.BottomCenter
         ) {
             Row(

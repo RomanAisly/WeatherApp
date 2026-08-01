@@ -17,8 +17,8 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.ui.components.LayoutMode
 import com.ui.screens.GlobeScreen
-import com.ui.screens.HomeScreen
 import com.ui.screens.SettingsScreen
+import com.ui.screens.home.HomeScreen
 import com.ui.theme.BaseTheme
 
 @Composable

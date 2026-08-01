@@ -1,6 +1,5 @@
 package com.data.remote
 
-import com.weatherapp.data.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.DefaultRequest
@@ -16,7 +15,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-private const val BASE_URL = "https://api.themoviedb.org/3/"
+private const val BASE_URL = "https://api.open-meteo.com/"
 
 fun createHttpClient(): HttpClient {
 
@@ -36,7 +35,6 @@ fun createHttpClient(): HttpClient {
         install(DefaultRequest) {
             url(BASE_URL)
             header(HttpHeaders.ContentType, ContentType.Application.Json)
-            header(HttpHeaders.Authorization, "Bearer ${BuildConfig.API_KEY}")
         }
         install(Logging) {
             level = LogLevel.INFO
