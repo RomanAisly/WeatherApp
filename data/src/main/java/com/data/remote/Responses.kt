@@ -28,5 +28,6 @@ data class GeocodingResult(
     @SerialName("latitude") val latitude: Double,
     @SerialName("longitude") val longitude: Double,
     @SerialName("name") val name: String,
-    @SerialName("country") val country: String? = null
+    @SerialName("country") val country: String? = null,
+    @SerialName("country_code") val countryCode: String? = null
 )

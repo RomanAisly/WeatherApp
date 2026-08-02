@@ -46,13 +46,15 @@ fun Modifier.radialScreenBackground(
     haloColor: Color,
     edgeColor: Color,
     topOffset: Dp = 0.dp,
+    bottomOffset: Dp = 0.dp,
     startOffset: Dp = 0.dp
 ): Modifier = this.drawWithCache {
 
     val topPx = topOffset.toPx()
+    val bottomPx = bottomOffset.toPx()
     val startPx = startOffset.toPx()
 
-    val workingHeight = size.height - topPx
+    val workingHeight = size.height - topPx - bottomPx
     val workingWidth = size.width - startPx
 
     val centerX = startPx + (workingWidth / 2f)

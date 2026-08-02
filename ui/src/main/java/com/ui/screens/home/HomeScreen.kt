@@ -38,6 +38,7 @@ fun HomeScreen(
     val layoutDirection = LocalLayoutDirection.current
 
     val topPadding = paddingValues.calculateTopPadding() + 30.dp
+    val bottomPadding = paddingValues.calculateBottomPadding()
     val startPadding = paddingValues.calculateStartPadding(layoutDirection)
 
     Column(
@@ -48,11 +49,12 @@ fun HomeScreen(
                 haloColor = BaseTheme.colors.bgHalo,
                 edgeColor = BaseTheme.colors.bgEdge,
                 topOffset = topPadding,
+                bottomOffset = bottomPadding,
                 startOffset = startPadding
             )
             .padding(
                 top = topPadding,
-                bottom = paddingValues.calculateBottomPadding(),
+                bottom = bottomPadding,
                 start = startPadding,
                 end = paddingValues.calculateEndPadding(layoutDirection)
             )
@@ -84,7 +86,7 @@ fun HomeScreen(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    horizontalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
                     BaseTextButton(
                         text = stringResource(R.string.choose_your_city),

@@ -1,33 +1,39 @@
 package com.data.repositories
 
 import android.util.Log
+import com.data.mapers.toDomain
+import com.data.mapers.toFlagEmoji
 import com.data.remote.WeatherProvider
 import com.domain.AppError
 import com.domain.CheckDataResult
 import com.domain.CityItem
 import com.domain.Weather
 import com.domain.WeatherRepository
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ServerResponseException
+import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.net.UnknownHostException
 
 class WeatherRepositoryImpl(
     private val weatherProvider: WeatherProvider
 ) : WeatherRepository {
-
     override suspend fun searchCities(query: String): Flow<CheckDataResult<List<CityItem>, AppError>> =
         flow {
             try {
                 val response = weatherProvider.searchCities(query)
-
                 val cities = response.results?.map {
                     CityItem(
                         name = it.name,
                         country = it.country ?: "Unknown",
+                        flagEmoji = it.countryCode?.toFlagEmoji() ?: "🏳️",
                         latitude = it.latitude,
                         longitude = it.longitude
                     )
                 } ?: emptyList()
-
                 emit(CheckDataResult.Success(cities))
             } catch (e: Exception) {
                 emit(CheckDataResult.Error(handleError(e)))
@@ -40,22 +46,27 @@ class WeatherRepositoryImpl(
     ): Flow<CheckDataResult<Weather, AppError>> = flow {
         try {
             val response = weatherProvider.getCurrentWeather(lat, lon)
-            val domainWeather = Weather(
-                temperature = response.current.temperature,
-                windSpeed = response.current.windSpeed
-            )
-            emit(CheckDataResult.Success(domainWeather))
+            emit(CheckDataResult.Success(response.current.toDomain()))
         } catch (e: Exception) {
             emit(CheckDataResult.Error(handleError(e)))
         }
     }
 
     private fun handleError(e: Exception): AppError {
-        Log.d("MyLog", "Weather Error: $e")
+        Log.e("WeatherRepository", "Network Error: ", e)
         return when (e) {
-            is java.net.UnknownHostException -> AppError.NO_INTERNET
-            is io.ktor.client.plugins.HttpRequestTimeoutException -> AppError.TIMEOUT
-            is io.ktor.client.plugins.ServerResponseException -> AppError.SERVER_ERROR
+            is UnresolvedAddressException, is UnknownHostException -> AppError.NO_INTERNET
+            is HttpRequestTimeoutException, is ConnectTimeoutException -> AppError.TIMEOUT
+            is ClientRequestException -> {
+                when (e.response.status.value) {
+                    401, 403 -> AppError.UNAUTHORIZED
+                    404 -> AppError.NOT_FOUND
+                    429 -> AppError.SERVER_ERROR
+                    else -> AppError.UNKNOWN
+                }
+            }
+
+            is ServerResponseException -> AppError.SERVER_ERROR
             else -> AppError.UNKNOWN
         }
     }

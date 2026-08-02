@@ -82,7 +82,7 @@ fun SettingsScreen(paddingValues: PaddingValues) {
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             AppLanguage.entries.forEach { language ->
                 LanguageItem(
@@ -101,12 +101,12 @@ private fun ThemeItem(option: AppTheme, isSelected: Boolean, onClick: (AppTheme)
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(MaterialTheme.shapes.medium)
             .border(
                 shape = MaterialTheme.shapes.medium,
-                width = 0.5.dp,
-                color = BaseTheme.colors.text
+                width = 1.dp,
+                color = BaseTheme.colors.text.copy(alpha = 0.7f)
             )
+            .clip(MaterialTheme.shapes.medium)
             .clickable(role = Role.Switch, onClick = { onClick(option) })
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -137,12 +137,12 @@ private fun LanguageItem(option: AppLanguage, isSelected: Boolean, onClick: (App
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(MaterialTheme.shapes.medium)
             .border(
                 shape = MaterialTheme.shapes.medium,
-                width = 0.5.dp,
-                color = BaseTheme.colors.text
+                width = 1.dp,
+                color = BaseTheme.colors.text.copy(alpha = 0.7f)
             )
+            .clip(MaterialTheme.shapes.medium)
             .clickable(role = Role.Switch, onClick = { onClick(option) })
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
