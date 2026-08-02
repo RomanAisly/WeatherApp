@@ -19,14 +19,12 @@ import com.domain.AppTheme
 
 @Immutable
 data class BaseColors(
-    val screenBack: Color,
+    val scaffoldBack: Color,
     val text: Color,
     val textButton: Color,
     val bottomBarStart: Color,
     val bottomBarEnd: Color,
     val bottBarIconShadow: Color,
-    val alertBackStart: Color,
-    val alertBackEnd: Color,
     val bgCenter: Color,
     val bgHalo: Color,
     val bgEdge: Color,
@@ -35,24 +33,24 @@ data class BaseColors(
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
     )
-
     val bottBarLandscape: Brush = Brush.horizontalGradient(
         listOf(bottomBarEnd, bottomBarStart)
     )
     val alertBack: Brush = Brush.verticalGradient(
-        listOf(alertBackStart, alertBackEnd)
+        listOf(bgHalo, bottomBarEnd)
+    )
+    val settScreenBack: Brush = Brush.horizontalGradient(
+        listOf(bottomBarStart, bottomBarEnd)
     )
 }
 
 val lightColors = BaseColors(
-    screenBack = mintCream,
+    scaffoldBack = azure,
     text = black,
     textButton = cornflowerBlue,
     bottomBarStart = azure,
     bottomBarEnd = skyBlue,
     bottBarIconShadow = iris,
-    alertBackStart = lightBlue,
-    alertBackEnd = skyBlue,
     bgCenter = azure,
     bgHalo = lightBlue,
     bgEdge = skyBlue,
@@ -60,14 +58,12 @@ val lightColors = BaseColors(
 )
 
 val darkColors = BaseColors(
-    screenBack = twilight,
+    scaffoldBack = indigo,
     text = white,
     textButton = deepSkyBlue,
     bottomBarStart = plum,
     bottomBarEnd = indigo,
     bottBarIconShadow = lightBlue,
-    alertBackStart = plum,
-    alertBackEnd = indigo,
     bgCenter = deepIndigo,
     bgHalo = plum,
     bgEdge = indigo,
@@ -125,14 +121,12 @@ fun WeatherTheme(
 private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
     val animationSpec = tween<Color>(durationMillis = 400)
     return BaseColors(
-        screenBack = animateColorAsState(targetColor.screenBack, animationSpec).value,
+        scaffoldBack = animateColorAsState(targetColor.scaffoldBack, animationSpec).value,
         text = animateColorAsState(targetColor.text, animationSpec).value,
         textButton = animateColorAsState(targetColor.textButton, animationSpec).value,
         bottomBarStart = animateColorAsState(targetColor.bottomBarStart, animationSpec).value,
         bottomBarEnd = animateColorAsState(targetColor.bottomBarEnd, animationSpec).value,
         bottBarIconShadow = animateColorAsState(targetColor.bottBarIconShadow, animationSpec).value,
-        alertBackStart = animateColorAsState(targetColor.alertBackStart, animationSpec).value,
-        alertBackEnd = animateColorAsState(targetColor.alertBackEnd, animationSpec).value,
         bgCenter = animateColorAsState(targetColor.bgCenter, animationSpec).value,
         bgHalo = animateColorAsState(targetColor.bgHalo, animationSpec).value,
         bgEdge = animateColorAsState(targetColor.bgEdge, animationSpec).value,

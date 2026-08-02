@@ -1,6 +1,7 @@
 package com.ui.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -14,7 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
-import com.ui.navigation.BottomNavGraph
+import com.ui.screens.settings.SettingsScreen
 import com.ui.theme.WeatherTheme
 import com.weatherapp.ui.R
 import org.koin.compose.KoinContext
@@ -89,7 +90,7 @@ internal fun UiToolsPreview() {
     KoinContext(context = koin) {
         CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner) {
             WeatherTheme(onThemeChange = {}) {
-                BottomNavGraph()
+                SettingsScreen(paddingValues = PaddingValues(0.dp))
             }
         }
     }

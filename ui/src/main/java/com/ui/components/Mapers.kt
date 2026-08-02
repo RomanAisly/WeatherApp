@@ -1,5 +1,6 @@
 package com.ui.components
 
+import com.domain.AppLanguage
 import com.domain.AppTheme
 import com.weatherapp.ui.R
 
@@ -33,12 +34,12 @@ fun AppTheme.getIconRes(): Int = when (this) {
     AppTheme.LIGHT -> R.drawable.theme_light
 }
 
-//fun AppLanguage.getTitleRes(): Int = when (this) {
-//    AppLanguage.ENGLISH -> R.string.en
-//    AppLanguage.RUSSIAN -> R.string.ru
-//    AppLanguage.CHINESE -> R.string.zh
-//    AppLanguage.SPANISH -> R.string.es
-//    AppLanguage.FRENCH -> R.string.fr
-//    AppLanguage.GERMAN -> R.string.de
-//    AppLanguage.UKRAINIAN -> R.string.uk
-//}
+fun AppLanguage.getTitleRes(): Int = when (this) {
+    AppLanguage.ENGLISH -> R.string.en
+    AppLanguage.RUSSIAN -> R.string.ru
+    AppLanguage.CHINESE -> R.string.zh
+    AppLanguage.SPANISH -> R.string.es
+    AppLanguage.FRENCH -> R.string.fr
+    AppLanguage.GERMAN -> R.string.de
+    AppLanguage.UKRAINIAN -> R.string.uk
+}
