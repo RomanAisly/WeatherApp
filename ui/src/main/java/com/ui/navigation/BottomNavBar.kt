@@ -13,17 +13,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,6 +49,7 @@ data class BottomTabItem(
 fun BottomNavBar(
     currentTab: Any,
     layoutMode: LayoutMode,
+    modifier: Modifier = Modifier,
     onTabSelected: (Routes) -> Unit
 ) {
     val bottomScreens = remember {
@@ -80,8 +76,7 @@ fun BottomNavBar(
 
     if (layoutMode != LayoutMode.PORTRAIT) {
         Box(
-            modifier = Modifier
-                .fillMaxHeight()
+            modifier = modifier
                 .drawBehind {
                     val w = size.width
                     val h = size.height
@@ -90,7 +85,7 @@ fun BottomNavBar(
                     val midY = (tabHeight * animatedIndex) + (tabHeight / 2f)
 
                     val dipH = tabHeight * 0.8f
-                    val dipDepth = 26.dp.toPx()
+                    val dipDepth = 30.dp.toPx()
                     val topY = midY - dipH / 2f
                     val bottomY = midY + dipH / 2f
 
@@ -114,18 +109,13 @@ fun BottomNavBar(
                         close()
                     }
                     drawPath(path = path, brush = landGrad)
-                }
-                .windowInsetsPadding(
-                    WindowInsets.systemBars.only(
-                        WindowInsetsSides.Start + WindowInsetsSides.Vertical
-                    )
-                ),
+                },
             contentAlignment = Alignment.CenterEnd
         ) {
             Column(
                 modifier = Modifier
+                    .width(72.dp)
                     .fillMaxHeight()
-                    .width(70.dp),
             ) {
                 bottomScreens.forEach { item ->
                     TabItem(
@@ -143,7 +133,6 @@ fun BottomNavBar(
     } else {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
                 .drawBehind {
                     val w = size.width
                     val h = size.height
@@ -154,7 +143,7 @@ fun BottomNavBar(
                     val midX = (tabWidth * animatedIndex) + (tabWidth / 2f)
 
                     val dipW = tabWidth * 0.85f
-                    val dipDepth = 28.dp.toPx()
+                    val dipDepth = 30.dp.toPx()
                     val leftX = midX - dipW / 2f
                     val rightX = midX + dipW / 2f
 
@@ -259,7 +248,7 @@ private fun TabItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(70.dp)
+                    .size(64.dp)
                     .border(
                         width = 0.5.dp,
                         color = borderColor,

@@ -6,12 +6,18 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
@@ -34,6 +40,7 @@ fun BottomNavGraph() {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val isWideScreen = windowSizeClass.isWidthAtLeastBreakpoint(600)
     val isCompactHeight = !windowSizeClass.isHeightAtLeastBreakpoint(480)
+    val layoutDirection = LocalLayoutDirection.current
 
     val layoutMode = when {
         isCompactHeight -> LayoutMode.LANDSCAPE_PHONE
@@ -60,24 +67,24 @@ fun BottomNavGraph() {
                     })
             }
         }
-    ) { paddingValues ->
-        Row(
+    ) { scaffoldPadding ->
+        val dynamicPadding = if (showSideNav) {
+            PaddingValues(
+                start = scaffoldPadding.calculateStartPadding(layoutDirection) + 60.dp,
+                top = scaffoldPadding.calculateTopPadding(),
+                end = scaffoldPadding.calculateEndPadding(layoutDirection),
+                bottom = scaffoldPadding.calculateBottomPadding()
+            )
+        } else {
+            scaffoldPadding
+        }
+        Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            if (showSideNav) {
-                BottomNavBar(
-                    currentTab = currentTab, layoutMode = layoutMode,
-                    onTabSelected = { tabRoute ->
-                        if (currentTab != tabRoute) {
-                            backStack[0] = tabRoute
-                        }
-                    })
-            }
             NavDisplay(
                 backStack = backStack,
                 modifier = Modifier
-                    .weight(1f)
                     .fillMaxSize(),
                 transitionSpec = {
                     (fadeIn(animationSpec = tween(fadeDuration)) + slideIntoContainer(
@@ -100,15 +107,25 @@ fun BottomNavGraph() {
                 entryProvider = entryProvider {
 
                     entry<Routes.Home> {
-                        HomeScreen(paddingValues = paddingValues)
+                        HomeScreen(paddingValues = dynamicPadding)
                     }
                     entry<Routes.Globe> {
-                        GlobeScreen(paddingValues = paddingValues)
+                        GlobeScreen(paddingValues = dynamicPadding)
                     }
                     entry<Routes.Settings> {
-                        SettingsScreen(paddingValues = paddingValues)
+                        SettingsScreen(paddingValues = dynamicPadding)
                     }
                 })
+            if (showSideNav) {
+                BottomNavBar(
+                    currentTab = currentTab,
+                    layoutMode = layoutMode,
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    onTabSelected = { tabRoute ->
+                        if (currentTab != tabRoute) backStack[0] = tabRoute
+                    }
+                )
+            }
         }
     }
 }

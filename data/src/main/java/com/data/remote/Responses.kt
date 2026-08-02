@@ -17,3 +17,16 @@ data class CurrentWeatherDto(
     @SerialName("wind_speed_10m")
     val windSpeed: Double
 )
+
+@Serializable
+data class GeocodingResponse(
+    @SerialName("results") val results: List<GeocodingResult>? = null
+)
+
+@Serializable
+data class GeocodingResult(
+    @SerialName("latitude") val latitude: Double,
+    @SerialName("longitude") val longitude: Double,
+    @SerialName("name") val name: String,
+    @SerialName("country") val country: String? = null
+)

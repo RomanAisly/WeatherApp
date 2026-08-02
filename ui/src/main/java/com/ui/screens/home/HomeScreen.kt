@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,7 +35,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val layoutDirection = LocalLayoutDirection.current
+
     val topPadding = paddingValues.calculateTopPadding() + 30.dp
+    val startPadding = paddingValues.calculateStartPadding(layoutDirection)
 
     Column(
         modifier = Modifier
@@ -41,17 +47,28 @@ fun HomeScreen(
                 centerColor = BaseTheme.colors.bgCenter,
                 haloColor = BaseTheme.colors.bgHalo,
                 edgeColor = BaseTheme.colors.bgEdge,
-                topOffset = topPadding
+                topOffset = topPadding,
+                startOffset = startPadding
             )
-            .padding(top = topPadding)
+            .padding(
+                top = topPadding,
+                bottom = paddingValues.calculateBottomPadding(),
+                start = startPadding,
+                end = paddingValues.calculateEndPadding(layoutDirection)
+            )
     ) {
         if (state.showDialog) {
             BaseAlertDialog(
+                searchQuery = state.searchQuery,
+                searchResults = state.suggestedCities,
+                onQueryChange = { newText ->
+                    viewModel.onSearchQueryChanged(newText)
+                },
                 onDismissRequest = {
                     viewModel.hideDialog()
                 },
-                onCityConfirmed = { cityName ->
-                    viewModel.updateCity(cityName)
+                onCityConfirmed = { selectedCity ->
+                    viewModel.updateCity(selectedCity)
                 }
             )
         }

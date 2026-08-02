@@ -1,7 +1,6 @@
 package com.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -15,7 +14,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
-import com.ui.screens.settings.SettingsScreen
 import com.ui.theme.WeatherTheme
 import com.weatherapp.ui.R
 import org.koin.compose.KoinContext
@@ -47,12 +45,17 @@ fun Modifier.radialScreenBackground(
     centerColor: Color,
     haloColor: Color,
     edgeColor: Color,
-    topOffset: Dp = 0.dp
+    topOffset: Dp = 0.dp,
+    startOffset: Dp = 0.dp
 ): Modifier = this.drawWithCache {
 
     val topPx = topOffset.toPx()
+    val startPx = startOffset.toPx()
+
     val workingHeight = size.height - topPx
-    val centerX = size.width / 2f
+    val workingWidth = size.width - startPx
+
+    val centerX = startPx + (workingWidth / 2f)
     val centerY = topPx + (workingHeight * 0.3f)
     val spotRadius = size.width * 0.6f
 
@@ -90,7 +93,7 @@ internal fun UiToolsPreview() {
     KoinContext(context = koin) {
         CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner) {
             WeatherTheme(onThemeChange = {}) {
-                SettingsScreen(paddingValues = PaddingValues(0.dp))
+
             }
         }
     }

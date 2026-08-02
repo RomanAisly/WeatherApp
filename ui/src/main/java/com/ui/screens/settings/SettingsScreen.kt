@@ -53,9 +53,9 @@ fun SettingsScreen(paddingValues: PaddingValues) {
             .background(BaseTheme.colors.settScreenBack)
             .padding(
                 top = paddingValues.calculateTopPadding() + 16.dp,
-                bottom = paddingValues.calculateBottomPadding() + 26.dp,
-                start = paddingValues.calculateStartPadding(layoutDirection) + 12.dp,
-                end = paddingValues.calculateEndPadding(layoutDirection) + 12.dp
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(layoutDirection),
+                end = paddingValues.calculateEndPadding(layoutDirection)
             )
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,7 +107,6 @@ private fun ThemeItem(option: AppTheme, isSelected: Boolean, onClick: (AppTheme)
                 width = 0.5.dp,
                 color = BaseTheme.colors.text
             )
-
             .clickable(role = Role.Switch, onClick = { onClick(option) })
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -144,7 +143,6 @@ private fun LanguageItem(option: AppLanguage, isSelected: Boolean, onClick: (App
                 width = 0.5.dp,
                 color = BaseTheme.colors.text
             )
-
             .clickable(role = Role.Switch, onClick = { onClick(option) })
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
