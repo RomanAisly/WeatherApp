@@ -1,7 +1,6 @@
 package com.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -11,10 +10,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
 import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
-import com.ui.screens.home.HomeScreen
+import com.ui.navigation.BottomNavGraph
 import com.ui.theme.WeatherTheme
 import com.weatherapp.ui.R
 import org.koin.compose.KoinContext
@@ -45,11 +45,14 @@ enum class WindStatus(val lottieRes: Int) {
 fun Modifier.radialScreenBackground(
     centerColor: Color,
     haloColor: Color,
-    edgeColor: Color
+    edgeColor: Color,
+    topOffset: Dp = 0.dp
 ): Modifier = this.drawWithCache {
 
+    val topPx = topOffset.toPx()
+    val workingHeight = size.height - topPx
     val centerX = size.width / 2f
-    val centerY = size.height * 0.3f
+    val centerY = topPx + (workingHeight * 0.3f)
     val spotRadius = size.width * 0.6f
 
     val shiftedBrush = Brush.radialGradient(
@@ -86,7 +89,7 @@ internal fun UiToolsPreview() {
     KoinContext(context = koin) {
         CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner) {
             WeatherTheme(onThemeChange = {}) {
-                HomeScreen(paddingValues = PaddingValues(0.dp))
+                BottomNavGraph()
             }
         }
     }

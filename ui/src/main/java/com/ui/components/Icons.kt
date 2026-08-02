@@ -15,7 +15,7 @@ import com.ui.theme.BaseTheme
 fun BaseIcon(
     iconId: Int,
     modifier: Modifier = Modifier,
-    iconTint: Color = BaseTheme.colors.text
+    iconTint: Color = BaseTheme.colors.iconTint
 ) {
     Icon(
         modifier = modifier,

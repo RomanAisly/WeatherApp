@@ -25,10 +25,12 @@ data class BaseColors(
     val bottomBarStart: Color,
     val bottomBarEnd: Color,
     val bottBarIconShadow: Color,
-    val alertBack: Color,
+    val alertBackStart: Color,
+    val alertBackEnd: Color,
     val bgCenter: Color,
     val bgHalo: Color,
-    val bgEdge: Color
+    val bgEdge: Color,
+    val iconTint: Color
 ) {
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
@@ -37,32 +39,39 @@ data class BaseColors(
     val bottBarLandscape: Brush = Brush.horizontalGradient(
         listOf(bottomBarEnd, bottomBarStart)
     )
+    val alertBack: Brush = Brush.verticalGradient(
+        listOf(alertBackStart, alertBackEnd)
+    )
 }
 
 val lightColors = BaseColors(
     screenBack = mintCream,
     text = black,
-    textButton = darkStateBlue,
-    bottomBarStart = skyBlue,
-    bottomBarEnd = azure,
+    textButton = cornflowerBlue,
+    bottomBarStart = azure,
+    bottomBarEnd = skyBlue,
     bottBarIconShadow = iris,
-    alertBack = lightGray,
+    alertBackStart = lightBlue,
+    alertBackEnd = skyBlue,
     bgCenter = azure,
     bgHalo = lightBlue,
-    bgEdge = skyBlue
+    bgEdge = skyBlue,
+    iconTint = cornflowerBlue
 )
 
 val darkColors = BaseColors(
     screenBack = twilight,
     text = white,
     textButton = deepSkyBlue,
-    bottomBarStart = indigo,
-    bottomBarEnd = gray,
+    bottomBarStart = plum,
+    bottomBarEnd = indigo,
     bottBarIconShadow = lightBlue,
-    alertBack = dimGray,
+    alertBackStart = plum,
+    alertBackEnd = indigo,
     bgCenter = deepIndigo,
     bgHalo = plum,
-    bgEdge = indigo
+    bgEdge = indigo,
+    iconTint = white
 )
 
 object BaseTheme {
@@ -122,9 +131,11 @@ private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
         bottomBarStart = animateColorAsState(targetColor.bottomBarStart, animationSpec).value,
         bottomBarEnd = animateColorAsState(targetColor.bottomBarEnd, animationSpec).value,
         bottBarIconShadow = animateColorAsState(targetColor.bottBarIconShadow, animationSpec).value,
-        alertBack = animateColorAsState(targetColor.alertBack, animationSpec).value,
+        alertBackStart = animateColorAsState(targetColor.alertBackStart, animationSpec).value,
+        alertBackEnd = animateColorAsState(targetColor.alertBackEnd, animationSpec).value,
         bgCenter = animateColorAsState(targetColor.bgCenter, animationSpec).value,
         bgHalo = animateColorAsState(targetColor.bgHalo, animationSpec).value,
-        bgEdge = animateColorAsState(targetColor.bgEdge, animationSpec).value
+        bgEdge = animateColorAsState(targetColor.bgEdge, animationSpec).value,
+        iconTint = animateColorAsState(targetColor.iconTint, animationSpec).value
     )
 }

@@ -13,12 +13,17 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -76,34 +81,46 @@ fun BottomNavBar(
     if (layoutMode != LayoutMode.PORTRAIT) {
         Box(
             modifier = Modifier
-                .width(100.dp)
                 .fillMaxHeight()
                 .drawBehind {
                     val w = size.width
                     val h = size.height
-                    val bumpW = 60.dp.toPx()
-                    val bumpH = 144.dp.toPx()
-                    val flatW = w - bumpW
 
                     val tabHeight = h / bottomScreens.size
                     val midY = (tabHeight * animatedIndex) + (tabHeight / 2f)
 
-                    val topY = midY - bumpH / 2f
-                    val bottomY = midY + bumpH / 2f
+                    val dipH = tabHeight * 0.8f
+                    val dipDepth = 26.dp.toPx()
+                    val topY = midY - dipH / 2f
+                    val bottomY = midY + dipH / 2f
 
                     val path = Path().apply {
                         moveTo(0f, 0f)
-                        lineTo(flatW, 0f)
-                        lineTo(flatW, topY)
-                        cubicTo(flatW, topY + bumpH / 4f, w, midY - bumpH / 5f, w, midY)
-                        cubicTo(w, midY + bumpH / 5f, flatW, bottomY - bumpH / 4f, flatW, bottomY)
-                        lineTo(flatW, h)
+                        lineTo(w, 0f)
+                        lineTo(w, topY)
+
+                        cubicTo(
+                            w, topY + dipH / 5f,
+                            w - dipDepth, midY - dipH / 4f,
+                            w - dipDepth, midY
+                        )
+                        cubicTo(
+                            w - dipDepth, midY + dipH / 4f,
+                            w, bottomY - dipH / 5f,
+                            w, bottomY
+                        )
+                        lineTo(w, h)
                         lineTo(0f, h)
                         close()
                     }
                     drawPath(path = path, brush = landGrad)
-                },
-            contentAlignment = Alignment.CenterStart
+                }
+                .windowInsetsPadding(
+                    WindowInsets.systemBars.only(
+                        WindowInsetsSides.Start + WindowInsetsSides.Vertical
+                    )
+                ),
+            contentAlignment = Alignment.CenterEnd
         ) {
             Column(
                 modifier = Modifier
@@ -127,25 +144,35 @@ fun BottomNavBar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(95.dp)
                 .drawBehind {
                     val w = size.width
                     val h = size.height
-                    val bumpH = 44.dp.toPx()
-                    val bumpW = 124.dp.toPx()
+
+                    val startY = 0f
 
                     val tabWidth = w / bottomScreens.size
                     val midX = (tabWidth * animatedIndex) + (tabWidth / 2f)
 
-                    val leftX = midX - bumpW / 2f
-                    val rightX = midX + bumpW / 2f
+                    val dipW = tabWidth * 0.85f
+                    val dipDepth = 28.dp.toPx()
+                    val leftX = midX - dipW / 2f
+                    val rightX = midX + dipW / 2f
 
                     val path = Path().apply {
-                        moveTo(0f, bumpH)
-                        lineTo(leftX, bumpH)
-                        cubicTo(leftX + bumpW / 4f, bumpH, midX - bumpW / 6f, 0f, midX, 0f)
-                        cubicTo(midX + bumpW / 6f, 0f, rightX - bumpW / 4f, bumpH, rightX, bumpH)
-                        lineTo(w, bumpH)
+                        moveTo(0f, startY)
+                        lineTo(leftX, startY)
+
+                        cubicTo(
+                            leftX + dipW / 5f, startY,
+                            midX - dipW / 4f, startY + dipDepth,
+                            midX, startY + dipDepth
+                        )
+                        cubicTo(
+                            midX + dipW / 4f, startY + dipDepth,
+                            rightX - dipW / 5f, startY,
+                            rightX, startY
+                        )
+                        lineTo(w, startY)
                         lineTo(w, h)
                         lineTo(0f, h)
                         close()
@@ -158,7 +185,7 @@ fun BottomNavBar(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .height(70.dp)
             ) {
                 bottomScreens.forEach { item ->
                     TabItem(
@@ -186,7 +213,7 @@ private fun TabItem(
 ) {
     val offsetAnim by animateDpAsState(
         targetValue = if (isSelected) {
-            if (isLandscape) 28.dp else (-36).dp
+            if (isLandscape) 32.dp else (-32).dp
         } else 0.dp,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,

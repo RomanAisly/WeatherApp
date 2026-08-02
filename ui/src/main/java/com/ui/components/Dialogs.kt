@@ -1,5 +1,6 @@
 package com.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
@@ -12,15 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import com.ui.theme.BaseTheme
 import com.ui.theme.lightGray
-import com.ui.theme.paleGreen
+import com.ui.theme.persianGreen
 import com.ui.theme.red
 import com.ui.theme.softBlueDark
-import com.ui.theme.waterDark
+import com.ui.theme.transparent
 import com.weatherapp.ui.R
 
 @Composable
@@ -58,7 +59,7 @@ fun BaseAlertDialog(
         confirmButton = {
             BaseTextButton(
                 text = "OK",
-                textColor = paleGreen,
+                textColor = persianGreen,
                 onClick = {
                     if (inputText.isNotBlank()) onCityConfirmed(inputText)
                 })
@@ -66,13 +67,14 @@ fun BaseAlertDialog(
         dismissButton = {
             BaseTextButton(
                 text = stringResource(R.string.cancel),
-                textColor = waterDark,
+                textColor = red,
                 onClick = onDismissRequest
             )
         },
+        containerColor = transparent,
         icon = { BaseIcon(R.drawable.location) },
-        containerColor = BaseTheme.colors.alertBack,
-        tonalElevation = 2.dp,
         modifier = modifier
+            .clip(MaterialTheme.shapes.large)
+            .background(BaseTheme.colors.alertBack)
     )
 }

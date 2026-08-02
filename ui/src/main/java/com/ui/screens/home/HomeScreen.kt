@@ -1,6 +1,7 @@
 package com.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val topPadding = paddingValues.calculateTopPadding() + 30.dp
 
     Column(
         modifier = Modifier
@@ -38,9 +40,10 @@ fun HomeScreen(
             .radialScreenBackground(
                 centerColor = BaseTheme.colors.bgCenter,
                 haloColor = BaseTheme.colors.bgHalo,
-                edgeColor = BaseTheme.colors.bgEdge
+                edgeColor = BaseTheme.colors.bgEdge,
+                topOffset = topPadding
             )
-            .padding(top = paddingValues.calculateTopPadding() + 30.dp)
+            .padding(top = topPadding)
     ) {
         if (state.showDialog) {
             BaseAlertDialog(
@@ -52,28 +55,34 @@ fun HomeScreen(
                 }
             )
         }
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.6f),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .weight(0.6f)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(14.dp)
+            Column(
+                modifier = Modifier.align(Alignment.TopCenter),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                BaseTextButton(
-                    text = stringResource(R.string.choose_your_city),
-                    onClick = { viewModel.showDialog() })
-                BaseIcon(R.drawable.location, iconTint = BaseTheme.colors.text)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    BaseTextButton(
+                        text = stringResource(R.string.choose_your_city),
+                        onClick = { viewModel.showDialog() })
+                    BaseIcon(R.drawable.location)
+                }
+                BaseText(
+                    state.city.ifEmpty { stringResource(R.string.your_city) },
+                    textStyle = MaterialTheme.typography.headlineLarge
+                )
             }
-            BaseText(
-                state.city.ifEmpty { stringResource(R.string.your_city) },
-                textStyle = MaterialTheme.typography.headlineLarge
-            )
+
             BaseText(
                 state.gradus + "℃",
+                modifier = Modifier.align(Alignment.Center),
                 textStyle = MaterialTheme.typography.displayLarge
             )
         }
