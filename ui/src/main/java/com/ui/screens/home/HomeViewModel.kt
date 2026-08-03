@@ -43,7 +43,7 @@ class HomeViewModel(
             return
         }
         searchJob = viewModelScope.launch {
-            delay(500.milliseconds)
+            delay(300.milliseconds)
 
             repository.searchCities(query).collect { result ->
                 if (result is CheckDataResult.Success) {

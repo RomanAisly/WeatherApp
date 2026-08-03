@@ -25,6 +25,7 @@ data class GeocodingResponse(
 
 @Serializable
 data class GeocodingResult(
+    @SerialName("id") val id: Int,
     @SerialName("latitude") val latitude: Double,
     @SerialName("longitude") val longitude: Double,
     @SerialName("name") val name: String,

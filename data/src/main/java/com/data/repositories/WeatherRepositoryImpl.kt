@@ -27,6 +27,7 @@ class WeatherRepositoryImpl(
                 val response = weatherProvider.searchCities(query)
                 val cities = response.results?.map {
                     CityItem(
+                        id = it.id,
                         name = it.name,
                         country = it.country ?: "Unknown",
                         flagEmoji = it.countryCode?.toFlagEmoji() ?: "🏳️",

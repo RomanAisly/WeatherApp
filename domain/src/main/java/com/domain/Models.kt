@@ -6,6 +6,7 @@ data class Weather(
 )
 
 data class CityItem(
+    val id: Int,
     val name: String,
     val country: String,
     val flagEmoji: String,
