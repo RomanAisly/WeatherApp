@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ui.theme.BaseTheme
@@ -33,7 +34,7 @@ fun BaseCard(
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.large,
     containerColor: Color = deepIndigo,
-    elevation: Dp = 2.dp,
+    elevation: Dp = 4.dp,
     shadowColor: Color = BaseTheme.colors.text,
     border: BorderStroke? = null,
     backGrad: Brush? = null,
@@ -42,7 +43,7 @@ fun BaseCard(
     Card(
         modifier = modifier
             .then(
-                if (elevation > 0.dp && shadowColor != transparent) {
+                if (elevation > 0.dp) {
                     Modifier.shadow(
                         elevation = elevation,
                         shape = shape,
@@ -95,6 +96,35 @@ fun WindCard(
                 BaseText(windStrength, textStyle = MaterialTheme.typography.titleLarge)
             }
         }
+    }
+}
 
+@Composable
+fun WeatherCard(
+    weatherType: WeatherType,
+    modifier: Modifier = Modifier
+) {
+    BaseCard(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                BaseIcon(R.drawable.cloud, iconTint = skyBlue)
+                BaseText(
+                    stringResource(weatherType.title).uppercase(),
+                    textStyle = MaterialTheme.typography.bodyLarge
+                )
+            }
+            AnimLoad(
+                weatherType.lottieRes,
+                modifier = Modifier.size(42.dp),
+            )
+        }
     }
 }

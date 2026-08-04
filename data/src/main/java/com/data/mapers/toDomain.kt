@@ -7,6 +7,8 @@ fun CurrentWeatherDto.toDomain(): Weather {
     return Weather(
         temperature = this.temperature,
         windSpeed = this.windSpeed,
+        weatherCode = this.weatherCode,
+        isDay = this.isDay == 1
     )
 }
 

@@ -2,7 +2,9 @@ package com.domain
 
 data class Weather(
     val temperature: Double,
-    val windSpeed: Double
+    val windSpeed: Double,
+    val weatherCode: Int,
+    val isDay: Boolean
 )
 
 data class CityItem(

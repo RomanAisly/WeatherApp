@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
 import com.domain.CityItem
 import com.domain.WeatherRepository
+import com.ui.components.WeatherType
 import com.ui.components.WindStatus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -75,7 +76,11 @@ class HomeViewModel(
                             it.copy(
                                 gradus = weather.temperature.roundToInt().toString(),
                                 wind = weather.windSpeed.roundToInt().toString(),
-                                windStatus = WindStatus.fromSpeed(weather.windSpeed)
+                                windStatus = WindStatus.fromSpeed(weather.windSpeed),
+                                weatherType = WeatherType.fromWmoCode(
+                                    code = weather.weatherCode,
+                                    isDay = weather.isDay
+                                )
                             )
                         }
                     }

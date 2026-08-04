@@ -15,7 +15,13 @@ data class CurrentWeatherDto(
     val temperature: Double,
 
     @SerialName("wind_speed_10m")
-    val windSpeed: Double
+    val windSpeed: Double,
+
+    @SerialName("weather_code")
+    val weatherCode: Int,
+
+    @SerialName("is_day")
+    val isDay: Int
 )
 
 @Serializable

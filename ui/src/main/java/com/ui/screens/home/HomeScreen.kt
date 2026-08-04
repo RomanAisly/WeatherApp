@@ -23,6 +23,7 @@ import com.ui.components.BaseAlertDialog
 import com.ui.components.BaseIcon
 import com.ui.components.BaseText
 import com.ui.components.BaseTextButton
+import com.ui.components.WeatherCard
 import com.ui.components.WindCard
 import com.ui.components.radialScreenBackground
 import com.ui.theme.BaseTheme
@@ -117,11 +118,14 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
+                WeatherCard(
+                    weatherType = state.weatherType,
+                    modifier = Modifier.weight(1f)
+                )
                 WindCard(
                     windStrength = state.wind,
                     windStatus = state.windStatus, modifier = Modifier.weight(1f)
                 )
-//                WindCard("17", modifier = Modifier.weight(1f))
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
