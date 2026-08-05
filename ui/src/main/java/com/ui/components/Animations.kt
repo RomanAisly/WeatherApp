@@ -40,10 +40,10 @@ fun AnimLoad(
                 rememberLottieDynamicProperty(
                     property = LottieProperty.COLOR_FILTER,
                     value = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                        tintColor.toArgb(), // Конвертируем Compose Color в Android Color
-                        BlendModeCompat.SRC_ATOP // Режим наложения (закрашивает поверх)
+                        tintColor.toArgb(),
+                        BlendModeCompat.SRC_ATOP
                     ),
-                    keyPath = arrayOf("**") // "**" означает "применить абсолютно ко всем слоям анимации"
+                    keyPath = arrayOf("**")
                 )
             )
         } else {

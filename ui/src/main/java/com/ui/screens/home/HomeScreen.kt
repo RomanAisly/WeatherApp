@@ -23,6 +23,7 @@ import com.ui.components.BaseAlertDialog
 import com.ui.components.BaseIcon
 import com.ui.components.BaseText
 import com.ui.components.BaseTextButton
+import com.ui.components.PrecipitationCard
 import com.ui.components.WeatherCard
 import com.ui.components.WindCard
 import com.ui.components.radialScreenBackground
@@ -120,18 +121,27 @@ fun HomeScreen(
             ) {
                 WeatherCard(
                     weatherType = state.weatherType,
+                    cloudCover = state.cloudCover,
+                    timeDuration = state.weatherDuration,
                     modifier = Modifier.weight(1f)
                 )
                 WindCard(
                     windStrength = state.wind,
-                    windStatus = state.windStatus, modifier = Modifier.weight(1f)
+                    windStatus = state.windStatus,
+                    timeDuration = state.windDuration,
+                    modifier = Modifier.weight(1f)
                 )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-//                WindCard("12", modifier = Modifier.weight(1f))
+                PrecipitationCard(
+                    amount = state.precipAmount,
+                    type = state.precipType,
+                    timeDuration = state.precipDuration,
+                    modifier = Modifier.weight(1f)
+                )
 //                WindCard("17", modifier = Modifier.weight(1f))
             }
         }

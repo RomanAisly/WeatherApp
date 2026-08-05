@@ -1,5 +1,7 @@
-package com.domain
+package com.domain.repositories
 
+import com.domain.AppLanguage
+import com.domain.AppTheme
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {

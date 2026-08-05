@@ -36,11 +36,11 @@ val Typography = Typography(
         letterSpacing = 0.4.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.Serif,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.1.sp
+        letterSpacing = 0.4.sp
     ),
     titleSmall = TextStyle(
         fontFamily = FontFamily.Serif,

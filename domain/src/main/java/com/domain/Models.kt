@@ -4,7 +4,24 @@ data class Weather(
     val temperature: Double,
     val windSpeed: Double,
     val weatherCode: Int,
-    val isDay: Boolean
+    val isDay: Boolean,
+    val precipitation: Double,
+    val cloudCover: Int,
+    val hourlyWindSpeeds: List<Double>,
+    val hourlyWeatherCodes: List<Int>,
+    val currentIndex: Int
+)
+
+data class WeatherDetails(
+    val temperature: Double,
+    val windSpeed: Double,
+    val weatherCode: Int,
+    val isDay: Boolean,
+    val precipitation: Double,
+    val cloudCover: Int,
+    val windDuration: String,
+    val precipDuration: String,
+    val weatherDuration: String
 )
 
 data class CityItem(

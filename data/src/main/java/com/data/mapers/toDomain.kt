@@ -1,14 +1,24 @@
 package com.data.mapers
 
-import com.data.remote.CurrentWeatherDto
+import com.data.remote.WeatherResponse
 import com.domain.Weather
 
-fun CurrentWeatherDto.toDomain(): Weather {
+fun WeatherResponse.toDomain(): Weather {
+    val current = this.current
+    val hourly = this.hourly
+
+    val currentIndex = hourly.time.indexOf(current.time).takeIf { it != -1 } ?: 0
+
     return Weather(
-        temperature = this.temperature,
-        windSpeed = this.windSpeed,
-        weatherCode = this.weatherCode,
-        isDay = this.isDay == 1
+        temperature = current.temperature,
+        windSpeed = current.windSpeed,
+        weatherCode = current.weatherCode,
+        isDay = current.isDay == 1,
+        precipitation = current.precipitation,
+        cloudCover = current.cloudCover,
+        hourlyWindSpeeds = hourly.windSpeed,
+        hourlyWeatherCodes = hourly.weatherCode,
+        currentIndex = currentIndex
     )
 }
 

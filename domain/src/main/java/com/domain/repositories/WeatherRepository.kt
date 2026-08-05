@@ -1,5 +1,9 @@
-package com.domain
+package com.domain.repositories
 
+import com.domain.AppError
+import com.domain.CheckDataResult
+import com.domain.CityItem
+import com.domain.Weather
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {

@@ -8,7 +8,7 @@ import com.domain.AppError
 import com.domain.CheckDataResult
 import com.domain.CityItem
 import com.domain.Weather
-import com.domain.WeatherRepository
+import com.domain.repositories.WeatherRepository
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
@@ -47,7 +47,8 @@ class WeatherRepositoryImpl(
     ): Flow<CheckDataResult<Weather, AppError>> = flow {
         try {
             val response = weatherProvider.getCurrentWeather(lat, lon)
-            emit(CheckDataResult.Success(response.current.toDomain()))
+
+            emit(CheckDataResult.Success(response.toDomain()))
         } catch (e: Exception) {
             emit(CheckDataResult.Error(handleError(e)))
         }

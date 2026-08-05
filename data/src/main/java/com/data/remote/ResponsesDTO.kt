@@ -5,23 +5,27 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherResponse(
-    @SerialName("current")
-    val current: CurrentWeatherDto
+    @SerialName("current") val current: CurrentWeatherDto,
+    @SerialName("hourly") val hourly: HourlyWeatherDto
 )
 
 @Serializable
 data class CurrentWeatherDto(
-    @SerialName("temperature_2m")
-    val temperature: Double,
+    @SerialName("time") val time: String,
+    @SerialName("temperature_2m") val temperature: Double,
+    @SerialName("wind_speed_10m") val windSpeed: Double,
+    @SerialName("weather_code") val weatherCode: Int,
+    @SerialName("is_day") val isDay: Int,
+    @SerialName("precipitation") val precipitation: Double,
+    @SerialName("cloud_cover") val cloudCover: Int
+)
 
-    @SerialName("wind_speed_10m")
-    val windSpeed: Double,
-
-    @SerialName("weather_code")
-    val weatherCode: Int,
-
-    @SerialName("is_day")
-    val isDay: Int
+@Serializable
+data class HourlyWeatherDto(
+    @SerialName("time") val time: List<String>,
+    @SerialName("wind_speed_10m") val windSpeed: List<Double>,
+    @SerialName("weather_code") val weatherCode: List<Int>,
+    @SerialName("precipitation") val precipitation: List<Double>
 )
 
 @Serializable

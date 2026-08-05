@@ -46,14 +46,15 @@ fun BaseTextButton(
     TextButton(
         modifier = modifier,
         border = BorderStroke(
-            width = 0.5.dp,
+            width = 1.dp,
             color = BaseTheme.colors.text
         ),
         onClick = onClick
     ) {
         BaseText(
             text = text,
-            textColor = textColor
+            textColor = textColor,
+            textStyle = MaterialTheme.typography.bodyLarge
         )
     }
 }

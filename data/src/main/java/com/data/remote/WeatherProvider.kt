@@ -11,7 +11,12 @@ class WeatherProvider(private val client: HttpClient) {
             url {
                 parameters.append("latitude", lat.toString())
                 parameters.append("longitude", lon.toString())
-                parameters.append("current", "temperature_2m,wind_speed_10m,weather_code,is_day")
+                parameters.append(
+                    "current",
+                    "temperature_2m,wind_speed_10m,weather_code,is_day,precipitation,cloud_cover"
+                )
+                parameters.append("hourly", "wind_speed_10m,weather_code,precipitation")
+                parameters.append("forecast_hours", "24")
             }
         }.body()
     }

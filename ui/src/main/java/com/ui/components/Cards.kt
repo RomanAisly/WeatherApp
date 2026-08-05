@@ -3,6 +3,7 @@ package com.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ui.theme.BaseTheme
 import com.ui.theme.deepIndigo
-import com.ui.theme.limeGreen
+import com.ui.theme.lightBlue
 import com.ui.theme.skyBlue
 import com.ui.theme.transparent
 import com.weatherapp.ui.R
@@ -43,7 +44,7 @@ fun BaseCard(
     Card(
         modifier = modifier
             .then(
-                if (elevation > 0.dp) {
+                if (elevation > 0.dp && shadowColor != transparent) {
                     Modifier.shadow(
                         elevation = elevation,
                         shape = shape,
@@ -65,15 +66,74 @@ fun BaseCard(
 }
 
 @Composable
-fun WindCard(
-    windStrength: String,
-    windStatus: WindStatus,
+fun WeatherCard(
+    weatherType: WeatherType,
+    cloudCover: String,
+    timeDuration: String,
     modifier: Modifier = Modifier
 ) {
     BaseCard(modifier = modifier) {
         Column(
             modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BaseIcon(R.drawable.cloud, iconTint = skyBlue)
+                BaseText(
+                    text = stringResource(weatherType.title),
+                    textStyle = MaterialTheme.typography.titleSmall
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                if (weatherType.lottieRes != null) {
+                    AnimLoad(
+                        resId = weatherType.lottieRes,
+                        modifier = Modifier.size(38.dp),
+                    )
+                } else {
+                    Box(modifier = Modifier.size(38.dp))
+                }
+                BaseText(
+                    text = cloudCover,
+                    textStyle = MaterialTheme.typography.titleMedium
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BaseText(
+                    text = stringResource(R.string.time)
+                )
+                BaseText(
+                    text = timeDuration,
+                    textStyle = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun WindCard(
+    windStrength: String,
+    windStatus: WindStatus,
+    timeDuration: String,
+    modifier: Modifier = Modifier
+) {
+    BaseCard(modifier = modifier) {
+        Column(
+            modifier = Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -81,50 +141,99 @@ fun WindCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BaseIcon(R.drawable.wind, iconTint = skyBlue)
-                BaseText("WIND", textStyle = MaterialTheme.typography.bodyLarge)
+                BaseText(
+                    stringResource(R.string.wind),
+                    textStyle = MaterialTheme.typography.titleSmall
+                )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                AnimLoad(
-                    windStatus.lottieRes,
-                    modifier = Modifier.size(32.dp),
-                    tintColor = limeGreen
+                if (windStatus.lottieRes != null) {
+                    AnimLoad(
+                        resId = windStatus.lottieRes,
+                        modifier = Modifier.size(38.dp),
+                    )
+                } else {
+                    Box(modifier = Modifier.size(38.dp))
+                }
+                BaseText(windStrength, textStyle = MaterialTheme.typography.titleMedium)
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BaseText(
+                    text = stringResource(R.string.time)
                 )
-                BaseText(windStrength, textStyle = MaterialTheme.typography.titleLarge)
+                BaseText(
+                    text = timeDuration,
+                    textStyle = MaterialTheme.typography.titleMedium
+                )
             }
         }
     }
 }
 
 @Composable
-fun WeatherCard(
-    weatherType: WeatherType,
+fun PrecipitationCard(
+    amount: String,
+    type: PrecipitationType,
+    timeDuration: String,
     modifier: Modifier = Modifier
 ) {
     BaseCard(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            modifier = Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BaseIcon(R.drawable.cloud, iconTint = skyBlue)
+                BaseIcon(iconId = type.staticIconRes, iconTint = skyBlue)
                 BaseText(
-                    stringResource(weatherType.title).uppercase(),
-                    textStyle = MaterialTheme.typography.bodyLarge
+                    text = stringResource(type.title),
+                    textStyle = MaterialTheme.typography.titleSmall
                 )
             }
-            AnimLoad(
-                weatherType.lottieRes,
-                modifier = Modifier.size(42.dp),
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                if (type.lottieRes != null) {
+                    AnimLoad(
+                        resId = type.lottieRes,
+                        tintColor = if (type == PrecipitationType.RAIN) lightBlue else null,
+                        modifier = Modifier.size(38.dp),
+                    )
+                } else {
+                    Box(modifier = Modifier.size(38.dp))
+                }
+                BaseText(
+                    text = amount,
+                    textStyle = MaterialTheme.typography.titleMedium
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BaseText(
+                    text = stringResource(R.string.time)
+                )
+                BaseText(
+                    text = timeDuration,
+                    textStyle = MaterialTheme.typography.titleMedium
+                )
+            }
         }
     }
 }

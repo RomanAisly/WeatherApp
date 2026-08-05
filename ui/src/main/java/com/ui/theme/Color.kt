@@ -1,5 +1,7 @@
 package com.ui.theme
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val unspecified = Color.Unspecified
@@ -50,3 +52,23 @@ val limeGreen = Color(0xFF32CD32)
 val lavender = Color(0xFFE6E6FA)
 val plum = Color(0xFFDDA0DD)
 val softBlueDark = Color(0xFF74A1D6)
+
+val backgroundBrush = Brush.linearGradient(
+    colors = listOf(
+        Color(0xFF504375).copy(alpha = 0.5f), // Светлее слева сверху
+        Color(0xFF2B204D).copy(alpha = 0.3f)  // Темнее справа снизу
+    ),
+    start = Offset(0f, 0f), // Левый верхний угол
+    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY) // Правый нижний
+)
+
+// 2. Градиент для блика на рамке (от белого к прозрачному)
+val borderBrush = Brush.linearGradient(
+    colors = listOf(
+        Color.White.copy(alpha = 0.3f), // Яркий блик слева сверху
+        Color.Transparent,              // Растворяется к центру
+        Color.Transparent               // Справа снизу рамки нет
+    ),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+)

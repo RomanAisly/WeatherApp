@@ -16,8 +16,19 @@
     <string name="theme">Theme</string>
     <string name="language">Language</string>
     <string name="search_city">Search city…</string>
-    <string name="clear">Clear</string>
-    <string name="fair">Fair</string>
-    <string name="cloudy">Cloudy</string>
-    <string name="overcast">Overcast</string>
+    <string name="clear">CLEAR</string>
+    <string name="fair">FAIR</string>
+    <string name="cloudy">CLOUDY</string>
+    <string name="overcast">OVERCAST</string>
+    <string name="unknown">UNKNOWN</string>
+    <string name="wind">WIND</string>
+    <string name="dry">DRY</string>
+    <string name="drizzle">DRIZZLE</string>
+    <string name="rain">RAIN</string>
+    <string name="snow">SNOW</string>
+    <string name="freezing">FREEZING</string>
+    <string name="storm">STORM</string>
+    <string name="time">TIME</string>
+    <string name="fog">FOG</string>
+    <string name="hour_abbr">h</string>
 </resources>

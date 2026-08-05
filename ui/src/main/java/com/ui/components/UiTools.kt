@@ -1,6 +1,5 @@
 package com.ui.components
 
-import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -19,7 +18,9 @@ enum class LayoutMode {
     FOLD_TABLET
 }
 
-enum class WeatherType(val lottieRes: Int, val title: Int) {
+enum class WeatherType(val lottieRes: Int?, val title: Int) {
+    UNKNOWN(null, R.string.unknown),
+
     CLEAR_DAY(R.raw.clear_day, R.string.clear),
     CLEAR_NIGHT(R.raw.clear_night, R.string.clear),
 
@@ -28,7 +29,8 @@ enum class WeatherType(val lottieRes: Int, val title: Int) {
 
     PARTLY_CLOUDY_DAY(R.raw.partly_cloudy_day, R.string.cloudy),
     PARTLY_CLOUDY_NIGHT(R.raw.partly_cloudy_night, R.string.cloudy),
-    OVERCAST(R.raw.overcast, R.string.overcast);
+    OVERCAST(R.raw.overcast, R.string.overcast),
+    FOG(R.raw.fog, R.string.fog);
 
     companion object {
         fun fromWmoCode(code: Int, isDay: Boolean): WeatherType {
@@ -37,13 +39,15 @@ enum class WeatherType(val lottieRes: Int, val title: Int) {
                 1 -> if (isDay) MAINLY_CLEAR_DAY else MAINLY_CLEAR_NIGHT
                 2 -> if (isDay) PARTLY_CLOUDY_DAY else PARTLY_CLOUDY_NIGHT
                 3 -> OVERCAST
-                else -> OVERCAST
+                45, 48 -> FOG
+                else -> UNKNOWN
             }
         }
     }
 }
 
-enum class WindStatus(val lottieRes: Int) {
+enum class WindStatus(val lottieRes: Int?) {
+    UNKNOWN(null),
     EASY(R.raw.light_wind),
     MIDDLE(R.raw.middle_wind),
     STRONG(R.raw.tornado);
@@ -54,6 +58,32 @@ enum class WindStatus(val lottieRes: Int) {
                 speedKmH < 15.0 -> EASY
                 speedKmH < 35.0 -> MIDDLE
                 else -> STRONG
+            }
+        }
+    }
+}
+
+enum class PrecipitationType(
+    val lottieRes: Int?,
+    val staticIconRes: Int,
+    val title: Int
+) {
+    NONE(null, R.drawable.dry, R.string.dry),
+    DRIZZLE(R.raw.drizzle, R.drawable.drizzle, R.string.drizzle),
+    RAIN(R.raw.rain, R.drawable.rain, R.string.rain),
+    SNOW(R.raw.snow, R.drawable.snow, R.string.snow),
+    FREEZING(R.raw.freezing_rain, R.drawable.freezing_rain, R.string.freezing),
+    STORM(R.raw.thunderstorm, R.drawable.storm, R.string.storm);
+
+    companion object {
+        fun fromWmoCode(code: Int): PrecipitationType {
+            return when (code) {
+                51, 53, 55 -> DRIZZLE
+                56, 57, 66, 67 -> FREEZING
+                61, 63, 65, 80, 81, 82 -> RAIN
+                71, 73, 75, 77, 85, 86 -> SNOW
+                95, 96, 99 -> STORM
+                else -> NONE
             }
         }
     }
@@ -97,12 +127,12 @@ fun Modifier.radialScreenBackground(
     showBackground = true,
     showSystemUi = true
 )
-@Preview(
-    name = "Dark Mode",
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
+//@Preview(
+//    name = "Dark Mode",
+//    showBackground = true,
+//    showSystemUi = true,
+//    uiMode = Configuration.UI_MODE_NIGHT_YES
+//)
 internal fun UiToolsPreview() {
     WeatherTheme(onThemeChange = {}) {
 
