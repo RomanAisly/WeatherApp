@@ -1,5 +1,6 @@
 package com.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -10,6 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ui.theme.WeatherTheme
+import com.ui.theme.limeGreen
+import com.ui.theme.magenta
+import com.ui.theme.red
+import com.ui.theme.vividOrange
+import com.ui.theme.yellow
 import com.weatherapp.ui.R
 
 enum class LayoutMode {
@@ -94,6 +100,31 @@ enum class PrecipitationType(
     }
 }
 
+enum class UvStatus(
+    val title: Int,
+    val lottieRes: Int? = R.raw.pulse,
+    val lottieColor: Color? = null
+) {
+    UNKNOWN(R.string.unknown, null),
+    LOW(R.string.uv_low, lottieColor = limeGreen),
+    MODERATE(R.string.moderate, lottieColor = yellow),
+    HIGH(R.string.uv_high, lottieColor = vividOrange),
+    VERY_HIGH(R.string.uv_very_high, lottieColor = red),
+    EXTREME(R.string.uv_extreme, lottieColor = magenta);
+
+    companion object {
+        fun fromIndex(uvIndex: Double): UvStatus {
+            return when {
+                uvIndex < 3.0 -> LOW
+                uvIndex < 6.0 -> MODERATE
+                uvIndex < 8.0 -> HIGH
+                uvIndex < 11.0 -> VERY_HIGH
+                else -> EXTREME
+            }
+        }
+    }
+}
+
 fun Modifier.radialScreenBackground(
     centerColor: Color,
     haloColor: Color,
@@ -127,19 +158,22 @@ fun Modifier.radialScreenBackground(
 }
 
 @Composable
-@Preview(
-    name = "Light Mode",
-    showBackground = true,
-    showSystemUi = true
-)
 //@Preview(
-//    name = "Dark Mode",
+//    name = "Light Mode",
 //    showBackground = true,
-//    showSystemUi = true,
-//    uiMode = Configuration.UI_MODE_NIGHT_YES
+//    showSystemUi = true
 //)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 internal fun UiToolsPreview() {
     WeatherTheme(onThemeChange = {}) {
-
+        UvCard(
+            uvIndex = "10",
+            uvStatus = UvStatus.LOW
+        )
     }
 }

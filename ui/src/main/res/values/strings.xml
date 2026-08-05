@@ -36,4 +36,9 @@
     <string name="gentle">GENTLE</string>
     <string name="moderate">MODERATE</string>
     <string name="strong">STRONG</string>
+    <string name="uv_low">LOW</string>
+    <string name="uv_high">HIGH</string>
+    <string name="uv_very_high">VERY HIGH</string>
+    <string name="uv_extreme">EXTREME</string>
+    <string name="level">LEVEL</string>
 </resources>

@@ -9,7 +9,8 @@ data class Weather(
     val cloudCover: Int,
     val hourlyWindSpeeds: List<Double>,
     val hourlyWeatherCodes: List<Int>,
-    val currentIndex: Int
+    val currentIndex: Int,
+    val uvIndex: Double
 )
 
 data class WeatherDetails(
@@ -21,7 +22,8 @@ data class WeatherDetails(
     val cloudCover: Int,
     val windDuration: String,
     val precipDuration: String,
-    val weatherDuration: String
+    val weatherDuration: String,
+    val uvIndex: Double
 )
 
 data class CityItem(

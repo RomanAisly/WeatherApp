@@ -17,7 +17,8 @@ data class CurrentWeatherDto(
     @SerialName("weather_code") val weatherCode: Int,
     @SerialName("is_day") val isDay: Int,
     @SerialName("precipitation") val precipitation: Double,
-    @SerialName("cloud_cover") val cloudCover: Int
+    @SerialName("cloud_cover") val cloudCover: Int,
+    @SerialName("uv_index") val uvIndex: Double
 )
 
 @Serializable

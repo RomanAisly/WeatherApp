@@ -80,7 +80,8 @@ class GetWeatherDetailsUseCase(
             cloudCover = weather.cloudCover,
             windDuration = windDur,
             precipDuration = precipDur,
-            weatherDuration = weatherDur
+            weatherDuration = weatherDur,
+            uvIndex = weather.uvIndex
         )
     }
 }

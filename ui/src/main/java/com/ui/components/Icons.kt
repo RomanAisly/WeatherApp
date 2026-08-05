@@ -30,7 +30,7 @@ fun BaseIconButton(
     iconId: Int,
     modifier: Modifier = Modifier,
     size: Dp = 24.dp,
-    iconTint: Color = BaseTheme.colors.text,
+    iconTint: Color = BaseTheme.colors.iconTint,
     onClick: () -> Unit
 ) {
     IconButton(

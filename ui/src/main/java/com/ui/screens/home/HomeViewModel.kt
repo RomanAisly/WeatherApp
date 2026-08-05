@@ -7,6 +7,7 @@ import com.domain.CityItem
 import com.domain.GetWeatherDetailsUseCase
 import com.domain.repositories.WeatherRepository
 import com.ui.components.PrecipitationType
+import com.ui.components.UvStatus
 import com.ui.components.WeatherType
 import com.ui.components.WindStatus
 import kotlinx.coroutines.Job
@@ -90,7 +91,9 @@ class HomeViewModel(
                                 precipAmount = "${details.precipitation} mm",
                                 windDuration = details.windDuration,
                                 precipDuration = details.precipDuration,
-                                weatherDuration = details.weatherDuration
+                                weatherDuration = details.weatherDuration,
+                                uvIndex = details.uvIndex.toString(),
+                                uvStatus = UvStatus.fromIndex(details.uvIndex)
                             )
                         }
                     }

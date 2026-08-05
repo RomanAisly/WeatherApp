@@ -28,6 +28,7 @@ import com.ui.theme.deepIndigo
 import com.ui.theme.lightBlue
 import com.ui.theme.skyBlue
 import com.ui.theme.transparent
+import com.ui.theme.yellow
 import com.weatherapp.ui.R
 
 @Composable
@@ -38,7 +39,7 @@ fun BaseCard(
     elevation: Dp = 4.dp,
     shadowColor: Color = BaseTheme.colors.text,
     border: BorderStroke? = null,
-    backGrad: Brush? = null,
+    backGrad: Brush? = BaseTheme.colors.cardBack,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
     Card(
@@ -85,7 +86,8 @@ fun WeatherCard(
                 BaseIcon(R.drawable.cloud, iconTint = skyBlue)
                 BaseText(
                     text = stringResource(weatherType.title),
-                    textStyle = MaterialTheme.typography.titleSmall
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    maxLines = 1
                 )
             }
             Row(
@@ -112,7 +114,8 @@ fun WeatherCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BaseText(
-                    text = stringResource(R.string.time)
+                    text = stringResource(R.string.time),
+                    maxLines = 1
                 )
                 BaseText(
                     text = stringResource(R.string.hour_format, timeDuration),
@@ -143,7 +146,8 @@ fun WindCard(
                 BaseIcon(R.drawable.wind, iconTint = skyBlue)
                 BaseText(
                     stringResource(windStatus.title),
-                    textStyle = MaterialTheme.typography.titleSmall
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    maxLines = 1
                 )
             }
             Row(
@@ -171,7 +175,8 @@ fun WindCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BaseText(
-                    text = stringResource(R.string.time)
+                    text = stringResource(R.string.time),
+                    maxLines = 1
                 )
                 BaseText(
                     text = stringResource(R.string.hour_format, timeDuration),
@@ -202,7 +207,8 @@ fun PrecipitationCard(
                 BaseIcon(iconId = type.staticIconRes, iconTint = skyBlue)
                 BaseText(
                     text = stringResource(type.title),
-                    textStyle = MaterialTheme.typography.titleSmall
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    maxLines = 1
                 )
             }
 
@@ -231,11 +237,68 @@ fun PrecipitationCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BaseText(
-                    text = stringResource(R.string.time)
+                    text = stringResource(R.string.time),
+                    maxLines = 1
                 )
                 BaseText(
                     text = stringResource(R.string.hour_format, timeDuration),
-                    textStyle = MaterialTheme.typography.titleMedium
+                    textStyle = MaterialTheme.typography.titleSmall
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun UvCard(
+    uvIndex: String,
+    uvStatus: UvStatus,
+    modifier: Modifier = Modifier
+) {
+    BaseCard(modifier = modifier) {
+        Column(
+            modifier = Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BaseIcon(R.drawable.uv, iconTint = yellow)
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                if (uvStatus.lottieRes != null) {
+                    AnimLoad(
+                        resId = uvStatus.lottieRes,
+                        tintColor = uvStatus.lottieColor,
+                        modifier = Modifier.size(38.dp),
+                    )
+                } else {
+                    Box(modifier = Modifier.size(38.dp))
+                }
+                BaseText(
+                    text = uvIndex,
+                    textStyle = MaterialTheme.typography.titleSmall
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BaseText(
+                    text = stringResource(R.string.level),
+                    maxLines = 1
+                )
+                BaseText(
+                    text = stringResource(uvStatus.title),
+                    textStyle = MaterialTheme.typography.titleMedium,
+                    maxLines = 1
                 )
             }
         }

@@ -28,7 +28,9 @@ data class BaseColors(
     val bgCenter: Color,
     val bgHalo: Color,
     val bgEdge: Color,
-    val iconTint: Color
+    val iconTint: Color,
+    val cardStart: Color,
+    val cardEnd: Color
 ) {
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
@@ -42,6 +44,9 @@ data class BaseColors(
     val settScreenBack: Brush = Brush.horizontalGradient(
         listOf(bottomBarStart, bottomBarEnd)
     )
+    val cardBack: Brush = Brush.horizontalGradient(
+        listOf(cardStart, cardEnd)
+    )
 }
 
 val lightColors = BaseColors(
@@ -54,7 +59,9 @@ val lightColors = BaseColors(
     bgCenter = azure,
     bgHalo = lightBlue,
     bgEdge = skyBlue,
-    iconTint = cornflowerBlue
+    iconTint = cornflowerBlue,
+    cardStart = white,
+    cardEnd = white
 )
 
 val darkColors = BaseColors(
@@ -67,7 +74,9 @@ val darkColors = BaseColors(
     bgCenter = deepIndigo,
     bgHalo = plum,
     bgEdge = indigo,
-    iconTint = white
+    iconTint = white,
+    cardStart = deepDarkGray,
+    cardEnd = lightStateGray
 )
 
 object BaseTheme {
@@ -130,6 +139,8 @@ private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
         bgCenter = animateColorAsState(targetColor.bgCenter, animationSpec).value,
         bgHalo = animateColorAsState(targetColor.bgHalo, animationSpec).value,
         bgEdge = animateColorAsState(targetColor.bgEdge, animationSpec).value,
-        iconTint = animateColorAsState(targetColor.iconTint, animationSpec).value
+        iconTint = animateColorAsState(targetColor.iconTint, animationSpec).value,
+        cardStart = animateColorAsState(targetColor.cardStart, animationSpec).value,
+        cardEnd = animateColorAsState(targetColor.cardEnd, animationSpec).value
     )
 }

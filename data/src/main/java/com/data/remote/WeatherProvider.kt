@@ -13,7 +13,7 @@ class WeatherProvider(private val client: HttpClient) {
                 parameters.append("longitude", lon.toString())
                 parameters.append(
                     "current",
-                    "temperature_2m,wind_speed_10m,weather_code,is_day,precipitation,cloud_cover"
+                    "temperature_2m,wind_speed_10m,weather_code,is_day,precipitation,cloud_cover,uv_index"
                 )
                 parameters.append("hourly", "wind_speed_10m,weather_code,precipitation")
                 parameters.append("forecast_hours", "24")

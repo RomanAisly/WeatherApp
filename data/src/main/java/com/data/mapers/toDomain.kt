@@ -19,7 +19,8 @@ fun WeatherResponse.toDomain(): Weather {
         cloudCover = current.cloudCover,
         hourlyWindSpeeds = hourly.windSpeed,
         hourlyWeatherCodes = hourly.weatherCode,
-        currentIndex = currentIndex
+        currentIndex = currentIndex,
+        uvIndex = current.uvIndex
     )
 }
 

@@ -24,6 +24,7 @@ import com.ui.components.BaseIcon
 import com.ui.components.BaseText
 import com.ui.components.BaseTextButton
 import com.ui.components.PrecipitationCard
+import com.ui.components.UvCard
 import com.ui.components.WeatherCard
 import com.ui.components.WindCard
 import com.ui.components.radialScreenBackground
@@ -142,7 +143,11 @@ fun HomeScreen(
                     timeDuration = state.precipDuration,
                     modifier = Modifier.weight(1f)
                 )
-//                WindCard("17", modifier = Modifier.weight(1f))
+                UvCard(
+                    uvIndex = state.uvIndex,
+                    uvStatus = state.uvStatus,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }

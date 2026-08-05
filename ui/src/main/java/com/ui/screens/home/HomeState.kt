@@ -2,6 +2,7 @@ package com.ui.screens.home
 
 import com.domain.CityItem
 import com.ui.components.PrecipitationType
+import com.ui.components.UvStatus
 import com.ui.components.WeatherType
 import com.ui.components.WindStatus
 
@@ -12,6 +13,7 @@ data class HomeState(
     val windStatus: WindStatus = WindStatus.UNKNOWN,
     val weatherType: WeatherType = WeatherType.UNKNOWN,
     val precipType: PrecipitationType = PrecipitationType.NONE,
+    val uvStatus: UvStatus = UvStatus.UNKNOWN,
     val showDialog: Boolean = false,
     val searchQuery: String = "",
     val suggestedCities: List<CityItem> = emptyList(),
@@ -19,5 +21,6 @@ data class HomeState(
     val cloudCover: String = "-- %",
     val windDuration: String = "--",
     val precipDuration: String = "--",
-    val weatherDuration: String = "--"
+    val weatherDuration: String = "--",
+    val uvIndex: String = "--"
 )
