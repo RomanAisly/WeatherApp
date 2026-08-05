@@ -17,7 +17,7 @@ data class HomeState(
     val suggestedCities: List<CityItem> = emptyList(),
     val precipAmount: String = "-- mm",
     val cloudCover: String = "-- %",
-    val windDuration: String = "-- h",
-    val precipDuration: String = "-- h",
-    val weatherDuration: String = "-- h"
+    val windDuration: String = "--",
+    val precipDuration: String = "--",
+    val weatherDuration: String = "--"
 )

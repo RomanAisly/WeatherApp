@@ -115,7 +115,7 @@ fun WeatherCard(
                     text = stringResource(R.string.time)
                 )
                 BaseText(
-                    text = timeDuration,
+                    text = stringResource(R.string.hour_format, timeDuration),
                     textStyle = MaterialTheme.typography.titleMedium
                 )
             }
@@ -142,7 +142,7 @@ fun WindCard(
             ) {
                 BaseIcon(R.drawable.wind, iconTint = skyBlue)
                 BaseText(
-                    stringResource(R.string.wind),
+                    stringResource(windStatus.title),
                     textStyle = MaterialTheme.typography.titleSmall
                 )
             }
@@ -154,12 +154,16 @@ fun WindCard(
                 if (windStatus.lottieRes != null) {
                     AnimLoad(
                         resId = windStatus.lottieRes,
+                        tintColor = if (windStatus == WindStatus.GENTLE) lightBlue else null,
                         modifier = Modifier.size(38.dp),
                     )
                 } else {
                     Box(modifier = Modifier.size(38.dp))
                 }
-                BaseText(windStrength, textStyle = MaterialTheme.typography.titleMedium)
+                BaseText(
+                    stringResource(R.string.kmh_abbr, windStrength),
+                    textStyle = MaterialTheme.typography.titleMedium
+                )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -170,7 +174,7 @@ fun WindCard(
                     text = stringResource(R.string.time)
                 )
                 BaseText(
-                    text = timeDuration,
+                    text = stringResource(R.string.hour_format, timeDuration),
                     textStyle = MaterialTheme.typography.titleMedium
                 )
             }
@@ -230,7 +234,7 @@ fun PrecipitationCard(
                     text = stringResource(R.string.time)
                 )
                 BaseText(
-                    text = timeDuration,
+                    text = stringResource(R.string.hour_format, timeDuration),
                     textStyle = MaterialTheme.typography.titleMedium
                 )
             }

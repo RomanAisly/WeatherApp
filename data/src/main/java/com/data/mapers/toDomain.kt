@@ -7,7 +7,8 @@ fun WeatherResponse.toDomain(): Weather {
     val current = this.current
     val hourly = this.hourly
 
-    val currentIndex = hourly.time.indexOf(current.time).takeIf { it != -1 } ?: 0
+    val currentHourTime = current.time.substringBeforeLast(":") + ":00"
+    val currentIndex = hourly.time.indexOf(currentHourTime).takeIf { it != -1 } ?: 0
 
     return Weather(
         temperature = current.temperature,

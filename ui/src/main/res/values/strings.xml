@@ -21,7 +21,6 @@
     <string name="cloudy">CLOUDY</string>
     <string name="overcast">OVERCAST</string>
     <string name="unknown">UNKNOWN</string>
-    <string name="wind">WIND</string>
     <string name="dry">DRY</string>
     <string name="drizzle">DRIZZLE</string>
     <string name="rain">RAIN</string>
@@ -30,5 +29,11 @@
     <string name="storm">STORM</string>
     <string name="time">TIME</string>
     <string name="fog">FOG</string>
-    <string name="hour_abbr">h</string>
+    <string name="hour_format">%1$s h</string>
+    <string name="kmh_abbr">%1$s km/h</string>
+    <string name="calm">CALM</string>
+    <string name="light">LIGHT</string>
+    <string name="gentle">GENTLE</string>
+    <string name="moderate">MODERATE</string>
+    <string name="strong">STRONG</string>
 </resources>

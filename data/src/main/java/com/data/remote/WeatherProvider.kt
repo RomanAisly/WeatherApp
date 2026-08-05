@@ -17,6 +17,7 @@ class WeatherProvider(private val client: HttpClient) {
                 )
                 parameters.append("hourly", "wind_speed_10m,weather_code,precipitation")
                 parameters.append("forecast_hours", "24")
+                parameters.append("timezone", "auto")
             }
         }.body()
     }

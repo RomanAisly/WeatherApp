@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.airbnb.lottie.LottieProperty
@@ -53,6 +54,7 @@ fun AnimLoad(
             composition = composition,
             progress = { progress },
             dynamicProperties = dynamicProperties,
+            contentScale = ContentScale.Crop
         )
     }
 }

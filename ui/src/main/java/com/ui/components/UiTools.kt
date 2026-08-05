@@ -40,23 +40,28 @@ enum class WeatherType(val lottieRes: Int?, val title: Int) {
                 2 -> if (isDay) PARTLY_CLOUDY_DAY else PARTLY_CLOUDY_NIGHT
                 3 -> OVERCAST
                 45, 48 -> FOG
+                in 51..99 -> OVERCAST
                 else -> UNKNOWN
             }
         }
     }
 }
 
-enum class WindStatus(val lottieRes: Int?) {
-    UNKNOWN(null),
-    EASY(R.raw.light_wind),
-    MIDDLE(R.raw.middle_wind),
-    STRONG(R.raw.tornado);
+enum class WindStatus(val lottieRes: Int?, val title: Int) {
+    UNKNOWN(null, R.string.unknown),
+    CALM(R.raw.calm_wind, R.string.calm),
+    LIGHT(R.raw.light_wind, R.string.light),
+    GENTLE(R.raw.gentle_wind, R.string.gentle),
+    MODERATE(R.raw.moderate_wind, R.string.moderate),
+    STRONG(R.raw.tornado, R.string.strong);
 
     companion object {
         fun fromSpeed(speedKmH: Double): WindStatus {
             return when {
-                speedKmH < 15.0 -> EASY
-                speedKmH < 35.0 -> MIDDLE
+                speedKmH < 5.0 -> CALM
+                speedKmH < 10.0 -> LIGHT
+                speedKmH < 15.0 -> GENTLE
+                speedKmH < 25.0 -> MODERATE
                 else -> STRONG
             }
         }
