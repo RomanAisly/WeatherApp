@@ -1,6 +1,7 @@
 package com.domain
 
 data class Weather(
+    val timezone: String,
     val temperature: Double,
     val windSpeed: Double,
     val weatherCode: Int,
@@ -14,6 +15,7 @@ data class Weather(
 )
 
 data class WeatherDetails(
+    val timezone: String,
     val temperature: Double,
     val windSpeed: Double,
     val weatherCode: Int,

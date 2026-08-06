@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
 import com.domain.CityItem
-import com.domain.GetWeatherDetailsUseCase
 import com.domain.repositories.WeatherRepository
+import com.domain.usecases.GetLiveTimeUseCase
+import com.domain.usecases.GetWeatherDetailsUseCase
 import com.ui.components.PrecipitationType
 import com.ui.components.UvStatus
 import com.ui.components.WeatherType
@@ -22,13 +23,15 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class HomeViewModel(
     private val repository: WeatherRepository,
-    private val getWeatherDetailsUseCase: GetWeatherDetailsUseCase
+    private val getWeatherDetailsUseCase: GetWeatherDetailsUseCase,
+    private val getLiveTimeUseCase: GetLiveTimeUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
     private var searchJob: Job? = null
+    private var timeJob: Job? = null
 
     fun showDialog() {
         _state.update { it.copy(showDialog = true) }
@@ -96,11 +99,21 @@ class HomeViewModel(
                                 uvStatus = UvStatus.fromIndex(details.uvIndex)
                             )
                         }
+                        startLiveClock(details.timezone)
                     }
                     is CheckDataResult.Error -> {
                         _state.update { it.copy(gradus = "X", wind = "X") }
                     }
                 }
+            }
+        }
+    }
+
+    private fun startLiveClock(timezone: String) {
+        timeJob?.cancel()
+        timeJob = viewModelScope.launch {
+            getLiveTimeUseCase(timezone).collect { newTime ->
+                _state.update { it.copy(currentTime = newTime) }
             }
         }
     }

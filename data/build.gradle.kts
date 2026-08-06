@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.library)
@@ -8,21 +7,12 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.inputStream().use {
-        localProperties.load(it)
-    }
-}
-
 android {
     namespace = "com.weatherapp.data"
     compileSdk = 36
 
     defaultConfig {
         minSdk = 29
-        buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY") ?: ""}\"")
     }
 
     compileOptions {

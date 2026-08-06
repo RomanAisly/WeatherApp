@@ -8,6 +8,7 @@ import com.ui.components.WindStatus
 
 data class HomeState(
     val city: String = "",
+    val currentTime: String = "--:--",
     val gradus: String = "--",
     val wind: String = "--",
     val windStatus: WindStatus = WindStatus.UNKNOWN,

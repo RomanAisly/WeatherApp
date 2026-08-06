@@ -157,9 +157,14 @@ fun WindCard(
                 if (windStatus.lottieRes != null) {
                     AnimLoad(
                         resId = windStatus.lottieRes,
-                        tintColor = if (windStatus == WindStatus.GENTLE) lightBlue else if (windStatus == WindStatus.LIGHT) {
-                            BaseTheme.colors.text
-                        } else null,
+                        tintColor = when (windStatus) {
+                            WindStatus.GENTLE -> lightBlue
+                            WindStatus.LIGHT -> {
+                                BaseTheme.colors.text
+                            }
+
+                            else -> null
+                        },
                         modifier = Modifier.size(38.dp),
                     )
                 } else {

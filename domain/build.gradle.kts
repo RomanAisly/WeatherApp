@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -17,4 +16,5 @@ kotlin {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.datetime)
 }

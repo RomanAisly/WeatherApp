@@ -66,8 +66,8 @@ val lightColors = BaseColors(
     bgEdge = azure,
     iconTint = twilight,
     widgetIcon = deepSkyBlue,
-    cardStart = silver.copy(alpha = 0.5f),
-    cardEnd = mintCream.copy(alpha = 0.5f),
+    cardStart = mintCream.copy(alpha = 0.5f),
+    cardEnd = skyBlue.copy(alpha = 0.5f),
     alertStart = mintCream.copy(alpha = 0.5f),
     alertEnd = lightGray.copy(alpha = 0.5f),
     cardGlow = gray

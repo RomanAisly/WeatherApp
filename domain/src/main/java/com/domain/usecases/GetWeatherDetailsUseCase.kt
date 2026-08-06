@@ -1,5 +1,9 @@
-package com.domain
+package com.domain.usecases
 
+import com.domain.AppError
+import com.domain.CheckDataResult
+import com.domain.Weather
+import com.domain.WeatherDetails
 import com.domain.repositories.WeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -72,6 +76,7 @@ class GetWeatherDetailsUseCase(
             countHours { i -> getWeatherCategory(weather.hourlyWeatherCodes[i]) == currentWeatherCat }
 
         return WeatherDetails(
+            timezone = weather.timezone,
             temperature = weather.temperature,
             windSpeed = weather.windSpeed,
             weatherCode = weather.weatherCode,

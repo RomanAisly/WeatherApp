@@ -124,7 +124,7 @@ fun BaseAlertDialog(
                         fontSize = MaterialTheme.typography.bodyLarge.fontSize
                     ),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = softBlueDark,
+                        focusedBorderColor = white,
                         unfocusedBorderColor = lightGray,
                         cursorColor = softBlueDark,
                         focusedTextColor = BaseTheme.colors.text,

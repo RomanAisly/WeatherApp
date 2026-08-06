@@ -27,6 +27,7 @@ import com.ui.components.PrecipitationCard
 import com.ui.components.UvCard
 import com.ui.components.WeatherCard
 import com.ui.components.WindCard
+import com.ui.components.neonGlow
 import com.ui.components.radialScreenBackground
 import com.ui.theme.BaseTheme
 import com.weatherapp.ui.R
@@ -107,6 +108,22 @@ fun HomeScreen(
                 modifier = Modifier.align(Alignment.Center),
                 textStyle = MaterialTheme.typography.displayLarge
             )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 24.dp)
+                    .neonGlow(
+                        color = BaseTheme.colors.cardGlow,
+                        shape = MaterialTheme.shapes.large,
+                    )
+            ) {
+                BaseText(
+                    state.currentTime,
+                    textStyle = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(12.dp)
+                )
+            }
+
         }
         Column(
             modifier = Modifier

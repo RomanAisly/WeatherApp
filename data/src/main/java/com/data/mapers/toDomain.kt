@@ -2,7 +2,9 @@ package com.data.mapers
 
 import com.data.remote.WeatherResponse
 import com.domain.Weather
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 fun WeatherResponse.toDomain(): Weather {
     val current = this.current
     val hourly = this.hourly
@@ -11,6 +13,7 @@ fun WeatherResponse.toDomain(): Weather {
     val currentIndex = hourly.time.indexOf(currentHourTime).takeIf { it != -1 } ?: 0
 
     return Weather(
+        timezone = this.timezone,
         temperature = current.temperature,
         windSpeed = current.windSpeed,
         weatherCode = current.weatherCode,
