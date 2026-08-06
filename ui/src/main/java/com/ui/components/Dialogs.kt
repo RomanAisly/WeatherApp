@@ -44,6 +44,7 @@ import com.domain.CityItem
 import com.ui.theme.BaseTheme
 import com.ui.theme.lightGray
 import com.ui.theme.softBlueDark
+import com.ui.theme.white
 import com.weatherapp.ui.R
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -96,24 +97,30 @@ fun BaseAlertDialog(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    BaseIcon(R.drawable.location, iconTint = BaseTheme.colors.text)
+                    BaseIcon(R.drawable.location, iconTint = white)
                     BaseText(
                         text = stringResource(R.string.choose_your_city),
-                        textStyle = MaterialTheme.typography.titleLarge
+                        textStyle = MaterialTheme.typography.titleLarge,
+                        textColor = white
                     )
                 }
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = onQueryChange,
                     singleLine = true,
-                    placeholder = { BaseText(stringResource(R.string.search_city)) },
+                    placeholder = {
+                        BaseText(
+                            stringResource(R.string.search_city),
+                            textColor = white
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester)
                         .zIndex(1f),
                     shape = CircleShape,
                     textStyle = TextStyle(
-                        color = BaseTheme.colors.text,
+                        color = white,
                         fontSize = MaterialTheme.typography.bodyLarge.fontSize
                     ),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -160,17 +167,19 @@ fun BaseAlertDialog(
                                     ) {
                                         BaseText(
                                             text = city.name,
-                                            textStyle = MaterialTheme.typography.titleLarge
+                                            textStyle = MaterialTheme.typography.titleLarge,
+                                            textColor = white
                                         )
                                         BaseText(
                                             text = city.country,
                                             textStyle = MaterialTheme.typography.titleSmall,
+                                            textColor = white
                                         )
                                         HorizontalDivider(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .padding(top = 4.dp),
-                                            color = BaseTheme.colors.text.copy(alpha = 0.5f)
+                                            color = white.copy(alpha = 0.7f)
                                         )
                                     }
                                     BaseText(

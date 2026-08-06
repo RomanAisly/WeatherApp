@@ -1,5 +1,7 @@
 package com.ui.components
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -8,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -36,20 +36,19 @@ fun AnimLoad(
             iterations = LottieConstants.IterateForever,
             isPlaying = true
         )
-        val dynamicProperties = if (tintColor != null) {
-            rememberLottieDynamicProperties(
-                rememberLottieDynamicProperty(
-                    property = LottieProperty.COLOR_FILTER,
-                    value = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                        tintColor.toArgb(),
-                        BlendModeCompat.SRC_ATOP
-                    ),
-                    keyPath = arrayOf("**")
-                )
+        val dynamicProperties = rememberLottieDynamicProperties(
+            rememberLottieDynamicProperty(
+                property = LottieProperty.COLOR_FILTER,
+                value = tintColor?.let { color ->
+                    PorterDuffColorFilter(
+                        color.toArgb(),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
+                },
+                keyPath = arrayOf("**")
             )
-        } else {
-            null
-        }
+        )
+
         LottieAnimation(
             composition = composition,
             progress = { progress },

@@ -1,9 +1,21 @@
 package com.ui.components
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import com.domain.AppLanguage
 import com.domain.AppTheme
+import com.ui.theme.black
+import com.ui.theme.white
 import com.weatherapp.ui.R
 
+
+fun Color.lighten(fraction: Float = 0.3f): Color {
+    return lerp(this, white, fraction)
+}
+
+fun Color.darken(fraction: Float = 0.3f): Color {
+    return lerp(this, black, fraction)
+}
 //fun AppError.getIconRes(): Int = when (this) {
 //    AppError.NO_INTERNET -> R.drawable.signal_disconnected
 //    AppError.TIMEOUT -> R.drawable.hourglass_disabled

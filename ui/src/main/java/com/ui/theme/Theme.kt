@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.domain.AppTheme
+import com.ui.components.darken
 
 @Immutable
 data class BaseColors(
@@ -29,8 +30,12 @@ data class BaseColors(
     val bgHalo: Color,
     val bgEdge: Color,
     val iconTint: Color,
+    val widgetIcon: Color,
     val cardStart: Color,
-    val cardEnd: Color
+    val cardEnd: Color,
+    val alertStart: Color,
+    val alertEnd: Color,
+    val cardGlow: Color
 ) {
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
@@ -39,29 +44,33 @@ data class BaseColors(
         listOf(bottomBarEnd, bottomBarStart)
     )
     val alertBack: Brush = Brush.verticalGradient(
-        listOf(bgHalo, bottomBarEnd)
+        listOf(alertStart, alertEnd)
     )
     val settScreenBack: Brush = Brush.horizontalGradient(
         listOf(bottomBarStart, bottomBarEnd)
     )
-    val cardBack: Brush = Brush.horizontalGradient(
+    val cardBack: Brush = Brush.linearGradient(
         listOf(cardStart, cardEnd)
     )
 }
 
 val lightColors = BaseColors(
     scaffoldBack = azure,
-    text = black,
+    text = deepDarkGray,
     textButton = cornflowerBlue,
-    bottomBarStart = azure,
-    bottomBarEnd = skyBlue,
-    bottBarIconShadow = iris,
-    bgCenter = azure,
-    bgHalo = lightBlue,
-    bgEdge = skyBlue,
-    iconTint = cornflowerBlue,
-    cardStart = white,
-    cardEnd = white
+    bottomBarStart = skyBlue,
+    bottomBarEnd = mintCream,
+    bottBarIconShadow = iris.darken(),
+    bgCenter = mintCream,
+    bgHalo = skyBlue,
+    bgEdge = azure,
+    iconTint = twilight,
+    widgetIcon = deepSkyBlue,
+    cardStart = silver.copy(alpha = 0.5f),
+    cardEnd = mintCream.copy(alpha = 0.5f),
+    alertStart = mintCream.copy(alpha = 0.5f),
+    alertEnd = lightGray.copy(alpha = 0.5f),
+    cardGlow = gray
 )
 
 val darkColors = BaseColors(
@@ -75,8 +84,12 @@ val darkColors = BaseColors(
     bgHalo = plum,
     bgEdge = indigo,
     iconTint = white,
-    cardStart = deepDarkGray,
-    cardEnd = lightStateGray
+    widgetIcon = lightBlue,
+    cardStart = lightStateGray.copy(alpha = 0.5f),
+    cardEnd = deepDarkGray.copy(alpha = 0.5f),
+    alertStart = indigo.copy(alpha = 0.5f),
+    alertEnd = twilight.copy(alpha = 0.5f),
+    cardGlow = persianGreen
 )
 
 object BaseTheme {
@@ -140,7 +153,11 @@ private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
         bgHalo = animateColorAsState(targetColor.bgHalo, animationSpec).value,
         bgEdge = animateColorAsState(targetColor.bgEdge, animationSpec).value,
         iconTint = animateColorAsState(targetColor.iconTint, animationSpec).value,
+        widgetIcon = animateColorAsState(targetColor.widgetIcon, animationSpec).value,
         cardStart = animateColorAsState(targetColor.cardStart, animationSpec).value,
-        cardEnd = animateColorAsState(targetColor.cardEnd, animationSpec).value
+        cardEnd = animateColorAsState(targetColor.cardEnd, animationSpec).value,
+        alertStart = animateColorAsState(targetColor.alertStart, animationSpec).value,
+        alertEnd = animateColorAsState(targetColor.alertEnd, animationSpec).value,
+        cardGlow = animateColorAsState(targetColor.cardGlow, animationSpec).value
     )
 }

@@ -1,19 +1,42 @@
 package com.ui.components
 
-import android.content.res.Configuration
+import android.graphics.BlurMaskFilter
+import android.graphics.Paint
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ui.theme.BaseTheme
 import com.ui.theme.WeatherTheme
+import com.ui.theme.gray
 import com.ui.theme.limeGreen
 import com.ui.theme.magenta
 import com.ui.theme.red
+import com.ui.theme.transparent
 import com.ui.theme.vividOrange
 import com.ui.theme.yellow
 import com.weatherapp.ui.R
@@ -125,6 +148,69 @@ enum class UvStatus(
     }
 }
 
+@Composable
+fun UvStatusIndicator(
+    currentStatus: UvStatus,
+    modifier: Modifier = Modifier
+) {
+    val circleRadius = 4.dp
+    val glowRadius = 8.dp
+    val activeStatuses = UvStatus.entries.filter { it.lottieColor != null }
+
+    Canvas(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(16.dp)
+    ) {
+        val spacing = 4.dp.toPx()
+        val totalSpacing = spacing * (activeStatuses.size - 1)
+        val segmentWidth = (size.width - totalSpacing) / activeStatuses.size
+        val lineThickness = 4.dp.toPx()
+        val cornerRadius = CornerRadius(lineThickness / 2, lineThickness / 2)
+        var startX = 0f
+
+        activeStatuses.forEach { status ->
+            val color = status.lottieColor ?: gray
+            val isSelected = status == currentStatus
+            val alpha = if (isSelected) 1f else 0.4f
+
+            drawRoundRect(
+                color = color,
+                topLeft = Offset(x = startX, y = size.height / 2f - lineThickness / 2f),
+                size = Size(width = segmentWidth, height = lineThickness),
+                cornerRadius = cornerRadius,
+                alpha = alpha
+            )
+            if (isSelected) {
+                val centerX = startX + segmentWidth / 2f
+                val centerY = size.height / 2f
+
+                drawIntoCanvas { canvas ->
+                    val paint = Paint().apply {
+                        this.color = color.toArgb()
+                        this.maskFilter = BlurMaskFilter(
+                            glowRadius.toPx(),
+                            BlurMaskFilter.Blur.NORMAL
+                        )
+                    }
+                    canvas.nativeCanvas.drawCircle(
+                        centerX,
+                        centerY,
+                        circleRadius.toPx() + 4.dp.toPx(),
+                        paint
+                    )
+                }
+                drawCircle(
+                    color = color.lighten(),
+                    radius = circleRadius.toPx(),
+                    center = Offset(centerX, centerY)
+                )
+            }
+            startX += segmentWidth + spacing
+        }
+    }
+}
+
 fun Modifier.radialScreenBackground(
     centerColor: Color,
     haloColor: Color,
@@ -157,23 +243,101 @@ fun Modifier.radialScreenBackground(
     }
 }
 
+fun Modifier.neonGlow(
+    color: Color,
+    blurRadius: Dp = 2.dp,
+    offsetY: Dp = 2.dp,
+    shape: Shape
+): Modifier = this.drawBehind {
+    if (blurRadius <= 0.dp || color == transparent) return@drawBehind
+    val glowRadiusPx = blurRadius.toPx()
+    val offsetYPx = offsetY.toPx()
+    val outline = shape.createOutline(size, layoutDirection, this)
+
+    val clipPath = Path().apply {
+        when (outline) {
+            is Outline.Rounded -> addRoundRect(outline.roundRect)
+            is Outline.Rectangle -> addRect(outline.rect)
+            is Outline.Generic -> addPath(outline.path)
+        }
+    }
+
+    clipPath(clipPath, clipOp = ClipOp.Difference) {
+        drawIntoCanvas { canvas ->
+            val paint = Paint().apply {
+                this.color = color.toArgb()
+                this.maskFilter = BlurMaskFilter(glowRadiusPx, BlurMaskFilter.Blur.NORMAL)
+            }
+
+            when (outline) {
+                is Outline.Rounded -> {
+                    val roundRect = outline.roundRect
+                    val cornerRadius = roundRect.topLeftCornerRadius.x
+                    canvas.nativeCanvas.drawRoundRect(
+                        roundRect.left,
+                        roundRect.top + offsetYPx,
+                        roundRect.right,
+                        roundRect.bottom + offsetYPx,
+                        cornerRadius, cornerRadius,
+                        paint
+                    )
+                }
+
+                is Outline.Rectangle -> {
+                    val rect = outline.rect
+                    canvas.nativeCanvas.drawRect(
+                        rect.left,
+                        rect.top + offsetYPx,
+                        rect.right,
+                        rect.bottom + offsetYPx,
+                        paint
+                    )
+                }
+
+                is Outline.Generic -> {
+                    canvas.save()
+                    canvas.translate(0f, offsetYPx)
+                    canvas.nativeCanvas.drawPath(
+                        outline.path.asAndroidPath(),
+                        paint
+                    )
+                    canvas.restore()
+                }
+            }
+        }
+    }
+}
+
 @Composable
-//@Preview(
-//    name = "Light Mode",
-//    showBackground = true,
-//    showSystemUi = true
-//)
 @Preview(
-    name = "Dark Mode",
+    name = "Light Mode",
     showBackground = true,
-    showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    showSystemUi = true
 )
+//@Preview(
+//    name = "Dark Mode",
+//    showBackground = true,
+//    showSystemUi = true,
+//    uiMode = Configuration.UI_MODE_NIGHT_YES
+//)
 internal fun UiToolsPreview() {
     WeatherTheme(onThemeChange = {}) {
-        UvCard(
-            uvIndex = "10",
-            uvStatus = UvStatus.LOW
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .radialScreenBackground(
+                    centerColor = BaseTheme.colors.bgCenter,
+                    haloColor = BaseTheme.colors.bgHalo,
+                    edgeColor = BaseTheme.colors.bgEdge,
+                ), contentAlignment = Alignment.BottomStart
+        ) {
+            WindCard(
+                windStrength = "10",
+                windStatus = WindStatus.GENTLE,
+                timeDuration = "12",
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
     }
 }
