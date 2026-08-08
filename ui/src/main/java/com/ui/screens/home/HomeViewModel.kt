@@ -3,7 +3,8 @@ package com.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
-import com.domain.CityItem
+import com.domain.CurrentCityManager
+import com.domain.models.CityItem
 import com.domain.repositories.WeatherRepository
 import com.domain.usecases.GetLiveTimeUseCase
 import com.domain.usecases.GetWeatherDetailsUseCase
@@ -24,7 +25,8 @@ import kotlin.time.Duration.Companion.milliseconds
 class HomeViewModel(
     private val repository: WeatherRepository,
     private val getWeatherDetailsUseCase: GetWeatherDetailsUseCase,
-    private val getLiveTimeUseCase: GetLiveTimeUseCase
+    private val getLiveTimeUseCase: GetLiveTimeUseCase,
+    private val currentCityManager: CurrentCityManager
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -71,6 +73,7 @@ class HomeViewModel(
                 suggestedCities = emptyList()
             )
         }
+        currentCityManager.setCity(city)
         loadWeather(city.latitude, city.longitude)
     }
 

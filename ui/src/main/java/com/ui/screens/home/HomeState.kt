@@ -1,6 +1,6 @@
 package com.ui.screens.home
 
-import com.domain.CityItem
+import com.domain.models.CityItem
 import com.ui.components.PrecipitationType
 import com.ui.components.UvStatus
 import com.ui.components.WeatherType

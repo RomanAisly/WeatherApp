@@ -1,7 +1,7 @@
-package com.data.mapers
+package com.data.mappers
 
-import com.data.remote.WeatherResponse
-import com.domain.Weather
+import com.data.remote.dto.WeatherResponse
+import com.domain.models.Weather
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)

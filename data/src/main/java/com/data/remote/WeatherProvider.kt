@@ -1,5 +1,8 @@
 package com.data.remote
 
+import com.data.remote.dto.ForecastResponseDto
+import com.data.remote.dto.GeocodingResponse
+import com.data.remote.dto.WeatherResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -17,6 +20,22 @@ class WeatherProvider(private val client: HttpClient) {
                 )
                 parameters.append("hourly", "wind_speed_10m,weather_code,precipitation")
                 parameters.append("forecast_hours", "24")
+                parameters.append("timezone", "auto")
+            }
+        }.body()
+    }
+
+    suspend fun get10DayForecast(lat: Double, lon: Double): ForecastResponseDto {
+        return client.get("v1/forecast") {
+            url {
+                parameters.append("latitude", lat.toString())
+                parameters.append("longitude", lon.toString())
+                parameters.append(
+                    "hourly",
+                    "temperature_2m,precipitation_probability,weather_code,is_day"
+                )
+                parameters.append("daily", "weather_code,temperature_2m_max,temperature_2m_min")
+                parameters.append("forecast_days", "10")
                 parameters.append("timezone", "auto")
             }
         }.body()

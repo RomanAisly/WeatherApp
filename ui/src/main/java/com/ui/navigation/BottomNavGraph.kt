@@ -22,7 +22,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.ui.components.LayoutMode
-import com.ui.screens.GlobeScreen
+import com.ui.screens.globe.GlobeScreen
 import com.ui.screens.home.HomeScreen
 import com.ui.screens.settings.SettingsScreen
 import com.ui.theme.BaseTheme

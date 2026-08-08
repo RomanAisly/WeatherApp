@@ -1,4 +1,4 @@
-package com.domain
+package com.domain.models
 
 data class Weather(
     val timezone: String,

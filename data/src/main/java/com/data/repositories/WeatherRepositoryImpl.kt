@@ -1,13 +1,14 @@
 package com.data.repositories
 
 import android.util.Log
-import com.data.mapers.toDomain
-import com.data.mapers.toFlagEmoji
+import com.data.mappers.toDomain
+import com.data.mappers.toFlagEmoji
 import com.data.remote.WeatherProvider
 import com.domain.AppError
 import com.domain.CheckDataResult
-import com.domain.CityItem
-import com.domain.Weather
+import com.domain.models.CityItem
+import com.domain.models.ForecastDetails
+import com.domain.models.Weather
 import com.domain.repositories.WeatherRepository
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.ClientRequestException
@@ -48,6 +49,18 @@ class WeatherRepositoryImpl(
         try {
             val response = weatherProvider.getCurrentWeather(lat, lon)
 
+            emit(CheckDataResult.Success(response.toDomain()))
+        } catch (e: Exception) {
+            emit(CheckDataResult.Error(handleError(e)))
+        }
+    }
+
+    override suspend fun get10DayForecast(
+        lat: Double,
+        lon: Double
+    ): Flow<CheckDataResult<ForecastDetails, AppError>> = flow {
+        try {
+            val response = weatherProvider.get10DayForecast(lat, lon)
             emit(CheckDataResult.Success(response.toDomain()))
         } catch (e: Exception) {
             emit(CheckDataResult.Error(handleError(e)))

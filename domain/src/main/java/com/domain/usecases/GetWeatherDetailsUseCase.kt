@@ -2,8 +2,8 @@ package com.domain.usecases
 
 import com.domain.AppError
 import com.domain.CheckDataResult
-import com.domain.Weather
-import com.domain.WeatherDetails
+import com.domain.models.Weather
+import com.domain.models.WeatherDetails
 import com.domain.repositories.WeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

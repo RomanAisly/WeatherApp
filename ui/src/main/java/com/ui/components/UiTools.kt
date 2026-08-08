@@ -1,5 +1,6 @@
 package com.ui.components
 
+import android.content.res.Configuration
 import android.graphics.BlurMaskFilter
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
@@ -36,6 +37,7 @@ import com.ui.theme.gray
 import com.ui.theme.limeGreen
 import com.ui.theme.magenta
 import com.ui.theme.red
+import com.ui.theme.royalBlue
 import com.ui.theme.transparent
 import com.ui.theme.vividOrange
 import com.ui.theme.yellow
@@ -309,17 +311,49 @@ fun Modifier.neonGlow(
 }
 
 @Composable
+fun TemperatureBar(
+    minTemp: Double,
+    maxTemp: Double,
+    weeklyMin: Double,
+    weeklyMax: Double,
+    modifier: Modifier = Modifier
+) {
+    val gradientColors = listOf(royalBlue, vividOrange, red)
+
+    Canvas(modifier = modifier.height(6.dp)) {
+        drawRoundRect(
+            color = gray.copy(alpha = 0.4f),
+            cornerRadius = CornerRadius(4.dp.toPx())
+        )
+
+        val range = weeklyMax - weeklyMin
+        val startFraction = if (range == 0.0) 0f else ((minTemp - weeklyMin) / range).toFloat()
+        val widthFraction = if (range == 0.0) 1f else ((maxTemp - minTemp) / range).toFloat()
+
+        val startX = size.width * startFraction
+        val barWidth = size.width * widthFraction
+
+        drawRoundRect(
+            brush = Brush.horizontalGradient(gradientColors),
+            topLeft = Offset(startX, 0f),
+            size = Size(barWidth, size.height),
+            cornerRadius = CornerRadius(4.dp.toPx())
+        )
+    }
+}
+
+@Composable
 @Preview(
     name = "Light Mode",
     showBackground = true,
     showSystemUi = true
 )
-//@Preview(
-//    name = "Dark Mode",
-//    showBackground = true,
-//    showSystemUi = true,
-//    uiMode = Configuration.UI_MODE_NIGHT_YES
-//)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 internal fun UiToolsPreview() {
     WeatherTheme(onThemeChange = {}) {
         Box(

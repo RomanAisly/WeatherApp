@@ -40,7 +40,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
-import com.domain.CityItem
+import com.domain.models.CityItem
 import com.ui.theme.BaseTheme
 import com.ui.theme.lightGray
 import com.ui.theme.softBlueDark

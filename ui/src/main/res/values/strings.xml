@@ -41,4 +41,13 @@
     <string name="uv_very_high">VERY HIGH</string>
     <string name="uv_extreme">EXTREME</string>
     <string name="level">LEVEL</string>
+    <string name="today">Today</string>
+    <string name="dow_1">Monday</string>
+    <string name="dow_2">Tuesday</string>
+    <string name="dow_3">Wednesday</string>
+    <string name="dow_4">Thursday</string>
+    <string name="dow_5">Friday</string>
+    <string name="dow_6">Saturday</string>
+    <string name="dow_7">Sunday</string>
+    <string name="now">Now</string>
 </resources>

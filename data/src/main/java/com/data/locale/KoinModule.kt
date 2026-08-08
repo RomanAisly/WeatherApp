@@ -3,8 +3,10 @@ package com.data.locale
 import com.data.remote.WeatherProvider
 import com.data.remote.createHttpClient
 import com.data.repositories.WeatherRepositoryImpl
+import com.domain.CurrentCityManager
 import com.domain.repositories.SettingsRepository
 import com.domain.repositories.WeatherRepository
+import com.domain.usecases.GetForecastUseCase
 import com.domain.usecases.GetLiveTimeUseCase
 import com.domain.usecases.GetWeatherDetailsUseCase
 import io.ktor.client.HttpClient
@@ -27,9 +29,11 @@ val networkModule = module {
 val repositoryModule = module {
     single<WeatherRepository> { WeatherRepositoryImpl(get()) }
     single<SettingsRepository> { SettingsManager(get()) }
+    single { CurrentCityManager() }
 }
 
 val useCaseModule = module {
     factory { GetWeatherDetailsUseCase(get()) }
     factory { GetLiveTimeUseCase() }
+    factory { GetForecastUseCase(get()) }
 }
