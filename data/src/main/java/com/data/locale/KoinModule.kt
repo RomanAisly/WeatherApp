@@ -27,7 +27,7 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single<WeatherRepository> { WeatherRepositoryImpl(get()) }
+    single<WeatherRepository> { WeatherRepositoryImpl(get(), get()) }
     single<SettingsRepository> { SettingsManager(get()) }
     single { CurrentCityManager() }
 }

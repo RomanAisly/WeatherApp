@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">UNKNOWN</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_your_city">Choose your city</string>
+    <string name="your_city">Your city</string>
+    <string name="search_city">Search city…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">Theme</string>
     <string name="theme_system">System</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_light">Light</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">Language</string>
     <string name="en">English</string>
     <string name="ru">Russian</string>
     <string name="zh">Chinese</string>
@@ -10,38 +22,49 @@
     <string name="fr">French</string>
     <string name="de">German</string>
     <string name="uk">Ukrainian</string>
-    <string name="choose_your_city">Choose your city</string>
-    <string name="your_city">Your city</string>
-    <string name="cancel">Cancel</string>
-    <string name="theme">Theme</string>
-    <string name="language">Language</string>
-    <string name="search_city">Search city…</string>
+    <string name="ja">Japanese</string>
+    <string name="ko">Korean</string>
+    <string name="hi">Hindi</string>
+    <string name="it">Italian</string>
+
+    <!-- WEATHER CONDITIONS -->
     <string name="clear">CLEAR</string>
     <string name="fair">FAIR</string>
     <string name="cloudy">CLOUDY</string>
     <string name="overcast">OVERCAST</string>
-    <string name="unknown">UNKNOWN</string>
+    <string name="fog">FOG</string>
+
+    <!-- PRECIPITATION -->
     <string name="dry">DRY</string>
     <string name="drizzle">DRIZZLE</string>
     <string name="rain">RAIN</string>
     <string name="snow">SNOW</string>
     <string name="freezing">FREEZING</string>
     <string name="storm">STORM</string>
-    <string name="time">TIME</string>
-    <string name="fog">FOG</string>
-    <string name="hour_format">%1$s h</string>
-    <string name="kmh_abbr">%1$s km/h</string>
+
+    <!-- WIND STATUS  -->
     <string name="calm">CALM</string>
     <string name="light">LIGHT</string>
     <string name="gentle">GENTLE</string>
     <string name="moderate">MODERATE</string>
     <string name="strong">STRONG</string>
+
+    <!-- UV INDEX -->
+    <string name="level">LEVEL</string>
     <string name="uv_low">LOW</string>
     <string name="uv_high">HIGH</string>
     <string name="uv_very_high">VERY HIGH</string>
     <string name="uv_extreme">EXTREME</string>
-    <string name="level">LEVEL</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s h</string>
+    <string name="kmh_abbr">%1$s km/h</string>
+    <string name="time">TIME</string>
+    <string name="now">Now</string>
     <string name="today">Today</string>
+    <string name="_10_day_forecast">10-DAY FORECAST</string>
+
+    <!-- DAYS OF WEEK -->
     <string name="dow_1">Monday</string>
     <string name="dow_2">Tuesday</string>
     <string name="dow_3">Wednesday</string>
@@ -49,5 +72,4 @@
     <string name="dow_5">Friday</string>
     <string name="dow_6">Saturday</string>
     <string name="dow_7">Sunday</string>
-    <string name="now">Now</string>
 </resources>

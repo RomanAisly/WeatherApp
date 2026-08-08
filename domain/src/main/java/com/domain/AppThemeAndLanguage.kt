@@ -7,11 +7,15 @@ enum class AppTheme {
 }
 
 enum class AppLanguage(val localeCode: String) {
-    ENGLISH("en-US"),
-    RUSSIAN("ru-RU"),
-    CHINESE("zh-CN"),
-    SPANISH("es-ES"),
-    FRENCH("fr-FR"),
-    GERMAN("de-DE"),
-    UKRAINIAN("uk-UA")
+    ENGLISH("en"),
+    RUSSIAN("ru"),
+    CHINESE("zh"),
+    SPANISH("es"),
+    FRENCH("fr"),
+    GERMAN("de"),
+    UKRAINIAN("uk"),
+    JAPANESE("ja"),
+    KOREAN("ko"),
+    HINDI("hi"),
+    ITALIAN("it")
 }

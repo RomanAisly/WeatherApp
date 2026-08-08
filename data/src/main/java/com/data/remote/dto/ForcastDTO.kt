@@ -17,7 +17,9 @@ data class ForecastHourlyDto(
     @SerialName("temperature_2m") val temperature: List<Double>,
     @SerialName("precipitation_probability") val precipProb: List<Int>,
     @SerialName("weather_code") val weatherCode: List<Int>,
-    @SerialName("is_day") val isDay: List<Int>
+    @SerialName("is_day") val isDay: List<Int>,
+    @SerialName("wind_speed_10m") val windSpeed: List<Double>,
+    @SerialName("precipitation") val precipitation: List<Double>
 )
 
 @Serializable

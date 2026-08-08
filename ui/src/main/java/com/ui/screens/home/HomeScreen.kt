@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,9 +39,9 @@ fun HomeScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val layoutDirection = LocalLayoutDirection.current
 
-    val topPadding = paddingValues.calculateTopPadding() + 30.dp
-    val bottomPadding = paddingValues.calculateBottomPadding()
-    val startPadding = paddingValues.calculateStartPadding(layoutDirection)
+//    val topPadding = paddingValues.calculateTopPadding() + 30.dp
+//    val bottomPadding = paddingValues.calculateBottomPadding()
+//    val startPadding = paddingValues.calculateStartPadding(layoutDirection)
 
     Column(
         modifier = Modifier
@@ -52,15 +50,6 @@ fun HomeScreen(
                 centerColor = BaseTheme.colors.bgCenter,
                 haloColor = BaseTheme.colors.bgHalo,
                 edgeColor = BaseTheme.colors.bgEdge,
-                topOffset = topPadding,
-                bottomOffset = bottomPadding,
-                startOffset = startPadding
-            )
-            .padding(
-                top = topPadding,
-                bottom = bottomPadding,
-                start = startPadding,
-                end = paddingValues.calculateEndPadding(layoutDirection)
             )
     ) {
         if (state.showDialog) {
@@ -81,7 +70,8 @@ fun HomeScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.6f)
+                .padding(top = paddingValues.calculateTopPadding() + 12.dp)
+                .weight(0.55f)
         ) {
             Column(
                 modifier = Modifier.align(Alignment.TopCenter),
@@ -129,8 +119,8 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp)
-                .weight(0.4f),
+                .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp)
+                .weight(0.45f),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

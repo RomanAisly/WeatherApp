@@ -12,7 +12,9 @@ fun ForecastResponseDto.toDomain(): ForecastDetails {
             temperature = hourly.temperature[i],
             weatherCode = hourly.weatherCode[i],
             isDay = hourly.isDay[i] == 1,
-            precipProbability = hourly.precipProb[i]
+            precipProbability = hourly.precipProb[i],
+            windSpeed = hourly.windSpeed[i],
+            precipitation = hourly.precipitation[i]
         )
     }
 

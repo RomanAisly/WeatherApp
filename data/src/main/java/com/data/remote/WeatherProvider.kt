@@ -32,7 +32,7 @@ class WeatherProvider(private val client: HttpClient) {
                 parameters.append("longitude", lon.toString())
                 parameters.append(
                     "hourly",
-                    "temperature_2m,precipitation_probability,weather_code,is_day"
+                    "temperature_2m,precipitation_probability,weather_code,is_day,wind_speed_10m,precipitation"
                 )
                 parameters.append("daily", "weather_code,temperature_2m_max,temperature_2m_min")
                 parameters.append("forecast_days", "10")
@@ -41,12 +41,12 @@ class WeatherProvider(private val client: HttpClient) {
         }.body()
     }
 
-    suspend fun searchCities(query: String): GeocodingResponse {
+    suspend fun searchCities(query: String, language: String): GeocodingResponse {
         return client.get("https://geocoding-api.open-meteo.com/v1/search") {
             url {
                 parameters.append("name", query)
                 parameters.append("count", "5")
-                parameters.append("language", "en")
+                parameters.append("language", language)
             }
         }.body()
     }

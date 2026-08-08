@@ -9,6 +9,7 @@ import com.domain.CheckDataResult
 import com.domain.models.CityItem
 import com.domain.models.ForecastDetails
 import com.domain.models.Weather
+import com.domain.repositories.SettingsRepository
 import com.domain.repositories.WeatherRepository
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.ClientRequestException
@@ -16,16 +17,19 @@ import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import java.net.UnknownHostException
 
 class WeatherRepositoryImpl(
-    private val weatherProvider: WeatherProvider
+    private val weatherProvider: WeatherProvider,
+    private val settingsRepository: SettingsRepository
 ) : WeatherRepository {
     override suspend fun searchCities(query: String): Flow<CheckDataResult<List<CityItem>, AppError>> =
         flow {
             try {
-                val response = weatherProvider.searchCities(query)
+                val currentLanguage = settingsRepository.languageFlow.first()
+                val response = weatherProvider.searchCities(query, currentLanguage.localeCode)
                 val cities = response.results?.map {
                     CityItem(
                         id = it.id,

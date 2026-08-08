@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +36,6 @@ import com.ui.theme.gray
 import com.ui.theme.limeGreen
 import com.ui.theme.magenta
 import com.ui.theme.red
-import com.ui.theme.royalBlue
 import com.ui.theme.transparent
 import com.ui.theme.vividOrange
 import com.ui.theme.yellow
@@ -312,31 +310,32 @@ fun Modifier.neonGlow(
 
 @Composable
 fun TemperatureBar(
-    minTemp: Double,
-    maxTemp: Double,
-    weeklyMin: Double,
-    weeklyMax: Double,
+    minTemp: Double?,
+    maxTemp: Double?,
     modifier: Modifier = Modifier
 ) {
-    val gradientColors = listOf(royalBlue, vividOrange, red)
-
     Canvas(modifier = modifier.height(6.dp)) {
+        if (minTemp == null || maxTemp == null) {
+            drawRoundRect(
+                color = gray.copy(alpha = 0.3f),
+                size = Size(size.width, size.height),
+                cornerRadius = CornerRadius(4.dp.toPx())
+            )
+            return@Canvas
+        }
+
+        val colors = mutableListOf<Color>()
+        val steps = 5
+
+        for (i in 0..steps) {
+            val temp = minTemp + (maxTemp - minTemp) * (i / steps.toFloat())
+            colors.add(temp.toTempColor())
+        }
+
         drawRoundRect(
-            color = gray.copy(alpha = 0.4f),
-            cornerRadius = CornerRadius(4.dp.toPx())
-        )
-
-        val range = weeklyMax - weeklyMin
-        val startFraction = if (range == 0.0) 0f else ((minTemp - weeklyMin) / range).toFloat()
-        val widthFraction = if (range == 0.0) 1f else ((maxTemp - minTemp) / range).toFloat()
-
-        val startX = size.width * startFraction
-        val barWidth = size.width * widthFraction
-
-        drawRoundRect(
-            brush = Brush.horizontalGradient(gradientColors),
-            topLeft = Offset(startX, 0f),
-            size = Size(barWidth, size.height),
+            brush = Brush.horizontalGradient(colors = colors),
+            topLeft = Offset(0f, 0f),
+            size = Size(size.width, size.height),
             cornerRadius = CornerRadius(4.dp.toPx())
         )
     }
@@ -365,12 +364,7 @@ internal fun UiToolsPreview() {
                     edgeColor = BaseTheme.colors.bgEdge,
                 ), contentAlignment = Alignment.BottomStart
         ) {
-            WindCard(
-                windStrength = "10",
-                windStatus = WindStatus.GENTLE,
-                timeDuration = "12",
-                modifier = Modifier.padding(16.dp)
-            )
+
         }
 
     }

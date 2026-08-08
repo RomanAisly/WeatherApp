@@ -56,11 +56,7 @@ class GetForecastUseCase(private val repository: WeatherRepository) {
     }
 
     private fun formatHour(hour: Int): String {
-        return when {
-            hour == 0 -> "12 AM"
-            hour == 12 -> "12 PM"
-            hour > 12 -> "${hour - 12} PM"
-            else -> "$hour AM"
-        }
+        val formattedHour = hour.toString().padStart(2, '0')
+        return "$formattedHour:00"
     }
 }
