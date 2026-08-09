@@ -2,6 +2,7 @@ package com.ui.navigation
 
 import android.graphics.BlurMaskFilter
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -25,7 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
@@ -65,9 +66,9 @@ fun BottomNavBar(
 
     val animatedIndex by animateFloatAsState(
         targetValue = selectedIndex.toFloat(),
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessLow
+        animationSpec = tween(
+            durationMillis = 500,
+            easing = FastOutSlowInEasing
         )
     )
 
@@ -77,38 +78,42 @@ fun BottomNavBar(
     if (layoutMode != LayoutMode.PORTRAIT) {
         Box(
             modifier = modifier
-                .drawBehind {
-                    val w = size.width
-                    val h = size.height
+                .drawWithCache {
+                    val path = Path()
 
-                    val tabHeight = h / bottomScreens.size
-                    val midY = (tabHeight * animatedIndex) + (tabHeight / 2f)
+                    onDrawBehind {
+                        val w = size.width
+                        val h = size.height
 
-                    val dipH = tabHeight * 0.8f
-                    val dipDepth = 30.dp.toPx()
-                    val topY = midY - dipH / 2f
-                    val bottomY = midY + dipH / 2f
+                        val tabHeight = h / bottomScreens.size
+                        val midY = (tabHeight * animatedIndex) + (tabHeight / 2f)
 
-                    val path = Path().apply {
-                        moveTo(0f, 0f)
-                        lineTo(w, 0f)
-                        lineTo(w, topY)
+                        val dipH = tabHeight * 0.8f
+                        val dipDepth = 30.dp.toPx()
+                        val topY = midY - dipH / 2f
+                        val bottomY = midY + dipH / 2f
 
-                        cubicTo(
+                        path.reset()
+                        path.moveTo(0f, 0f)
+                        path.lineTo(w, 0f)
+                        path.lineTo(w, topY)
+
+                        path.cubicTo(
                             w, topY + dipH / 5f,
                             w - dipDepth, midY - dipH / 4f,
                             w - dipDepth, midY
                         )
-                        cubicTo(
+                        path.cubicTo(
                             w - dipDepth, midY + dipH / 4f,
                             w, bottomY - dipH / 5f,
                             w, bottomY
                         )
-                        lineTo(w, h)
-                        lineTo(0f, h)
-                        close()
+                        path.lineTo(w, h)
+                        path.lineTo(0f, h)
+                        path.close()
+
+                        drawPath(path = path, brush = landGrad)
                     }
-                    drawPath(path = path, brush = landGrad)
                 },
             contentAlignment = Alignment.CenterEnd
         ) {
@@ -133,40 +138,44 @@ fun BottomNavBar(
     } else {
         Box(
             modifier = Modifier
-                .drawBehind {
-                    val w = size.width
-                    val h = size.height
+                .drawWithCache {
+                    val path = Path()
 
-                    val startY = 0f
+                    onDrawBehind {
+                        val w = size.width
+                        val h = size.height
 
-                    val tabWidth = w / bottomScreens.size
-                    val midX = (tabWidth * animatedIndex) + (tabWidth / 2f)
+                        val startY = 0f
 
-                    val dipW = tabWidth * 0.85f
-                    val dipDepth = 30.dp.toPx()
-                    val leftX = midX - dipW / 2f
-                    val rightX = midX + dipW / 2f
+                        val tabWidth = w / bottomScreens.size
+                        val midX = (tabWidth * animatedIndex) + (tabWidth / 2f)
 
-                    val path = Path().apply {
-                        moveTo(0f, startY)
-                        lineTo(leftX, startY)
+                        val dipW = tabWidth * 0.85f
+                        val dipDepth = 30.dp.toPx()
+                        val leftX = midX - dipW / 2f
+                        val rightX = midX + dipW / 2f
 
-                        cubicTo(
+                        path.reset()
+                        path.moveTo(0f, startY)
+                        path.lineTo(leftX, startY)
+
+                        path.cubicTo(
                             leftX + dipW / 5f, startY,
                             midX - dipW / 4f, startY + dipDepth,
                             midX, startY + dipDepth
                         )
-                        cubicTo(
+                        path.cubicTo(
                             midX + dipW / 4f, startY + dipDepth,
                             rightX - dipW / 5f, startY,
                             rightX, startY
                         )
-                        lineTo(w, startY)
-                        lineTo(w, h)
-                        lineTo(0f, h)
-                        close()
+                        path.lineTo(w, startY)
+                        path.lineTo(w, h)
+                        path.lineTo(0f, h)
+                        path.close()
+
+                        drawPath(path = path, brush = portGrad)
                     }
-                    drawPath(path = path, brush = portGrad)
                 }
                 .navigationBarsPadding(),
             contentAlignment = Alignment.BottomCenter
@@ -258,23 +267,29 @@ private fun TabItem(
                         scaleX = scaleAnim
                         scaleY = scaleAnim
                     }
-                    .drawBehind {
-                        drawIntoCanvas { canvas ->
-                            val paint = Paint().apply {
-                                color = iconShadow.copy(alpha = 0.6f)
-                                nativePaint.maskFilter = BlurMaskFilter(
-                                    16.dp.toPx(),
-                                    BlurMaskFilter.Blur.NORMAL
+                    .drawWithCache {
+                        val blurRadiusPx = 16.dp.toPx()
+                        val circleRadiusPx = 16.dp.toPx()
+                        val offsetYPx = 4.dp.toPx()
+                        val centerX = size.width / 2f
+                        val centerY = size.width / 2f + offsetYPx
+
+                        val glowPaint = Paint().apply {
+                            color = iconShadow.copy(alpha = 0.6f)
+                            nativePaint.maskFilter = BlurMaskFilter(
+                                blurRadiusPx,
+                                BlurMaskFilter.Blur.NORMAL
+                            )
+                        }
+
+                        onDrawBehind {
+                            drawIntoCanvas { canvas ->
+                                canvas.drawCircle(
+                                    center = Offset(centerX, centerY),
+                                    radius = circleRadiusPx,
+                                    paint = glowPaint
                                 )
                             }
-                            canvas.drawCircle(
-                                center = Offset(
-                                    x = size.width / 2f,
-                                    y = size.width / 2f + 4.dp.toPx()
-                                ),
-                                radius = 16.dp.toPx(),
-                                paint = paint
-                            )
                         }
                     }
             )

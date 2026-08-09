@@ -4,9 +4,7 @@ import com.domain.AppError
 import com.domain.CheckDataResult
 import com.domain.models.ForecastDetails
 import com.domain.repositories.WeatherRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -54,7 +52,7 @@ class GetForecastUseCase(private val repository: WeatherRepository) {
             } else {
                 result
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     private fun formatHour(hour: Int): String {

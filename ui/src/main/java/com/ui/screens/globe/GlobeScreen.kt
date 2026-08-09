@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -66,16 +67,12 @@ fun GlobeScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(displayHourly) { hourlyItem ->
-                HourlyWindCard(item = hourlyItem)
-            }
-        }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(displayHourly) { hourlyItem ->
-                HourlyPrecipCard(item = hourlyItem)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    HourlyWindCard(item = hourlyItem)
+                    HourlyPrecipCard(item = hourlyItem)
+                }
             }
         }
         BaseCard(
@@ -99,7 +96,7 @@ fun GlobeScreen(
 
                 displayDaily.forEach { dailyItem ->
                     DailyCard(
-                        item = dailyItem,
+                        item = dailyItem
                     )
                 }
             }
@@ -108,11 +105,15 @@ fun GlobeScreen(
 }
 
 @Composable
-private fun HourlyWindCard(item: HourlyForecast?) {
-    val windStatus = if (item != null) WindStatus.fromSpeed(item.windSpeed) else WindStatus.UNKNOWN
-    val timeText = item?.time ?: "--"
-
-    BaseCard(modifier = Modifier.width(70.dp)) {
+fun HourlyBaseCard(
+    timeText: String,
+    valueText: String,
+    temperatureText: String,
+    lottieRes: Int?,
+    lottieTint: Color?,
+    modifier: Modifier = Modifier
+) {
+    BaseCard(modifier = modifier.width(70.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -122,71 +123,69 @@ private fun HourlyWindCard(item: HourlyForecast?) {
         ) {
             BaseText(text = timeText)
 
-            if (windStatus.lottieRes != null) {
+            if (lottieRes != null) {
                 AnimLoad(
-                    resId = windStatus.lottieRes, tintColor = when (windStatus) {
-                        WindStatus.GENTLE -> lightBlue
-                        WindStatus.LIGHT -> {
-                            BaseTheme.colors.text
-                        }
-
-                        else -> null
-                    }, modifier = Modifier.size(28.dp)
+                    resId = lottieRes,
+                    tintColor = lottieTint,
+                    modifier = Modifier.size(28.dp)
                 )
             } else {
                 Box(modifier = Modifier.size(28.dp))
             }
+
             BaseText(
-                text = item?.let { "${it.windSpeed.roundToInt()}" } ?: "--"
+                text = valueText,
+                textStyle = MaterialTheme.typography.bodySmall,
             )
+
             BaseText(
-                text = item?.let { "${it.temperature.roundToInt()}°" } ?: "--°",
+                text = temperatureText,
                 textStyle = MaterialTheme.typography.titleMedium
             )
         }
     }
+}
+
+@Composable
+private fun HourlyWindCard(item: HourlyForecast?) {
+    val windStatus = if (item != null) WindStatus.fromSpeed(item.windSpeed) else WindStatus.UNKNOWN
+
+    val lottieTint = when (windStatus) {
+        WindStatus.GENTLE -> lightBlue
+        WindStatus.LIGHT -> BaseTheme.colors.text
+        else -> null
+    }
+
+    HourlyBaseCard(
+        timeText = item?.let { if (it.isNow) stringResource(R.string.now) else it.time } ?: "--",
+        valueText = item?.let { "${it.windSpeed.roundToInt()}" } ?: "--",
+        temperatureText = item?.let { "${it.temperature.roundToInt()}°" } ?: "--°",
+        lottieRes = windStatus.lottieRes,
+        lottieTint = lottieTint
+    )
 }
 
 @Composable
 private fun HourlyPrecipCard(item: HourlyForecast?) {
     val precipType =
         if (item != null) PrecipitationType.fromWmoCode(item.weatherCode) else PrecipitationType.NONE
-    val timeText = item?.time ?: "--"
 
-    BaseCard(modifier = Modifier.width(70.dp)) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            BaseText(text = timeText)
+    val lottieTint = if (precipType in listOf(PrecipitationType.RAIN, PrecipitationType.DRIZZLE)) {
+        BaseTheme.colors.rain
+    } else null
 
-            if (precipType.lottieRes != null) {
-                AnimLoad(
-                    resId = precipType.lottieRes,
-                    tintColor = if (precipType == PrecipitationType.RAIN || precipType == PrecipitationType.DRIZZLE) BaseTheme.colors.rain else null,
-                    modifier = Modifier.size(28.dp)
-                )
-            } else {
-                Box(modifier = Modifier.size(28.dp))
-            }
-            BaseText(
-                text = item?.let { "${it.precipitation} mm" } ?: "-- mm",
-                textStyle = MaterialTheme.typography.bodySmall,
-            )
-            BaseText(
-                text = item?.let { "${it.temperature.roundToInt()}°" } ?: "--°",
-                textStyle = MaterialTheme.typography.titleMedium
-            )
-        }
-    }
+    HourlyBaseCard(
+        timeText = item?.let { if (it.isNow) stringResource(R.string.now) else it.time } ?: "--",
+        valueText = item?.let { "${it.precipitation} mm" } ?: "-- mm",
+        temperatureText = item?.let { "${it.temperature.roundToInt()}°" } ?: "--°",
+        lottieRes = precipType.lottieRes,
+        lottieTint = lottieTint
+    )
 }
 
 @Composable
 private fun DailyCard(
-    item: DailyForecast?,
+    item: DailyForecast?
 ) {
     val weatherType = if (item != null) WeatherType.fromWmoCode(
         item.weatherCode,
@@ -202,7 +201,6 @@ private fun DailyCard(
     } else {
         stringResource(R.string.unknown)
     }
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -214,7 +212,8 @@ private fun DailyCard(
             maxLines = 1
         )
         Row(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f),
             horizontalArrangement = Arrangement.spacedBy(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -227,7 +226,8 @@ private fun DailyCard(
             BaseIcon(precipType.staticIconRes)
         }
         Row(
-            modifier = Modifier.weight(1.5f),
+            modifier = Modifier
+                .weight(1.5f),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

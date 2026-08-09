@@ -58,6 +58,7 @@
     <string name="hour_format">%1$s h</string>
     <string name="kmh_abbr">%1$s km/h</string>
     <string name="time">TIME</string>
+    <string name="now">NOW</string>
     <string name="today">Today</string>
     <string name="_10_day_forecast">10-DAY FORECAST</string>
 

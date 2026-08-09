@@ -5,41 +5,41 @@ import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
 import com.domain.CurrentCityManager
 import com.domain.usecases.GetForecastUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class GlobeViewModel(
     private val getForecastUseCase: GetForecastUseCase,
-    currentCityManager: CurrentCityManager
+    private val currentCityManager: CurrentCityManager
 ) : ViewModel() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val state: StateFlow<GlobeState> = currentCityManager.selectedCity
-        .flatMapLatest { city ->
-            if (city != null) {
-                getForecastUseCase(city.latitude, city.longitude)
-                    .map { result ->
+    private val _state = MutableStateFlow(GlobeState())
+    val state = _state.asStateFlow()
+
+    init {
+        observeCityChanges()
+    }
+
+    private fun observeCityChanges() {
+        viewModelScope.launch {
+            currentCityManager.selectedCity
+                .filterNotNull()
+                .collectLatest { city ->
+                    getForecastUseCase(city.latitude, city.longitude).collect { result ->
                         if (result is CheckDataResult.Success) {
-                            GlobeState(
-                                hourlyForecasts = result.data.hourlyForecast,
-                                dailyForecasts = result.data.dailyForecast
-                            )
-                        } else {
-                            GlobeState()
+                            _state.update {
+                                it.copy(
+                                    hourlyForecasts = result.data.hourlyForecast,
+                                    dailyForecasts = result.data.dailyForecast
+                                )
+                            }
                         }
                     }
-            } else {
-                flowOf(GlobeState())
-            }
+                }
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = GlobeState()
-        )
+    }
 }

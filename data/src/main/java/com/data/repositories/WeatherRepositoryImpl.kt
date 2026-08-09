@@ -46,7 +46,7 @@ class WeatherRepositoryImpl(
             } catch (e: Exception) {
                 emit(CheckDataResult.Error(handleError(e)))
             }
-        }.flowOn(Dispatchers.IO)
+        }
 
     override suspend fun getWeather(
         lat: Double,

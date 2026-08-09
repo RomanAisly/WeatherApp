@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ui.theme.BaseTheme
@@ -59,15 +60,38 @@ fun BaseCard(
 }
 
 @Composable
-fun WeatherCard(
-    weatherType: WeatherType,
-    cloudCover: String,
+fun TimeFooter(
     timeDuration: String,
-    modifier: Modifier = Modifier
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium
 ) {
-    BaseCard(
-        modifier = modifier
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        BaseText(
+            text = stringResource(R.string.time),
+            maxLines = 1
+        )
+        BaseText(
+            text = stringResource(R.string.hour_format, timeDuration),
+            textStyle = textStyle
+        )
+    }
+}
+
+@Composable
+fun WidgetCard(
+    title: String,
+    iconRes: Int,
+    valueText: String,
+    lottieRes: Int?,
+    modifier: Modifier = Modifier,
+    lottieTint: Color? = null,
+    iconTint: Color = BaseTheme.colors.widgetIcon,
+    bottomContent: @Composable () -> Unit
+) {
+    BaseCard(modifier = modifier) {
         Column(
             modifier = Modifier.padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -77,9 +101,9 @@ fun WeatherCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BaseIcon(R.drawable.cloud, iconTint = BaseTheme.colors.widgetIcon)
+                BaseIcon(iconRes, iconTint = iconTint)
                 BaseText(
-                    text = stringResource(weatherType.title),
+                    text = title,
                     textStyle = MaterialTheme.typography.titleSmall,
                     maxLines = 1
                 )
@@ -89,35 +113,41 @@ fun WeatherCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (weatherType.lottieRes != null) {
+                if (lottieRes != null) {
                     AnimLoad(
-                        resId = weatherType.lottieRes,
-                        tintColor = if (weatherType == WeatherType.OVERCAST) silver else null,
+                        resId = lottieRes,
+                        tintColor = lottieTint,
                         modifier = Modifier.size(38.dp),
                     )
                 } else {
                     Box(modifier = Modifier.size(38.dp))
                 }
                 BaseText(
-                    text = cloudCover,
+                    text = valueText,
                     textStyle = MaterialTheme.typography.titleMedium
                 )
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BaseText(
-                    text = stringResource(R.string.time),
-                    maxLines = 1
-                )
-                BaseText(
-                    text = stringResource(R.string.hour_format, timeDuration),
-                    textStyle = MaterialTheme.typography.titleMedium
-                )
-            }
+            bottomContent()
         }
+    }
+}
+
+@Composable
+fun WeatherCard(
+    weatherType: WeatherType,
+    cloudCover: String,
+    timeDuration: String,
+    modifier: Modifier = Modifier
+) {
+    WidgetCard(
+        title = stringResource(weatherType.title),
+        iconRes = R.drawable.cloud,
+        valueText = cloudCover,
+        lottieRes = weatherType.lottieRes,
+        lottieTint = if (weatherType == WeatherType.OVERCAST) silver else null,
+        modifier = modifier
+    ) {
+        TimeFooter(timeDuration)
     }
 }
 
@@ -128,66 +158,21 @@ fun WindCard(
     timeDuration: String,
     modifier: Modifier = Modifier
 ) {
-    BaseCard(
+    val lottieTint = when (windStatus) {
+        WindStatus.GENTLE -> lightBlue
+        WindStatus.LIGHT -> BaseTheme.colors.text
+        else -> null
+    }
+
+    WidgetCard(
+        title = stringResource(windStatus.title),
+        iconRes = R.drawable.wind,
+        valueText = stringResource(R.string.kmh_abbr, windStrength),
+        lottieRes = windStatus.lottieRes,
+        lottieTint = lottieTint,
         modifier = modifier
     ) {
-        Column(
-            modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BaseIcon(R.drawable.wind, iconTint = BaseTheme.colors.widgetIcon)
-                BaseText(
-                    stringResource(windStatus.title),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                    maxLines = 1
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                if (windStatus.lottieRes != null) {
-                    AnimLoad(
-                        resId = windStatus.lottieRes,
-                        tintColor = when (windStatus) {
-                            WindStatus.GENTLE -> lightBlue
-                            WindStatus.LIGHT -> {
-                                BaseTheme.colors.text
-                            }
-
-                            else -> null
-                        },
-                        modifier = Modifier.size(38.dp),
-                    )
-                } else {
-                    Box(modifier = Modifier.size(38.dp))
-                }
-                BaseText(
-                    stringResource(R.string.kmh_abbr, windStrength),
-                    textStyle = MaterialTheme.typography.titleMedium
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BaseText(
-                    text = stringResource(R.string.time),
-                    maxLines = 1
-                )
-                BaseText(
-                    text = stringResource(R.string.hour_format, timeDuration),
-                    textStyle = MaterialTheme.typography.titleMedium
-                )
-            }
-        }
+        TimeFooter(timeDuration)
     }
 }
 
@@ -198,60 +183,15 @@ fun PrecipitationCard(
     timeDuration: String,
     modifier: Modifier = Modifier
 ) {
-    BaseCard(
+    WidgetCard(
+        title = stringResource(type.title),
+        iconRes = type.staticIconRes,
+        valueText = amount,
+        lottieRes = type.lottieRes,
+        lottieTint = if (type == PrecipitationType.RAIN) lightBlue else null,
         modifier = modifier
     ) {
-        Column(
-            modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BaseIcon(iconId = type.staticIconRes, iconTint = BaseTheme.colors.widgetIcon)
-                BaseText(
-                    text = stringResource(type.title),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                    maxLines = 1
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                if (type.lottieRes != null) {
-                    AnimLoad(
-                        resId = type.lottieRes,
-                        tintColor = if (type == PrecipitationType.RAIN) lightBlue else null,
-                        modifier = Modifier.size(38.dp),
-                    )
-                } else {
-                    Box(modifier = Modifier.size(38.dp))
-                }
-                BaseText(
-                    text = amount,
-                    textStyle = MaterialTheme.typography.titleMedium
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BaseText(
-                    text = stringResource(R.string.time),
-                    maxLines = 1
-                )
-                BaseText(
-                    text = stringResource(R.string.hour_format, timeDuration),
-                    textStyle = MaterialTheme.typography.titleSmall
-                )
-            }
-        }
+        TimeFooter(timeDuration, textStyle = MaterialTheme.typography.titleSmall)
     }
 }
 
@@ -261,48 +201,16 @@ fun UvCard(
     uvStatus: UvStatus,
     modifier: Modifier = Modifier
 ) {
-    BaseCard(
+    WidgetCard(
+        title = stringResource(uvStatus.title),
+        iconRes = R.drawable.uv,
+        valueText = uvIndex,
+        lottieRes = uvStatus.lottieRes,
+        lottieTint = uvStatus.lottieColor,
         modifier = modifier
     ) {
-        Column(
-            modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BaseIcon(R.drawable.uv, iconTint = BaseTheme.colors.widgetIcon)
-                BaseText(
-                    text = stringResource(uvStatus.title),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                    maxLines = 1
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                if (uvStatus.lottieRes != null) {
-                    AnimLoad(
-                        resId = uvStatus.lottieRes,
-                        tintColor = uvStatus.lottieColor,
-                        modifier = Modifier.size(40.dp),
-                    )
-                } else {
-                    Box(modifier = Modifier.size(40.dp))
-                }
-                BaseText(
-                    text = uvIndex,
-                    textStyle = MaterialTheme.typography.titleMedium
-                )
-            }
-            UvStatusIndicator(
-                currentStatus = uvStatus,
-                modifier = Modifier.align(Alignment.Start)
-            )
-        }
+        UvStatusIndicator(
+            currentStatus = uvStatus
+        )
     }
 }

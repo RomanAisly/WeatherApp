@@ -61,7 +61,7 @@ fun SettingsScreen(paddingValues: PaddingValues) {
     ) {
         BaseText(
             stringResource(R.string.theme),
-            textStyle = MaterialTheme.typography.headlineLarge,
+            textStyle = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding() + 16.dp)
         )
 
@@ -80,7 +80,7 @@ fun SettingsScreen(paddingValues: PaddingValues) {
 
         BaseText(
             stringResource(R.string.language),
-            textStyle = MaterialTheme.typography.headlineLarge
+            textStyle = MaterialTheme.typography.titleLarge
         )
         Column(
             modifier = Modifier
