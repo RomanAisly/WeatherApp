@@ -5,16 +5,17 @@ import android.graphics.PorterDuffColorFilter
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.RenderMode
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
@@ -31,29 +32,28 @@ fun AnimLoad(
         propagateMinConstraints = true
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(resId))
-        val progress by animateLottieCompositionAsState(
-            composition,
-            iterations = LottieConstants.IterateForever,
-            isPlaying = true
-        )
-        val dynamicProperties = rememberLottieDynamicProperties(
-            rememberLottieDynamicProperty(
-                property = LottieProperty.COLOR_FILTER,
-                value = tintColor?.let { color ->
-                    PorterDuffColorFilter(
-                        color.toArgb(),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
-                },
-                keyPath = arrayOf("**")
+        val dynamicProperties = if (tintColor != null) {
+            val colorFilter = remember(tintColor) {
+                PorterDuffColorFilter(tintColor.toArgb(), PorterDuff.Mode.SRC_ATOP)
+            }
+            rememberLottieDynamicProperties(
+                rememberLottieDynamicProperty(
+                    property = LottieProperty.COLOR_FILTER,
+                    value = colorFilter,
+                    keyPath = arrayOf("**")
+                )
             )
-        )
+        } else {
+            null
+        }
 
         LottieAnimation(
             composition = composition,
-            progress = { progress },
             dynamicProperties = dynamicProperties,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            isPlaying = true,
+            iterations = LottieConstants.IterateForever,
+            renderMode = RenderMode.HARDWARE
         )
     }
 }

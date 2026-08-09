@@ -16,9 +16,11 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.util.network.UnresolvedAddressException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.net.UnknownHostException
 
 class WeatherRepositoryImpl(
@@ -44,7 +46,7 @@ class WeatherRepositoryImpl(
             } catch (e: Exception) {
                 emit(CheckDataResult.Error(handleError(e)))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun getWeather(
         lat: Double,
@@ -57,7 +59,7 @@ class WeatherRepositoryImpl(
         } catch (e: Exception) {
             emit(CheckDataResult.Error(handleError(e)))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun get10DayForecast(
         lat: Double,
@@ -69,7 +71,7 @@ class WeatherRepositoryImpl(
         } catch (e: Exception) {
             emit(CheckDataResult.Error(handleError(e)))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     private fun handleError(e: Exception): AppError {
         Log.e("WeatherRepository", "Network Error: ", e)

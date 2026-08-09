@@ -2,7 +2,6 @@
 <resources>
     <!-- GENERAL UI & DIALOGS -->
     <string name="unknown">UNKNOWN</string>
-    <string name="cancel">Cancel</string>
     <string name="choose_your_city">Choose your city</string>
     <string name="your_city">Your city</string>
     <string name="search_city">Search city…</string>
@@ -50,7 +49,6 @@
     <string name="strong">STRONG</string>
 
     <!-- UV INDEX -->
-    <string name="level">LEVEL</string>
     <string name="uv_low">LOW</string>
     <string name="uv_high">HIGH</string>
     <string name="uv_very_high">VERY HIGH</string>
@@ -60,7 +58,6 @@
     <string name="hour_format">%1$s h</string>
     <string name="kmh_abbr">%1$s km/h</string>
     <string name="time">TIME</string>
-    <string name="now">Now</string>
     <string name="today">Today</string>
     <string name="_10_day_forecast">10-DAY FORECAST</string>
 

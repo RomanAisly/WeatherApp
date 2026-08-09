@@ -52,8 +52,6 @@ fun SettingsScreen(paddingValues: PaddingValues) {
             .fillMaxSize()
             .background(BaseTheme.colors.settScreenBack)
             .padding(
-                top = paddingValues.calculateTopPadding() + 16.dp,
-                bottom = paddingValues.calculateBottomPadding() + 16.dp,
                 start = paddingValues.calculateStartPadding(layoutDirection),
                 end = paddingValues.calculateEndPadding(layoutDirection)
             )
@@ -61,7 +59,11 @@ fun SettingsScreen(paddingValues: PaddingValues) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        BaseText(stringResource(R.string.theme), textStyle = MaterialTheme.typography.headlineLarge)
+        BaseText(
+            stringResource(R.string.theme),
+            textStyle = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.padding(top = paddingValues.calculateTopPadding() + 16.dp)
+        )
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -81,7 +83,9 @@ fun SettingsScreen(paddingValues: PaddingValues) {
             textStyle = MaterialTheme.typography.headlineLarge
         )
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             AppLanguage.entries.forEach { language ->
@@ -112,7 +116,7 @@ private fun ThemeItem(option: AppTheme, isSelected: Boolean, onClick: (AppTheme)
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        BaseIcon(option.getIconRes())
+        BaseIcon(option.getIconRes(), iconTint = BaseTheme.colors.iconTint)
         BaseText(
             stringResource(option.getTitleRes()),
             textStyle = MaterialTheme.typography.bodyLarge,

@@ -35,7 +35,8 @@ data class BaseColors(
     val cardEnd: Color,
     val alertStart: Color,
     val alertEnd: Color,
-    val cardGlow: Color
+    val cardGlow: Color,
+    val rain: Color
 ) {
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
@@ -47,7 +48,7 @@ data class BaseColors(
         listOf(alertStart, alertEnd)
     )
     val settScreenBack: Brush = Brush.horizontalGradient(
-        listOf(bottomBarStart, bottomBarEnd)
+        listOf(cardEnd, bottomBarEnd)
     )
     val cardBack: Brush = Brush.linearGradient(
         listOf(cardStart, cardEnd)
@@ -70,7 +71,8 @@ val lightColors = BaseColors(
     cardEnd = skyBlue.copy(alpha = 0.5f),
     alertStart = mintCream.copy(alpha = 0.5f),
     alertEnd = lightGray.copy(alpha = 0.5f),
-    cardGlow = gray
+    cardGlow = gray,
+    rain = deepSkyBlue
 )
 
 val darkColors = BaseColors(
@@ -89,7 +91,8 @@ val darkColors = BaseColors(
     cardEnd = deepDarkGray.copy(alpha = 0.5f),
     alertStart = indigo.copy(alpha = 0.5f),
     alertEnd = twilight.copy(alpha = 0.5f),
-    cardGlow = persianGreen
+    cardGlow = persianGreen,
+    rain = lightBlue
 )
 
 object BaseTheme {
@@ -158,6 +161,7 @@ private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
         cardEnd = animateColorAsState(targetColor.cardEnd, animationSpec).value,
         alertStart = animateColorAsState(targetColor.alertStart, animationSpec).value,
         alertEnd = animateColorAsState(targetColor.alertEnd, animationSpec).value,
-        cardGlow = animateColorAsState(targetColor.cardGlow, animationSpec).value
+        cardGlow = animateColorAsState(targetColor.cardGlow, animationSpec).value,
+        rain = animateColorAsState(targetColor.rain, animationSpec).value
     )
 }

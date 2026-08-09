@@ -27,6 +27,7 @@ import com.domain.models.DailyForecast
 import com.domain.models.HourlyForecast
 import com.ui.components.AnimLoad
 import com.ui.components.BaseCard
+import com.ui.components.BaseIcon
 import com.ui.components.BaseText
 import com.ui.components.PrecipitationType
 import com.ui.components.TemperatureBar
@@ -163,7 +164,11 @@ private fun HourlyPrecipCard(item: HourlyForecast?) {
             BaseText(text = timeText)
 
             if (precipType.lottieRes != null) {
-                AnimLoad(resId = precipType.lottieRes, modifier = Modifier.size(28.dp))
+                AnimLoad(
+                    resId = precipType.lottieRes,
+                    tintColor = if (precipType == PrecipitationType.RAIN || precipType == PrecipitationType.DRIZZLE) BaseTheme.colors.rain else null,
+                    modifier = Modifier.size(28.dp)
+                )
             } else {
                 Box(modifier = Modifier.size(28.dp))
             }
@@ -182,7 +187,6 @@ private fun HourlyPrecipCard(item: HourlyForecast?) {
 @Composable
 private fun DailyCard(
     item: DailyForecast?,
-
 ) {
     val weatherType = if (item != null) WeatherType.fromWmoCode(
         item.weatherCode,
@@ -206,29 +210,21 @@ private fun DailyCard(
         BaseText(
             text = dayText,
             modifier = Modifier.weight(1f),
-            textStyle = MaterialTheme.typography.titleMedium,
+            textStyle = MaterialTheme.typography.titleSmall,
             maxLines = 1
         )
         Row(
             modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (weatherType.lottieRes != null) {
-                AnimLoad(resId = weatherType.lottieRes, modifier = Modifier.size(28.dp))
+            if (weatherType.staticIconRes != null) {
+                BaseIcon(weatherType.staticIconRes)
             } else {
-                Box(modifier = Modifier.size(28.dp))
+                Box(modifier = Modifier.size(32.dp))
             }
 
-            if (precipType.lottieRes != null) {
-                AnimLoad(
-                    resId = precipType.lottieRes,
-                    modifier = Modifier.size(28.dp),
-                    tintColor = if (precipType == PrecipitationType.RAIN) lightBlue else null
-                )
-            } else {
-                Box(modifier = Modifier.size(28.dp))
-            }
+            BaseIcon(precipType.staticIconRes)
         }
         Row(
             modifier = Modifier.weight(1.5f),
@@ -240,8 +236,8 @@ private fun DailyCard(
                 textStyle = MaterialTheme.typography.bodyLarge
             )
             TemperatureBar(
-                minTemp = item?.minTemp ?: 0.0,
-                maxTemp = item?.maxTemp ?: 0.0,
+                minTemp = item?.minTemp,
+                maxTemp = item?.maxTemp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 8.dp)

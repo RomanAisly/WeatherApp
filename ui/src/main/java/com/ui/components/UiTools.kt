@@ -3,15 +3,15 @@ package com.ui.components
 import android.content.res.Configuration
 import android.graphics.BlurMaskFilter
 import android.graphics.Paint
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -47,19 +47,19 @@ enum class LayoutMode {
     FOLD_TABLET
 }
 
-enum class WeatherType(val lottieRes: Int?, val title: Int) {
+enum class WeatherType(val lottieRes: Int?, val title: Int, val staticIconRes: Int? = null) {
     UNKNOWN(null, R.string.unknown),
 
-    CLEAR_DAY(R.raw.clear_day, R.string.clear),
-    CLEAR_NIGHT(R.raw.clear_night, R.string.clear),
+    CLEAR_DAY(R.raw.clear_day, R.string.clear, R.drawable.clear_day),
+    CLEAR_NIGHT(R.raw.clear_night, R.string.clear, R.drawable.clear_night),
 
-    MAINLY_CLEAR_DAY(R.raw.mainly_clear_day, R.string.fair),
-    MAINLY_CLEAR_NIGHT(R.raw.mainly_clear_night, R.string.fair),
+    MAINLY_CLEAR_DAY(R.raw.mainly_clear_day, R.string.fair, R.drawable.mainly_clear_day),
+    MAINLY_CLEAR_NIGHT(R.raw.mainly_clear_night, R.string.fair, R.drawable.mainly_clear_night),
 
-    PARTLY_CLOUDY_DAY(R.raw.partly_cloudy_day, R.string.cloudy),
-    PARTLY_CLOUDY_NIGHT(R.raw.partly_cloudy_night, R.string.cloudy),
-    OVERCAST(R.raw.overcast, R.string.overcast),
-    FOG(R.raw.fog, R.string.fog);
+    PARTLY_CLOUDY_DAY(R.raw.partly_cloudy_day, R.string.cloudy, R.drawable.partly_cloudy_day),
+    PARTLY_CLOUDY_NIGHT(R.raw.partly_cloudy_night, R.string.cloudy, R.drawable.partly_cloudy_night),
+    OVERCAST(R.raw.overcast, R.string.overcast, R.drawable.overcast),
+    FOG(R.raw.fog, R.string.fog, R.drawable.fog);
 
     companion object {
         fun fromWmoCode(code: Int, isDay: Boolean): WeatherType {
@@ -153,62 +153,68 @@ fun UvStatusIndicator(
     currentStatus: UvStatus,
     modifier: Modifier = Modifier
 ) {
-    val circleRadius = 4.dp
-    val glowRadius = 8.dp
-    val activeStatuses = UvStatus.entries.filter { it.lottieColor != null }
+    val activeStatuses = remember { UvStatus.entries.filter { it.lottieColor != null } }
 
-    Canvas(
+    Spacer(
         modifier = modifier
             .fillMaxWidth()
             .height(16.dp)
-    ) {
-        val spacing = 4.dp.toPx()
-        val totalSpacing = spacing * (activeStatuses.size - 1)
-        val segmentWidth = (size.width - totalSpacing) / activeStatuses.size
-        val lineThickness = 4.dp.toPx()
-        val cornerRadius = CornerRadius(lineThickness / 2, lineThickness / 2)
-        var startX = 0f
+            .drawWithCache {
+                val circleRadiusPx = 4.dp.toPx()
+                val glowRadiusPx = 8.dp.toPx()
+                val spacingPx = 4.dp.toPx()
+                val totalSpacing = spacingPx * (activeStatuses.size - 1)
+                val segmentWidth = (size.width - totalSpacing) / activeStatuses.size
+                val lineThicknessPx = 4.dp.toPx()
+                val cornerRadius = CornerRadius(lineThicknessPx / 2, lineThicknessPx / 2)
 
-        activeStatuses.forEach { status ->
-            val color = status.lottieColor ?: gray
-            val isSelected = status == currentStatus
-            val alpha = if (isSelected) 1f else 0.4f
-
-            drawRoundRect(
-                color = color,
-                topLeft = Offset(x = startX, y = size.height / 2f - lineThickness / 2f),
-                size = Size(width = segmentWidth, height = lineThickness),
-                cornerRadius = cornerRadius,
-                alpha = alpha
-            )
-            if (isSelected) {
-                val centerX = startX + segmentWidth / 2f
-                val centerY = size.height / 2f
-
-                drawIntoCanvas { canvas ->
-                    val paint = Paint().apply {
-                        this.color = color.toArgb()
-                        this.maskFilter = BlurMaskFilter(
-                            glowRadius.toPx(),
-                            BlurMaskFilter.Blur.NORMAL
-                        )
-                    }
-                    canvas.nativeCanvas.drawCircle(
-                        centerX,
-                        centerY,
-                        circleRadius.toPx() + 4.dp.toPx(),
-                        paint
-                    )
+                val glowPaint = Paint().apply {
+                    this.color =
+                        (currentStatus.lottieColor ?: gray).toArgb() // Берем цвет выбранного
+                    this.maskFilter = BlurMaskFilter(glowRadiusPx, BlurMaskFilter.Blur.NORMAL)
                 }
-                drawCircle(
-                    color = color.lighten(),
-                    radius = circleRadius.toPx(),
-                    center = Offset(centerX, centerY)
-                )
+
+                onDrawBehind {
+                    var startX = 0f
+                    activeStatuses.forEach { status ->
+                        val color = status.lottieColor ?: gray
+                        val isSelected = status == currentStatus
+                        val alpha = if (isSelected) 1f else 0.4f
+
+                        drawRoundRect(
+                            color = color,
+                            topLeft = Offset(
+                                x = startX,
+                                y = size.height / 2f - lineThicknessPx / 2f
+                            ),
+                            size = Size(width = segmentWidth, height = lineThicknessPx),
+                            cornerRadius = cornerRadius,
+                            alpha = alpha
+                        )
+
+                        if (isSelected) {
+                            val centerX = startX + segmentWidth / 2f
+                            val centerY = size.height / 2f
+
+                            drawIntoCanvas { canvas ->
+                                canvas.nativeCanvas.drawCircle(
+                                    centerX,
+                                    centerY,
+                                    circleRadiusPx + 4.dp.toPx(),
+                                    glowPaint
+                                )
+                            }
+                            drawCircle(
+                                color = color.lighten(),
+                                radius = circleRadiusPx,
+                                center = Offset(centerX, centerY)
+                            )
+                        }
+                        startX += segmentWidth + spacingPx
+                    }
+                }
             }
-            startX += segmentWidth + spacing
-        }
-    }
+    )
 }
 
 fun Modifier.radialScreenBackground(
@@ -248,8 +254,8 @@ fun Modifier.neonGlow(
     blurRadius: Dp = 2.dp,
     offsetY: Dp = 2.dp,
     shape: Shape
-): Modifier = this.drawBehind {
-    if (blurRadius <= 0.dp || color == transparent) return@drawBehind
+): Modifier = this.drawWithCache {
+    if (blurRadius <= 0.dp || color == transparent) return@drawWithCache onDrawBehind { }
     val glowRadiusPx = blurRadius.toPx()
     val offsetYPx = offsetY.toPx()
     val outline = shape.createOutline(size, layoutDirection, this)
@@ -262,46 +268,48 @@ fun Modifier.neonGlow(
         }
     }
 
-    clipPath(clipPath, clipOp = ClipOp.Difference) {
-        drawIntoCanvas { canvas ->
-            val paint = Paint().apply {
-                this.color = color.toArgb()
-                this.maskFilter = BlurMaskFilter(glowRadiusPx, BlurMaskFilter.Blur.NORMAL)
-            }
+    val paint = Paint().apply {
+        this.color = color.toArgb()
+        this.maskFilter = BlurMaskFilter(glowRadiusPx, BlurMaskFilter.Blur.NORMAL)
+    }
 
-            when (outline) {
-                is Outline.Rounded -> {
-                    val roundRect = outline.roundRect
-                    val cornerRadius = roundRect.topLeftCornerRadius.x
-                    canvas.nativeCanvas.drawRoundRect(
-                        roundRect.left,
-                        roundRect.top + offsetYPx,
-                        roundRect.right,
-                        roundRect.bottom + offsetYPx,
-                        cornerRadius, cornerRadius,
-                        paint
-                    )
-                }
+    onDrawBehind {
+        clipPath(clipPath, clipOp = ClipOp.Difference) {
+            drawIntoCanvas { canvas ->
+                when (outline) {
+                    is Outline.Rounded -> {
+                        val roundRect = outline.roundRect
+                        val cornerRadius = roundRect.topLeftCornerRadius.x
+                        canvas.nativeCanvas.drawRoundRect(
+                            roundRect.left,
+                            roundRect.top + offsetYPx,
+                            roundRect.right,
+                            roundRect.bottom + offsetYPx,
+                            cornerRadius, cornerRadius,
+                            paint
+                        )
+                    }
 
-                is Outline.Rectangle -> {
-                    val rect = outline.rect
-                    canvas.nativeCanvas.drawRect(
-                        rect.left,
-                        rect.top + offsetYPx,
-                        rect.right,
-                        rect.bottom + offsetYPx,
-                        paint
-                    )
-                }
+                    is Outline.Rectangle -> {
+                        val rect = outline.rect
+                        canvas.nativeCanvas.drawRect(
+                            rect.left,
+                            rect.top + offsetYPx,
+                            rect.right,
+                            rect.bottom + offsetYPx,
+                            paint
+                        )
+                    }
 
-                is Outline.Generic -> {
-                    canvas.save()
-                    canvas.translate(0f, offsetYPx)
-                    canvas.nativeCanvas.drawPath(
-                        outline.path.asAndroidPath(),
-                        paint
-                    )
-                    canvas.restore()
+                    is Outline.Generic -> {
+                        canvas.save()
+                        canvas.translate(0f, offsetYPx)
+                        canvas.nativeCanvas.drawPath(
+                            outline.path.asAndroidPath(),
+                            paint
+                        )
+                        canvas.restore()
+                    }
                 }
             }
         }
@@ -314,31 +322,40 @@ fun TemperatureBar(
     maxTemp: Double?,
     modifier: Modifier = Modifier
 ) {
-    Canvas(modifier = modifier.height(6.dp)) {
-        if (minTemp == null || maxTemp == null) {
-            drawRoundRect(
-                color = gray.copy(alpha = 0.3f),
-                size = Size(size.width, size.height),
-                cornerRadius = CornerRadius(4.dp.toPx())
-            )
-            return@Canvas
-        }
+    Spacer(
+        modifier = modifier
+            .height(6.dp)
+            .drawWithCache {
+                val cornerRadiusPx = CornerRadius(4.dp.toPx())
 
-        val colors = mutableListOf<Color>()
-        val steps = 5
+                val gradientBrush = if (minTemp != null && maxTemp != null) {
+                    val colors = mutableListOf<Color>()
+                    val steps = 5
+                    for (i in 0..steps) {
+                        val temp = minTemp + (maxTemp - minTemp) * (i / steps.toFloat())
+                        colors.add(temp.toTempColor())
+                    }
+                    Brush.horizontalGradient(colors = colors)
+                } else null
 
-        for (i in 0..steps) {
-            val temp = minTemp + (maxTemp - minTemp) * (i / steps.toFloat())
-            colors.add(temp.toTempColor())
-        }
-
-        drawRoundRect(
-            brush = Brush.horizontalGradient(colors = colors),
-            topLeft = Offset(0f, 0f),
-            size = Size(size.width, size.height),
-            cornerRadius = CornerRadius(4.dp.toPx())
-        )
-    }
+                onDrawBehind {
+                    if (gradientBrush == null) {
+                        drawRoundRect(
+                            color = gray.copy(alpha = 0.3f),
+                            size = size,
+                            cornerRadius = cornerRadiusPx
+                        )
+                    } else {
+                        drawRoundRect(
+                            brush = gradientBrush,
+                            topLeft = Offset(0f, 0f),
+                            size = size,
+                            cornerRadius = cornerRadiusPx
+                        )
+                    }
+                }
+            }
+    )
 }
 
 @Composable
@@ -364,7 +381,7 @@ internal fun UiToolsPreview() {
                     edgeColor = BaseTheme.colors.bgEdge,
                 ), contentAlignment = Alignment.BottomStart
         ) {
-
+            AnimLoad(R.raw.overcast)
         }
 
     }

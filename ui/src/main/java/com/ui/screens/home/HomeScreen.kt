@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,11 +36,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val layoutDirection = LocalLayoutDirection.current
-
-//    val topPadding = paddingValues.calculateTopPadding() + 30.dp
-//    val bottomPadding = paddingValues.calculateBottomPadding()
-//    val startPadding = paddingValues.calculateStartPadding(layoutDirection)
 
     Column(
         modifier = Modifier
@@ -85,7 +79,7 @@ fun HomeScreen(
                     BaseTextButton(
                         text = stringResource(R.string.choose_your_city),
                         onClick = { viewModel.showDialog() })
-                    BaseIcon(R.drawable.location)
+                    BaseIcon(R.drawable.location, iconTint = BaseTheme.colors.iconTint)
                 }
                 BaseText(
                     state.city.ifEmpty { stringResource(R.string.your_city) },

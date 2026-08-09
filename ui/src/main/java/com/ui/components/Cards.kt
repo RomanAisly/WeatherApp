@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ui.theme.BaseTheme
 import com.ui.theme.lightBlue
+import com.ui.theme.silver
 import com.ui.theme.transparent
 import com.weatherapp.ui.R
 
@@ -32,11 +33,10 @@ fun BaseCard(
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.large,
     containerColor: Color = transparent,
-    elevation: Dp = 0.dp,
     border: BorderStroke? = null,
     backGrad: Brush? = BaseTheme.colors.cardBack,
     glowColor: Color = BaseTheme.colors.cardGlow,
-    glowRadius: Dp = 6.dp,
+    glowRadius: Dp = 4.dp,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
     Card(
@@ -52,7 +52,6 @@ fun BaseCard(
                 } else Modifier
             ),
         shape = shape,
-        elevation = CardDefaults.cardElevation(elevation),
         colors = CardDefaults.cardColors(containerColor = containerColor),
         border = border,
         content = content
@@ -67,8 +66,7 @@ fun WeatherCard(
     modifier: Modifier = Modifier
 ) {
     BaseCard(
-        modifier = modifier,
-        elevation = 0.dp
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier.padding(10.dp),
@@ -94,6 +92,7 @@ fun WeatherCard(
                 if (weatherType.lottieRes != null) {
                     AnimLoad(
                         resId = weatherType.lottieRes,
+                        tintColor = if (weatherType == WeatherType.OVERCAST) silver else null,
                         modifier = Modifier.size(38.dp),
                     )
                 } else {
@@ -130,8 +129,7 @@ fun WindCard(
     modifier: Modifier = Modifier
 ) {
     BaseCard(
-        modifier = modifier,
-        elevation = 0.dp
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier.padding(10.dp),
@@ -201,8 +199,7 @@ fun PrecipitationCard(
     modifier: Modifier = Modifier
 ) {
     BaseCard(
-        modifier = modifier,
-        elevation = 0.dp
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier.padding(10.dp),
@@ -265,8 +262,7 @@ fun UvCard(
     modifier: Modifier = Modifier
 ) {
     BaseCard(
-        modifier = modifier,
-        elevation = 0.dp
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier.padding(10.dp),
