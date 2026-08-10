@@ -10,16 +10,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ui.components.BaseAlertDialog
 import com.ui.components.BaseIcon
 import com.ui.components.BaseText
 import com.ui.components.BaseTextButton
+import com.ui.components.FadeWrapper
 import com.ui.components.PrecipitationCard
 import com.ui.components.UvCard
 import com.ui.components.WeatherCard
@@ -36,6 +41,19 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refreshWeather()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -81,17 +99,24 @@ fun HomeScreen(
                         onClick = { viewModel.showDialog() })
                     BaseIcon(R.drawable.location, iconTint = BaseTheme.colors.iconTint)
                 }
+                FadeWrapper(
+                    targetState = state.city.ifEmpty { stringResource(R.string.your_city) }
+                ) { animCity ->
+                    BaseText(
+                        text = animCity,
+                        textStyle = MaterialTheme.typography.headlineLarge
+                    )
+                }
+            }
+            FadeWrapper(
+                targetState = state.gradus + "℃",
+                modifier = Modifier.align(Alignment.Center)
+            ) { animGradus ->
                 BaseText(
-                    state.city.ifEmpty { stringResource(R.string.your_city) },
-                    textStyle = MaterialTheme.typography.headlineLarge
+                    text = animGradus,
+                    textStyle = MaterialTheme.typography.displayLarge
                 )
             }
-
-            BaseText(
-                state.gradus + "℃",
-                modifier = Modifier.align(Alignment.Center),
-                textStyle = MaterialTheme.typography.displayLarge
-            )
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)

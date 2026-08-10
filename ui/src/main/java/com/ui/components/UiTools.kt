@@ -381,7 +381,7 @@ internal fun UiToolsPreview() {
                     edgeColor = BaseTheme.colors.bgEdge,
                 ), contentAlignment = Alignment.BottomStart
         ) {
-            AnimLoad(R.raw.overcast)
+            AnimLoad(R.raw.gentle_wind)
         }
 
     }

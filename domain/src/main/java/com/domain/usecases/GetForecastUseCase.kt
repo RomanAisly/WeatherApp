@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
 class GetForecastUseCase(private val repository: WeatherRepository) {
 
@@ -20,7 +21,7 @@ class GetForecastUseCase(private val repository: WeatherRepository) {
             if (result is CheckDataResult.Success) {
                 val forecast = result.data
                 val tz = ZoneId.of(forecast.timezone)
-                val now = LocalDateTime.now(tz)
+                val now = LocalDateTime.now(tz).truncatedTo(ChronoUnit.HOURS)
 
                 val hourlyList = forecast.hourlyForecast
                     .filter { LocalDateTime.parse(it.time) >= now }

@@ -2,6 +2,11 @@ package com.ui.components
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,5 +60,25 @@ fun AnimLoad(
             iterations = LottieConstants.IterateForever,
             renderMode = RenderMode.HARDWARE
         )
+    }
+}
+
+@Composable
+fun <T> FadeWrapper(
+    targetState: T,
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.Center,
+    content: @Composable (T) -> Unit
+) {
+    AnimatedContent(
+        targetState = targetState,
+        transitionSpec = {
+            fadeIn(animationSpec = tween(700)) togetherWith fadeOut(animationSpec = tween(700))
+        },
+        modifier = modifier,
+        contentAlignment = contentAlignment,
+        label = "FadeWrapper"
+    ) { state ->
+        content(state)
     }
 }

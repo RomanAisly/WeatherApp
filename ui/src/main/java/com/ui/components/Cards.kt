@@ -102,30 +102,45 @@ fun WidgetCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BaseIcon(iconRes, iconTint = iconTint)
-                BaseText(
-                    text = title,
-                    textStyle = MaterialTheme.typography.titleSmall,
-                    maxLines = 1
-                )
+                FadeWrapper(
+                    targetState = title,
+                    contentAlignment = Alignment.CenterEnd
+                ) { animTitle ->
+                    BaseText(
+                        text = animTitle,
+                        textStyle = MaterialTheme.typography.titleSmall,
+                        maxLines = 1
+                    )
+                }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (lottieRes != null) {
-                    AnimLoad(
-                        resId = lottieRes,
-                        tintColor = lottieTint,
-                        modifier = Modifier.size(38.dp),
-                    )
-                } else {
-                    Box(modifier = Modifier.size(38.dp))
+                FadeWrapper(
+                    targetState = lottieRes,
+                    contentAlignment = Alignment.CenterStart
+                ) { animLottie ->
+                    if (animLottie != null) {
+                        AnimLoad(
+                            resId = animLottie,
+                            tintColor = lottieTint,
+                            modifier = Modifier.size(38.dp),
+                        )
+                    } else {
+                        Box(modifier = Modifier.size(38.dp))
+                    }
                 }
-                BaseText(
-                    text = valueText,
-                    textStyle = MaterialTheme.typography.titleMedium
-                )
+                FadeWrapper(
+                    targetState = valueText,
+                    contentAlignment = Alignment.CenterEnd
+                ) { animValue ->
+                    BaseText(
+                        text = animValue,
+                        textStyle = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
             bottomContent()
         }
@@ -147,7 +162,12 @@ fun WeatherCard(
         lottieTint = if (weatherType == WeatherType.OVERCAST) silver else null,
         modifier = modifier
     ) {
-        TimeFooter(timeDuration)
+        FadeWrapper(
+            targetState = timeDuration,
+            contentAlignment = Alignment.CenterEnd
+        ) { animDuration ->
+            TimeFooter(animDuration)
+        }
     }
 }
 
@@ -158,11 +178,7 @@ fun WindCard(
     timeDuration: String,
     modifier: Modifier = Modifier
 ) {
-    val lottieTint = when (windStatus) {
-        WindStatus.GENTLE -> lightBlue
-        WindStatus.LIGHT -> BaseTheme.colors.text
-        else -> null
-    }
+    val lottieTint = if (windStatus == WindStatus.LIGHT) BaseTheme.colors.text else null
 
     WidgetCard(
         title = stringResource(windStatus.title),
@@ -172,7 +188,12 @@ fun WindCard(
         lottieTint = lottieTint,
         modifier = modifier
     ) {
-        TimeFooter(timeDuration)
+        FadeWrapper(
+            targetState = timeDuration,
+            contentAlignment = Alignment.CenterEnd
+        ) { animDuration ->
+            TimeFooter(animDuration)
+        }
     }
 }
 
@@ -191,7 +212,12 @@ fun PrecipitationCard(
         lottieTint = if (type == PrecipitationType.RAIN) lightBlue else null,
         modifier = modifier
     ) {
-        TimeFooter(timeDuration, textStyle = MaterialTheme.typography.titleSmall)
+        FadeWrapper(
+            targetState = timeDuration,
+            contentAlignment = Alignment.CenterEnd
+        ) { animDuration ->
+            TimeFooter(animDuration, textStyle = MaterialTheme.typography.titleSmall)
+        }
     }
 }
 
@@ -209,8 +235,13 @@ fun UvCard(
         lottieTint = uvStatus.lottieColor,
         modifier = modifier
     ) {
-        UvStatusIndicator(
-            currentStatus = uvStatus
-        )
+        FadeWrapper(
+            targetState = uvStatus
+        ) { animUv ->
+            UvStatusIndicator(
+                currentStatus = animUv
+            )
+        }
+
     }
 }

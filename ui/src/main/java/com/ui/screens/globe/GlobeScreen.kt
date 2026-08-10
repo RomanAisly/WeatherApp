@@ -17,12 +17,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.domain.models.DailyForecast
 import com.domain.models.HourlyForecast
@@ -36,7 +40,6 @@ import com.ui.components.WeatherType
 import com.ui.components.WindStatus
 import com.ui.components.toDayNameRes
 import com.ui.theme.BaseTheme
-import com.ui.theme.lightBlue
 import com.weatherapp.ui.R
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
@@ -47,10 +50,22 @@ fun GlobeScreen(
     viewModel: GlobeViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val displayHourly = state.hourlyForecasts.ifEmpty { List(24) { null } }
     val displayDaily = state.dailyForecasts.ifEmpty { List(10) { null } }
 
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.refreshForecast()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -150,11 +165,7 @@ fun HourlyBaseCard(
 private fun HourlyWindCard(item: HourlyForecast?) {
     val windStatus = if (item != null) WindStatus.fromSpeed(item.windSpeed) else WindStatus.UNKNOWN
 
-    val lottieTint = when (windStatus) {
-        WindStatus.GENTLE -> lightBlue
-        WindStatus.LIGHT -> BaseTheme.colors.text
-        else -> null
-    }
+    val lottieTint = if (windStatus == WindStatus.LIGHT) BaseTheme.colors.text else null
 
     HourlyBaseCard(
         timeText = item?.let { if (it.isNow) stringResource(R.string.now) else it.time } ?: "--",

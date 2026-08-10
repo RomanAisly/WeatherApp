@@ -15,17 +15,10 @@ data class Weather(
 )
 
 data class WeatherDetails(
-    val timezone: String,
-    val temperature: Double,
-    val windSpeed: Double,
-    val weatherCode: Int,
-    val isDay: Boolean,
-    val precipitation: Double,
-    val cloudCover: Int,
+    val weather: Weather,
     val windDuration: String,
     val precipDuration: String,
-    val weatherDuration: String,
-    val uvIndex: Double
+    val weatherDuration: String
 )
 
 data class CityItem(

@@ -22,18 +22,18 @@ class GetWeatherDetailsUseCase(
                     val details = calculateDurations(weather)
                     CheckDataResult.Success(details)
                 }
-
                 is CheckDataResult.Error -> result
             }
         }
     }
 
     private fun calculateDurations(weather: Weather): WeatherDetails {
-        fun countHours(condition: (Int) -> Boolean): String {
-            var count = 1
-            for (i in (weather.currentIndex + 1) until weather.hourlyWeatherCodes.size) {
-                if (condition(i)) count++ else break
-            }
+        fun <T> countHours(list: List<T>, currentCat: Int, categoryMapper: (T) -> Int): String {
+            val count = list
+                .drop(weather.currentIndex + 1)
+                .takeWhile { categoryMapper(it) == currentCat }
+                .count() + 1
+
             return if (count >= 24) ">24" else count.toString()
         }
 
@@ -68,25 +68,17 @@ class GetWeatherDetailsUseCase(
         val currentPrecipCat = getPrecipCategory(weather.weatherCode)
         val currentWeatherCat = getWeatherCategory(weather.weatherCode)
 
-        val windDur =
-            countHours { i -> getWindCategory(weather.hourlyWindSpeeds[i]) == currentWindCat }
+        val windDur = countHours(weather.hourlyWindSpeeds, currentWindCat, ::getWindCategory)
         val precipDur =
-            countHours { i -> getPrecipCategory(weather.hourlyWeatherCodes[i]) == currentPrecipCat }
+            countHours(weather.hourlyWeatherCodes, currentPrecipCat, ::getPrecipCategory)
         val weatherDur =
-            countHours { i -> getWeatherCategory(weather.hourlyWeatherCodes[i]) == currentWeatherCat }
+            countHours(weather.hourlyWeatherCodes, currentWeatherCat, ::getWeatherCategory)
 
         return WeatherDetails(
-            timezone = weather.timezone,
-            temperature = weather.temperature,
-            windSpeed = weather.windSpeed,
-            weatherCode = weather.weatherCode,
-            isDay = weather.isDay,
-            precipitation = weather.precipitation,
-            cloudCover = weather.cloudCover,
+            weather = weather,
             windDuration = windDur,
             precipDuration = precipDur,
-            weatherDuration = weatherDur,
-            uvIndex = weather.uvIndex
+            weatherDuration = weatherDur
         )
     }
 }

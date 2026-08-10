@@ -12,15 +12,21 @@ import com.ui.components.PrecipitationType
 import com.ui.components.UvStatus
 import com.ui.components.WeatherType
 import com.ui.components.WindStatus
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
-
+import kotlin.time.Duration.Companion.minutes
 
 class HomeViewModel(
     private val repository: WeatherRepository,
@@ -32,8 +38,15 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
-    private var searchJob: Job? = null
+    private val searchQueryFlow = MutableStateFlow("")
     private var timeJob: Job? = null
+
+    private var lastUpdateTime: Long = 0
+    private val updateIntervalMillis = 10.minutes.inWholeMilliseconds
+
+    init {
+        observeSearch()
+    }
 
     fun showDialog() {
         _state.update { it.copy(showDialog = true) }
@@ -47,21 +60,7 @@ class HomeViewModel(
 
     fun onSearchQueryChanged(query: String) {
         _state.update { it.copy(searchQuery = query) }
-        searchJob?.cancel()
-
-        if (query.isBlank()) {
-            _state.update { it.copy(suggestedCities = emptyList()) }
-            return
-        }
-        searchJob = viewModelScope.launch {
-            delay(300.milliseconds)
-
-            repository.searchCities(query).collect { result ->
-                if (result is CheckDataResult.Success) {
-                    _state.update { it.copy(suggestedCities = result.data) }
-                }
-            }
-        }
+        searchQueryFlow.value = query
     }
 
     fun updateCity(city: CityItem) {
@@ -74,7 +73,38 @@ class HomeViewModel(
             )
         }
         currentCityManager.setCity(city)
-        loadWeather(city.latitude, city.longitude)
+        refreshWeather(forceRefresh = true)
+    }
+
+    fun refreshWeather(forceRefresh: Boolean = false) {
+        val currentCity = currentCityManager.selectedCity.value ?: return
+        val currentTime = System.currentTimeMillis()
+        val timeSinceLastUpdate = currentTime - lastUpdateTime
+        if (!forceRefresh && timeSinceLastUpdate < updateIntervalMillis) {
+            return
+        }
+        loadWeather(currentCity.latitude, currentCity.longitude)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    private fun observeSearch() {
+        viewModelScope.launch {
+            searchQueryFlow
+                .debounce(300.milliseconds)
+                .distinctUntilChanged()
+                .flatMapLatest { query ->
+                    if (query.isBlank()) {
+                        flowOf(emptyList())
+                    } else {
+                        repository.searchCities(query).map { result ->
+                            if (result is CheckDataResult.Success) result.data else emptyList()
+                        }
+                    }
+                }
+                .collect { cities ->
+                    _state.update { it.copy(suggestedCities = cities) }
+                }
+        }
     }
 
     private fun loadWeather(lat: Double, lon: Double) {
@@ -82,28 +112,30 @@ class HomeViewModel(
             getWeatherDetailsUseCase(lat, lon).collect { result ->
                 when (result) {
                     is CheckDataResult.Success -> {
+                        lastUpdateTime = System.currentTimeMillis()
                         val details = result.data
                         _state.update {
                             it.copy(
-                                gradus = details.temperature.roundToInt().toString(),
-                                wind = details.windSpeed.roundToInt().toString(),
-                                windStatus = WindStatus.fromSpeed(details.windSpeed),
-                                precipType = PrecipitationType.fromWmoCode(details.weatherCode),
+                                gradus = details.weather.temperature.roundToInt().toString(),
+                                wind = details.weather.windSpeed.roundToInt().toString(),
+                                windStatus = WindStatus.fromSpeed(details.weather.windSpeed),
+                                precipType = PrecipitationType.fromWmoCode(details.weather.weatherCode),
                                 weatherType = WeatherType.fromWmoCode(
-                                    details.weatherCode,
-                                    details.isDay
+                                    details.weather.weatherCode,
+                                    details.weather.isDay
                                 ),
-                                cloudCover = "${details.cloudCover} %",
-                                precipAmount = "${details.precipitation} mm",
+                                cloudCover = "${details.weather.cloudCover} %",
+                                precipAmount = "${details.weather.precipitation} mm",
                                 windDuration = details.windDuration,
                                 precipDuration = details.precipDuration,
                                 weatherDuration = details.weatherDuration,
-                                uvIndex = details.uvIndex.toString(),
-                                uvStatus = UvStatus.fromIndex(details.uvIndex)
+                                uvIndex = details.weather.uvIndex.toString(),
+                                uvStatus = UvStatus.fromIndex(details.weather.uvIndex)
                             )
                         }
-                        startLiveClock(details.timezone)
+                        startLiveClock(details.weather.timezone)
                     }
+
                     is CheckDataResult.Error -> {
                         _state.update { it.copy(gradus = "X", wind = "X") }
                     }
