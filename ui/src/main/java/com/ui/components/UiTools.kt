@@ -170,7 +170,7 @@ fun UvStatusIndicator(
 
                 val glowPaint = Paint().apply {
                     this.color =
-                        (currentStatus.lottieColor ?: gray).toArgb() // Берем цвет выбранного
+                        (currentStatus.lottieColor ?: gray).toArgb()
                     this.maskFilter = BlurMaskFilter(glowRadiusPx, BlurMaskFilter.Blur.NORMAL)
                 }
 
@@ -381,7 +381,7 @@ internal fun UiToolsPreview() {
                     edgeColor = BaseTheme.colors.bgEdge,
                 ), contentAlignment = Alignment.BottomStart
         ) {
-            AnimLoad(R.raw.gentle_wind)
+
         }
 
     }

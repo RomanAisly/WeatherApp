@@ -53,35 +53,33 @@ fun BottomNavGraph() {
     val slideDuration = 550
     val fadeDuration = 450
 
-    Scaffold(
-        containerColor = BaseTheme.colors.scaffoldBack,
-        bottomBar = {
-            if (!showSideNav) {
-                BottomNavBar(
-                    currentTab = currentTab,
-                    layoutMode = layoutMode,
-                    onTabSelected = { tabRoute ->
-                        if (currentTab != tabRoute) {
-                            backStack[0] = tabRoute
-                        }
-                    })
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            containerColor = BaseTheme.colors.scaffoldBack,
+            bottomBar = {
+                if (!showSideNav) {
+                    BottomNavBar(
+                        currentTab = currentTab,
+                        layoutMode = layoutMode,
+                        onTabSelected = { tabRoute ->
+                            if (currentTab != tabRoute) {
+                                backStack[0] = tabRoute
+                            }
+                        })
+                }
             }
-        }
-    ) { scaffoldPadding ->
-        val dynamicPadding = if (showSideNav) {
-            PaddingValues(
-                start = scaffoldPadding.calculateStartPadding(layoutDirection) + 60.dp,
-                top = scaffoldPadding.calculateTopPadding(),
-                end = scaffoldPadding.calculateEndPadding(layoutDirection),
-                bottom = scaffoldPadding.calculateBottomPadding()
-            )
-        } else {
-            scaffoldPadding
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        ) { scaffoldPadding ->
+            val dynamicPadding = if (showSideNav) {
+                PaddingValues(
+                    start = scaffoldPadding.calculateStartPadding(layoutDirection) + 60.dp,
+                    top = scaffoldPadding.calculateTopPadding(),
+                    end = scaffoldPadding.calculateEndPadding(layoutDirection),
+                    bottom = scaffoldPadding.calculateBottomPadding()
+                )
+            } else {
+                scaffoldPadding
+            }
+
             NavDisplay(
                 backStack = backStack,
                 modifier = Modifier
@@ -107,7 +105,7 @@ fun BottomNavGraph() {
                 entryProvider = entryProvider {
 
                     entry<Routes.Home> {
-                        HomeScreen(paddingValues = dynamicPadding)
+                        HomeScreen(paddingValues = dynamicPadding, layoutMode = layoutMode)
                     }
                     entry<Routes.Globe> {
                         GlobeScreen(paddingValues = dynamicPadding)
