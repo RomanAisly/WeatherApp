@@ -3,8 +3,8 @@ package com.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
-import com.domain.CurrentCityManager
 import com.domain.models.CityItem
+import com.domain.repositories.CurrentCityRepository
 import com.domain.repositories.WeatherRepository
 import com.domain.usecases.GetLiveTimeUseCase
 import com.domain.usecases.GetWeatherDetailsUseCase
@@ -17,8 +17,11 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -32,7 +35,7 @@ class HomeViewModel(
     private val repository: WeatherRepository,
     private val getWeatherDetailsUseCase: GetWeatherDetailsUseCase,
     private val getLiveTimeUseCase: GetLiveTimeUseCase,
-    private val currentCityManager: CurrentCityManager
+    private val currentCityRepository: CurrentCityRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -46,6 +49,7 @@ class HomeViewModel(
 
     init {
         observeSearch()
+        observeCurrentCity()
     }
 
     fun showDialog() {
@@ -66,24 +70,39 @@ class HomeViewModel(
     fun updateCity(city: CityItem) {
         _state.update {
             it.copy(
-                city = city.name,
                 showDialog = false,
                 searchQuery = "",
                 suggestedCities = emptyList()
             )
         }
-        currentCityManager.setCity(city)
-        refreshWeather(forceRefresh = true)
+        viewModelScope.launch {
+            currentCityRepository.setCity(city)
+        }
     }
 
     fun refreshWeather(forceRefresh: Boolean = false) {
-        val currentCity = currentCityManager.selectedCity.value ?: return
-        val currentTime = System.currentTimeMillis()
-        val timeSinceLastUpdate = currentTime - lastUpdateTime
-        if (!forceRefresh && timeSinceLastUpdate < updateIntervalMillis) {
-            return
+        viewModelScope.launch {
+            val currentCity = currentCityRepository.selectedCity.firstOrNull() ?: return@launch
+
+            val currentTime = System.currentTimeMillis()
+            val timeSinceLastUpdate = currentTime - lastUpdateTime
+
+            if (!forceRefresh && timeSinceLastUpdate < updateIntervalMillis) {
+                return@launch
+            }
+            loadWeather(currentCity.latitude, currentCity.longitude)
         }
-        loadWeather(currentCity.latitude, currentCity.longitude)
+    }
+
+    private fun observeCurrentCity() {
+        viewModelScope.launch {
+            currentCityRepository.selectedCity
+                .filterNotNull()
+                .collectLatest { city ->
+                    _state.update { it.copy(city = city.name) }
+                    loadWeather(city.latitude, city.longitude)
+                }
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)

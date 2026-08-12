@@ -75,7 +75,7 @@ fun BottomNavBar(
     val landGrad = BaseTheme.colors.bottBarLandscape
     val portGrad = BaseTheme.colors.bottBarPortrait
 
-    if (layoutMode != LayoutMode.PORTRAIT) {
+    if (layoutMode == LayoutMode.LANDSCAPE_PHONE) {
         Box(
             modifier = modifier
                 .drawWithCache {

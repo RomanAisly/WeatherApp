@@ -3,19 +3,20 @@ package com.ui.screens.globe
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
-import com.domain.CurrentCityManager
+import com.domain.repositories.CurrentCityRepository
 import com.domain.usecases.GetForecastUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.minutes
 
 class GlobeViewModel(
     private val getForecastUseCase: GetForecastUseCase,
-    private val currentCityManager: CurrentCityManager
+    private val currentCityRepository: CurrentCityRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(GlobeState())
@@ -29,14 +30,16 @@ class GlobeViewModel(
     }
 
     fun refreshForecast(forceRefresh: Boolean = false) {
-        val currentCity = currentCityManager.selectedCity.value ?: return
-        val currentTime = System.currentTimeMillis()
-        val timeSinceLastUpdate = currentTime - lastUpdateTime
-
-        if (!forceRefresh && timeSinceLastUpdate < updateIntervalMillis) {
-            return
-        }
         viewModelScope.launch {
+            val currentCity = currentCityRepository.selectedCity.firstOrNull() ?: return@launch
+
+            val currentTime = System.currentTimeMillis()
+            val timeSinceLastUpdate = currentTime - lastUpdateTime
+
+            if (!forceRefresh && timeSinceLastUpdate < updateIntervalMillis) {
+                return@launch
+            }
+
             getForecastUseCase(currentCity.latitude, currentCity.longitude).collect { result ->
                 if (result is CheckDataResult.Success) {
                     lastUpdateTime = System.currentTimeMillis()
@@ -51,9 +54,10 @@ class GlobeViewModel(
         }
     }
 
+
     private fun observeCityChanges() {
         viewModelScope.launch {
-            currentCityManager.selectedCity
+            currentCityRepository.selectedCity
                 .filterNotNull()
                 .collectLatest { _ ->
                     refreshForecast(forceRefresh = true)

@@ -48,7 +48,7 @@ fun BottomNavGraph() {
         else -> LayoutMode.PORTRAIT
     }
 
-    val showSideNav = layoutMode != LayoutMode.PORTRAIT
+    val showSideNav = layoutMode == LayoutMode.LANDSCAPE_PHONE
 
     val slideDuration = 550
     val fadeDuration = 450

@@ -2,8 +2,9 @@ package com.data.locale
 
 import com.data.remote.WeatherProvider
 import com.data.remote.createHttpClient
+import com.data.repositories.CurrentCityRepositoryImpl
 import com.data.repositories.WeatherRepositoryImpl
-import com.domain.CurrentCityManager
+import com.domain.repositories.CurrentCityRepository
 import com.domain.repositories.SettingsRepository
 import com.domain.repositories.WeatherRepository
 import com.domain.usecases.GetForecastUseCase
@@ -29,7 +30,7 @@ val networkModule = module {
 val repositoryModule = module {
     single<WeatherRepository> { WeatherRepositoryImpl(get(), get()) }
     single<SettingsRepository> { SettingsManager(get()) }
-    single { CurrentCityManager() }
+    single<CurrentCityRepository> { CurrentCityRepositoryImpl(get()) }
 }
 
 val useCaseModule = module {
