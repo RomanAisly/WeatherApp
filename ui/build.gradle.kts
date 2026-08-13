@@ -47,7 +47,6 @@ dependencies {
 
     implementation(libs.androidx.adaptive)
     implementation(libs.androidx.adaptive.layout)
-    implementation(libs.androidx.adaptive.navigation)
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

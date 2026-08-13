@@ -1,5 +1,8 @@
 package com.ui.screens.home
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,13 +33,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ui.components.BaseAlertDialog
 import com.ui.components.BaseIcon
 import com.ui.components.BaseText
 import com.ui.components.BaseTextButton
+import com.ui.components.CitySearchOverlay
 import com.ui.components.FadeWrapper
+import com.ui.components.GpsWarningDialog
 import com.ui.components.LayoutMode
 import com.ui.components.PrecipitationCard
+import com.ui.components.ScreenLoader
 import com.ui.components.UvCard
 import com.ui.components.WeatherCard
 import com.ui.components.WindCard
@@ -54,10 +60,30 @@ fun HomeScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val isGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+
+        viewModel.onPermissionResult(isGranted)
+    }
+
+    LaunchedEffect(state.askForLocationPermission) {
+        if (state.askForLocationPermission) {
+            locationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.refreshWeather()
+                viewModel.onResumeApp()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -75,8 +101,19 @@ fun HomeScreen(
                 edgeColor = BaseTheme.colors.bgEdge,
             )
     ) {
+        if (state.showGpsWarning) {
+            GpsWarningDialog(
+                onGoToSettings = { viewModel.dismissGpsWarning(goToSettings = true) },
+                onSearchManually = { viewModel.dismissGpsWarning(goToSettings = false) }
+            )
+        }
+
+        if (state.isLocating) {
+            ScreenLoader()
+        }
+
         if (state.showDialog) {
-            BaseAlertDialog(
+            CitySearchOverlay(
                 searchQuery = state.searchQuery,
                 searchResults = state.suggestedCities,
                 layoutMode = layoutMode,
@@ -84,7 +121,7 @@ fun HomeScreen(
                     viewModel.onSearchQueryChanged(newText)
                 },
                 onDismissRequest = {
-                    viewModel.hideDialog()
+                    viewModel.closeCitySearchOverlay()
                 },
                 onCityConfirmed = { selectedCity ->
                     viewModel.updateCity(selectedCity)
@@ -100,7 +137,7 @@ fun HomeScreen(
             ) {
                 HomeHeader(
                     state = state,
-                    onShowDialog = { viewModel.showDialog() },
+                    onShowDialog = { viewModel.showCitySearchOverlay() },
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
@@ -127,7 +164,7 @@ fun HomeScreen(
             ) {
                 HomeHeader(
                     state = state,
-                    onShowDialog = { viewModel.showDialog() },
+                    onShowDialog = { viewModel.showCitySearchOverlay() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = paddingValues.calculateTopPadding() + 12.dp)

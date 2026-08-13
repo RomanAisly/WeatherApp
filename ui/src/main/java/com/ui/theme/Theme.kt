@@ -36,7 +36,8 @@ data class BaseColors(
     val alertStart: Color,
     val alertEnd: Color,
     val cardGlow: Color,
-    val rain: Color
+    val rain: Color,
+    val stroke: Color
 ) {
     val bottBarPortrait: Brush = Brush.verticalGradient(
         listOf(bottomBarStart, bottomBarEnd)
@@ -58,7 +59,7 @@ data class BaseColors(
 val lightColors = BaseColors(
     scaffoldBack = azure,
     text = deepDarkGray,
-    textButton = cornflowerBlue,
+    textButton = royalBlue.darken(0.1f),
     bottomBarStart = skyBlue,
     bottomBarEnd = mintCream,
     bottBarIconShadow = iris.darken(),
@@ -72,7 +73,8 @@ val lightColors = BaseColors(
     alertStart = mintCream.copy(alpha = 0.5f),
     alertEnd = lightGray.copy(alpha = 0.5f),
     cardGlow = gray,
-    rain = deepSkyBlue
+    rain = deepSkyBlue,
+    stroke = cornflowerBlue
 )
 
 val darkColors = BaseColors(
@@ -92,7 +94,8 @@ val darkColors = BaseColors(
     alertStart = indigo.copy(alpha = 0.5f),
     alertEnd = twilight.copy(alpha = 0.5f),
     cardGlow = persianGreen,
-    rain = lightBlue
+    rain = lightBlue,
+    stroke = yellow
 )
 
 object BaseTheme {
@@ -162,6 +165,7 @@ private fun animateColorSchemeAsState(targetColor: BaseColors): BaseColors {
         alertStart = animateColorAsState(targetColor.alertStart, animationSpec).value,
         alertEnd = animateColorAsState(targetColor.alertEnd, animationSpec).value,
         cardGlow = animateColorAsState(targetColor.cardGlow, animationSpec).value,
-        rain = animateColorAsState(targetColor.rain, animationSpec).value
+        rain = animateColorAsState(targetColor.rain, animationSpec).value,
+        stroke = animateColorAsState(targetColor.stroke, animationSpec).value
     )
 }

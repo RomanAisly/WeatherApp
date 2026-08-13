@@ -3,6 +3,8 @@ package com.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.domain.CheckDataResult
+import com.domain.LocationResult
+import com.domain.LocationTracker
 import com.domain.models.CityItem
 import com.domain.repositories.CurrentCityRepository
 import com.domain.repositories.WeatherRepository
@@ -35,7 +37,8 @@ class HomeViewModel(
     private val repository: WeatherRepository,
     private val getWeatherDetailsUseCase: GetWeatherDetailsUseCase,
     private val getLiveTimeUseCase: GetLiveTimeUseCase,
-    private val currentCityRepository: CurrentCityRepository
+    private val currentCityRepository: CurrentCityRepository,
+    private val locationTracker: LocationTracker
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -47,18 +50,40 @@ class HomeViewModel(
     private var lastUpdateTime: Long = 0
     private val updateIntervalMillis = 10.minutes.inWholeMilliseconds
 
+    private var isWaitingForGpsSettings = false
+
     init {
         observeSearch()
+        checkFirstLaunch()
         observeCurrentCity()
     }
 
-    fun showDialog() {
+    fun showCitySearchOverlay() {
         _state.update { it.copy(showDialog = true) }
     }
 
-    fun hideDialog() {
+    fun closeCitySearchOverlay() {
         _state.update {
             it.copy(showDialog = false, searchQuery = "", suggestedCities = emptyList())
+        }
+    }
+
+    fun onResumeApp() {
+        if (isWaitingForGpsSettings) {
+            isWaitingForGpsSettings = false
+            _state.update { it.copy(askForLocationPermission = true) }
+        } else {
+            refreshWeather()
+        }
+    }
+
+    fun dismissGpsWarning(goToSettings: Boolean) {
+        _state.update { it.copy(showGpsWarning = false) }
+
+        if (goToSettings) {
+            isWaitingForGpsSettings = true
+        } else {
+            showCitySearchOverlay()
         }
     }
 
@@ -91,6 +116,34 @@ class HomeViewModel(
                 return@launch
             }
             loadWeather(currentCity.latitude, currentCity.longitude)
+        }
+    }
+
+    fun onPermissionResult(isGranted: Boolean) {
+        _state.update { it.copy(askForLocationPermission = false) }
+
+        if (isGranted) {
+            _state.update { it.copy(isLocating = true) }
+
+            viewModelScope.launch {
+                when (val result = locationTracker.getCurrentLocation()) {
+                    is LocationResult.Success -> {
+                        _state.update { it.copy(isLocating = false) }
+                        updateCity(result.city)
+                    }
+
+                    is LocationResult.GpsDisabled -> {
+                        _state.update { it.copy(isLocating = false, showGpsWarning = true) }
+                    }
+
+                    else -> {
+                        _state.update { it.copy(isLocating = false) }
+                        showCitySearchOverlay()
+                    }
+                }
+            }
+        } else {
+            showCitySearchOverlay()
         }
     }
 
@@ -168,6 +221,15 @@ class HomeViewModel(
         timeJob = viewModelScope.launch {
             getLiveTimeUseCase(timezone).collect { newTime ->
                 _state.update { it.copy(currentTime = newTime) }
+            }
+        }
+    }
+
+    private fun checkFirstLaunch() {
+        viewModelScope.launch {
+            val savedCity = currentCityRepository.selectedCity.firstOrNull()
+            if (savedCity == null) {
+                _state.update { it.copy(askForLocationPermission = true) }
             }
         }
     }

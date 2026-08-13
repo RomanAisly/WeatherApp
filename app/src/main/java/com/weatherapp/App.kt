@@ -1,7 +1,7 @@
 package com.weatherapp
 
 import android.app.Application
-import com.data.locale.dataStoreModule
+import com.data.locale.dataModule
 import com.data.locale.networkModule
 import com.data.locale.repositoryModule
 import com.data.locale.useCaseModule
@@ -15,7 +15,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
-                dataStoreModule,
+                dataModule,
                 networkModule,
                 repositoryModule,
                 useCaseModule,

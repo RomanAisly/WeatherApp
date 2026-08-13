@@ -40,8 +40,8 @@ dependencies {
 
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
-
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.play.services.location)
 
     implementation(libs.bundles.koin)
 }

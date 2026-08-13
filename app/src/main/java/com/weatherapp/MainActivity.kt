@@ -2,12 +2,14 @@ package com.weatherapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
+            val registryOwner = this@MainActivity
             val settingsViewModel: SettingsViewModel = koinViewModel()
             val currentTheme by settingsViewModel.themeState.collectAsStateWithLifecycle()
             val currentLanguage by settingsViewModel.languageState.collectAsStateWithLifecycle()
@@ -33,6 +35,9 @@ class MainActivity : ComponentActivity() {
                 animationSpec = tween(durationMillis = 900)
             ) { isLoaded ->
                 if (isLoaded) {
+                    CompositionLocalProvider(
+                        LocalActivityResultRegistryOwner provides registryOwner
+                    ) {
                     AppLanguageProvider(
                         setLanguage = currentLanguage!!,
                         onLanguageChange = { newLanguage ->
@@ -43,6 +48,7 @@ class MainActivity : ComponentActivity() {
                         }) {
                             BottomNavGraph()
                         }
+                    }
                     }
                 } else {
                     Box(modifier = Modifier.fillMaxSize())

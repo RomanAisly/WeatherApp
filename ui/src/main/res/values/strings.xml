@@ -5,6 +5,11 @@
     <string name="choose_your_city">Choose your city</string>
     <string name="your_city">Your city</string>
     <string name="search_city">Search city…</string>
+    <string name="geolocation_is_disabled">Geolocation is disabled</string>
+    <string name="please_turn_on_gps">Please turn on GPS to find your city automatically, or search for it manually</string>
+    <string name="turn_on">Turn On</string>
+    <string name="search_manually">Search Manually</string>
+    <string name="finding_your_location">Finding your location…</string>
 
     <!-- SETTINGS: THEME -->
     <string name="theme">Theme</string>

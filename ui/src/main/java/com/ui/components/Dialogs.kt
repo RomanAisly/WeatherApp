@@ -1,5 +1,7 @@
 package com.ui.components
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -29,6 +31,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -45,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -55,13 +59,63 @@ import com.domain.models.CityItem
 import com.ui.theme.BaseTheme
 import com.ui.theme.lightGray
 import com.ui.theme.softBlueDark
+import com.ui.theme.transparent
 import com.ui.theme.white
 import com.weatherapp.ui.R
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun BaseAlertDialog(
+fun GpsWarningDialog(
+    onGoToSettings: () -> Unit,
+    onSearchManually: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+
+    AlertDialog(
+        onDismissRequest = onSearchManually,
+        title = {
+            BaseText(
+                text = stringResource(R.string.geolocation_is_disabled),
+                textStyle = MaterialTheme.typography.bodyLarge
+            )
+        },
+        text = {
+            BaseText(
+                text = stringResource(R.string.please_turn_on_gps)
+            )
+        },
+        confirmButton = {
+            BaseTextButton(
+                text = stringResource(R.string.turn_on),
+                onClick = {
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    context.startActivity(intent)
+                    onGoToSettings()
+                }
+            )
+
+        },
+        dismissButton = {
+            BaseTextButton(
+                text = stringResource(R.string.search_manually),
+                onClick = {
+                    onSearchManually()
+                }
+            )
+        },
+        containerColor = transparent,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.large)
+            .background(BaseTheme.colors.alertBack)
+    )
+}
+
+@Composable
+fun CitySearchOverlay(
     searchQuery: String,
     onQueryChange: (String) -> Unit,
     searchResults: List<CityItem>,
