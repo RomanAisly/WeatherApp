@@ -50,8 +50,8 @@ fun BottomNavGraph() {
 
     val showSideNav = layoutMode == LayoutMode.LANDSCAPE_PHONE
 
-    val slideDuration = 550
-    val fadeDuration = 450
+    val slideDuration = 500
+    val fadeDuration = 550
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(

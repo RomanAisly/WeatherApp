@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.serialization.SerializationException
 import java.net.UnknownHostException
 
 class WeatherRepositoryImpl(
@@ -78,6 +79,7 @@ class WeatherRepositoryImpl(
         return when (e) {
             is UnresolvedAddressException, is UnknownHostException -> AppError.NO_INTERNET
             is HttpRequestTimeoutException, is ConnectTimeoutException -> AppError.TIMEOUT
+            is SerializationException -> AppError.UNKNOWN
             is ClientRequestException -> {
                 when (e.response.status.value) {
                     401, 403 -> AppError.UNAUTHORIZED

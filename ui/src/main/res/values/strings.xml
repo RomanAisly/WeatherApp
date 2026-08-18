@@ -75,4 +75,12 @@
     <string name="dow_5">Friday</string>
     <string name="dow_6">Saturday</string>
     <string name="dow_7">Sunday</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">No internet connection. Please check your network.</string>
+    <string name="error_timeout">Connection timed out. The signal might be weak.</string>
+    <string name="error_server">Weather service is currently unavailable. Try again later.</string>
+    <string name="error_not_found">City not found. Please try a different name.</string>
+    <string name="error_unauthorized">Authentication failed. Please update the app.</string>
+    <string name="error_unknown">Something went wrong. Please try again.</string>
 </resources>

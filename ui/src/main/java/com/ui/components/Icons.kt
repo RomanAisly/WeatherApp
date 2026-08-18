@@ -1,6 +1,7 @@
 package com.ui.components
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,4 +20,23 @@ fun BaseIcon(
         contentDescription = null,
         tint = iconTint
     )
+}
+
+@Composable
+fun BaseIconButton(
+    iconId: Int,
+    modifier: Modifier = Modifier,
+    iconTint: Color = unspecified,
+    onClick: () -> Unit
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClick
+    ) {
+        Icon(
+            painter = painterResource(iconId),
+            contentDescription = null,
+            tint = iconTint
+        )
+    }
 }

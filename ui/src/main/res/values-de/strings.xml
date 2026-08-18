@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">UNBEKANNT</string>
+    <string name="choose_your_city">Wählen Sie Ihre Stadt</string>
+    <string name="your_city">Ihre Stadt</string>
+    <string name="search_city">Stadt suchen…</string>
+    <string name="geolocation_is_disabled">Standortbestimmung ist deaktiviert</string>
+    <string name="please_turn_on_gps">Bitte schalten Sie GPS ein, um Ihre Stadt automatisch zu finden, oder suchen Sie manuell danach</string>
+    <string name="turn_on">Einschalten</string>
+    <string name="search_manually">Manuell suchen</string>
+    <string name="finding_your_location">Standort wird gesucht…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">Design</string>
+    <string name="theme_system">System</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="theme_light">Hell</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">Sprache</string>
+    <string name="en">Englisch</string>
+    <string name="ru">Russisch</string>
+    <string name="zh">Chinesisch</string>
+    <string name="es">Spanisch</string>
+    <string name="fr">Französisch</string>
+    <string name="de">Deutsch</string>
+    <string name="uk">Ukrainisch</string>
+    <string name="ja">Japanisch</string>
+    <string name="ko">Koreanisch</string>
+    <string name="hi">Hindi</string>
+    <string name="it">Italienisch</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">KLAR</string>
+    <string name="fair">HEITER</string>
+    <string name="cloudy">WOLKIG</string>
+    <string name="overcast">BEDECKT</string>
+    <string name="fog">NEBEL</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">TROCKEN</string>
+    <string name="drizzle">NIESELREGEN</string>
+    <string name="rain">REGEN</string>
+    <string name="snow">SCHNEE</string>
+    <string name="freezing">FROSTIG</string>
+    <string name="storm">STURM</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">WINDSSTILLE</string>
+    <string name="light">LEICHT</string>
+    <string name="gentle">SCHWACH</string>
+    <string name="moderate">MÄSSIG</string>
+    <string name="strong">STARK</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">NIEDRIG</string>
+    <string name="uv_high">HOCH</string>
+    <string name="uv_very_high">SEHR HOCH</string>
+    <string name="uv_extreme">EXTREM</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s h</string>
+    <string name="kmh_abbr">%1$s km/h</string>
+    <string name="time">ZEIT</string>
+    <string name="now">JETZT</string>
+    <string name="today">Heute</string>
+    <string name="_10_day_forecast">10-TAGE-VORSCHAU</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">Montag</string>
+    <string name="dow_2">Dienstag</string>
+    <string name="dow_3">Mittwoch</string>
+    <string name="dow_4">Donnerstag</string>
+    <string name="dow_5">Freitag</string>
+    <string name="dow_6">Samstag</string>
+    <string name="dow_7">Sonntag</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">Keine Internetverbindung. Bitte überprüfen Sie Ihr Netzwerk.</string>
+    <string name="error_timeout">Zeitüberschreitung der Verbindung. Das Signal könnte schwach sein.</string>
+    <string name="error_server">Der Wetterdienst ist derzeit nicht verfügbar. Versuchen Sie es später erneut.</string>
+    <string name="error_not_found">Stadt nicht gefunden. Bitte versuchen Sie einen anderen Namen.</string>
+    <string name="error_unauthorized">Authentifizierung fehlgeschlagen. Bitte aktualisieren Sie die App.</string>
+    <string name="error_unknown">Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.</string>
+</resources>

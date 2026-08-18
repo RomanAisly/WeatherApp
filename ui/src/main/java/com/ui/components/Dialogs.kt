@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -58,12 +59,16 @@ import androidx.compose.ui.zIndex
 import com.domain.models.CityItem
 import com.ui.theme.BaseTheme
 import com.ui.theme.lightGray
+import com.ui.theme.red
 import com.ui.theme.softBlueDark
 import com.ui.theme.transparent
 import com.ui.theme.white
 import com.weatherapp.ui.R
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun GpsWarningDialog(
@@ -343,6 +348,69 @@ private fun SearchResultsList(
                     BaseText(
                         city.flagEmoji,
                         modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun <T> SnackBarFlow(
+    snackFlow: Flow<T>,
+    messageRes: (T) -> Int,
+    modifier: Modifier = Modifier
+) {
+    var isVisible by remember { mutableStateOf(false) }
+    var displayItem by remember { mutableStateOf<T?>(null) }
+
+    val animDuration = 500
+    val fadeDuration = 550
+
+    LaunchedEffect(snackFlow) {
+        snackFlow.collectLatest { item ->
+            displayItem = item
+            isVisible = true
+            delay(5.seconds)
+            isVisible = false
+        }
+    }
+
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = slideInVertically(
+            animationSpec = tween(animDuration),
+            initialOffsetY = { it }
+        ) + fadeIn(animationSpec = tween(fadeDuration)),
+        exit = slideOutVertically(
+            animationSpec = tween(animDuration),
+            targetOffsetY = { it }
+        ) + fadeOut(animationSpec = tween(fadeDuration)),
+        modifier = modifier
+    ) {
+        displayItem?.let { item ->
+            BaseCard(
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .padding(horizontal = 18.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium
+            ) {
+                Row(
+                    modifier = Modifier.padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BaseIcon(iconId = R.drawable.error, iconTint = red)
+                    Spacer(modifier = Modifier.width(12.dp))
+                    BaseText(
+                        text = stringResource(messageRes(item)),
+                        modifier = Modifier.weight(1f)
+                    )
+                    BaseIconButton(
+                        modifier = Modifier.padding(end = 8.dp),
+                        iconId = R.drawable.close,
+                        iconTint = BaseTheme.colors.text,
+                        onClick = { isVisible = false }
                     )
                 }
             }

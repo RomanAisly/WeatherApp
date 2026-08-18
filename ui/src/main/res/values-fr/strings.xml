@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">INCONNU</string>
+    <string name="choose_your_city">Choisissez votre ville</string>
+    <string name="your_city">Votre ville</string>
+    <string name="search_city">Rechercher une ville…</string>
+    <string name="geolocation_is_disabled">La géolocalisation est désactivée</string>
+    <string name="please_turn_on_gps">Veuillez activer le GPS pour trouver votre ville automatiquement, ou recherchez-la manuellement</string>
+    <string name="turn_on">Activer</string>
+    <string name="search_manually">Rechercher manuellement</string>
+    <string name="finding_your_location">Recherche de votre position…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">Thème</string>
+    <string name="theme_system">Système</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="theme_light">Clair</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">Langue</string>
+    <string name="en">Anglais</string>
+    <string name="ru">Russe</string>
+    <string name="zh">Chinois</string>
+    <string name="es">Espagnol</string>
+    <string name="fr">Français</string>
+    <string name="de">Allemand</string>
+    <string name="uk">Ukrainien</string>
+    <string name="ja">Japonais</string>
+    <string name="ko">Coréen</string>
+    <string name="hi">Hindi</string>
+    <string name="it">Italien</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">CLAIR</string>
+    <string name="fair">BEAU</string>
+    <string name="cloudy">NUAGEUX</string>
+    <string name="overcast">COUVERT</string>
+    <string name="fog">BROUILLARD</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">SEC</string>
+    <string name="drizzle">BRUINE</string>
+    <string name="rain">PLUIE</string>
+    <string name="snow">NEIGE</string>
+    <string name="freezing">GIVRANT</string>
+    <string name="storm">ORAGE</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">CALME</string>
+    <string name="light">LÉGER</string>
+    <string name="gentle">MODÉRÉ</string>
+    <string name="moderate">MODÉRÉ</string>
+    <string name="strong">FORT</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">FAIBLE</string>
+    <string name="uv_high">ÉLEVÉ</string>
+    <string name="uv_very_high">TRÈS ÉLEVÉ</string>
+    <string name="uv_extreme">EXTRÊME</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s h</string>
+    <string name="kmh_abbr">%1$s km/h</string>
+    <string name="time">HEURE</string>
+    <string name="now">MAINTENANT</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="_10_day_forecast">PRÉVISIONS SUR 10 JOURS</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">Lundi</string>
+    <string name="dow_2">Mardi</string>
+    <string name="dow_3">Mercredi</string>
+    <string name="dow_4">Jeudi</string>
+    <string name="dow_5">Vendredi</string>
+    <string name="dow_6">Samedi</string>
+    <string name="dow_7">Dimanche</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">Pas de connexion internet. Veuillez vérifier votre réseau.</string>
+    <string name="error_timeout">Délai de connexion dépassé. Le signal est peut-être faible.</string>
+    <string name="error_server">Le service météo est actuellement indisponible. Réessayez plus tard.</string>
+    <string name="error_not_found">Ville non trouvée. Veuillez essayer un autre nom.</string>
+    <string name="error_unauthorized">Échec de l\'authentification. Veuillez mettre à jour l\'application.</string>
+    <string name="error_unknown">Une erreur est survenue. Veuillez réessayer.</string>
+</resources>

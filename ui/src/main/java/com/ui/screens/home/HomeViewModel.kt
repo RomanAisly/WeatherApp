@@ -2,6 +2,7 @@ package com.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.domain.AppError
 import com.domain.CheckDataResult
 import com.domain.LocationResult
 import com.domain.LocationTracker
@@ -17,6 +18,7 @@ import com.ui.components.WindStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -27,6 +29,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -43,6 +46,9 @@ class HomeViewModel(
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
+
+    private val _snack = Channel<AppError>(Channel.BUFFERED)
+    val snack = _snack.receiveAsFlow()
 
     private val searchQueryFlow = MutableStateFlow("")
     private var timeJob: Job? = null
@@ -169,7 +175,13 @@ class HomeViewModel(
                         flowOf(emptyList())
                     } else {
                         repository.searchCities(query).map { result ->
-                            if (result is CheckDataResult.Success) result.data else emptyList()
+                            when (result) {
+                                is CheckDataResult.Success -> result.data
+                                is CheckDataResult.Error -> {
+                                    _snack.send(result.error)
+                                    emptyList()
+                                }
+                            }
                         }
                     }
                 }
@@ -209,7 +221,7 @@ class HomeViewModel(
                     }
 
                     is CheckDataResult.Error -> {
-                        _state.update { it.copy(gradus = "X", wind = "X") }
+                        _snack.send(result.error)
                     }
                 }
             }

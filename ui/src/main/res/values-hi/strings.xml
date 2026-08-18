@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">अज्ञात</string>
+    <string name="choose_your_city">अपना शहर चुनें</string>
+    <string name="your_city">आपका शहर</string>
+    <string name="search_city">शहर खोजें…</string>
+    <string name="geolocation_is_disabled">जियोलोकेशन अक्षम है</string>
+    <string name="please_turn_on_gps">अपना शहर स्वचालित रूप से खोजने के लिए कृपया GPS चालू करें, या मैन्युअल रूप से खोजें</string>
+    <string name="turn_on">चालू करें</string>
+    <string name="search_manually">मैन्युअल रूप से खोजें</string>
+    <string name="finding_your_location">आपकी लोकेशन खोजी जा रही है…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">थीम</string>
+    <string name="theme_system">सिस्टम</string>
+    <string name="theme_dark">डार्क</string>
+    <string name="theme_light">लाइट</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">भाषा</string>
+    <string name="en">अंग्रेज़ी</string>
+    <string name="ru">रूसी</string>
+    <string name="zh">चीनी</string>
+    <string name="es">स्पेनिश</string>
+    <string name="fr">फ्रेंच</string>
+    <string name="de">जर्मन</string>
+    <string name="uk">यूक्रेनी</string>
+    <string name="ja">जापानी</string>
+    <string name="ko">कोरियाई</string>
+    <string name="hi">हिंदी</string>
+    <string name="it">इतालवी</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">साफ़</string>
+    <string name="fair">साफ़ मौसम</string>
+    <string name="cloudy">बादल</string>
+    <string name="overcast">बादलों से घिरा</string>
+    <string name="fog">कोहरा</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">सूखा</string>
+    <string name="drizzle">बूंदाबांदी</string>
+    <string name="rain">बारिश</string>
+    <string name="snow">बर्फ</string>
+    <string name="freezing">जमा देने वाली ठंड</string>
+    <string name="storm">तूफ़ान</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">शांत</string>
+    <string name="light">हल्की हवा</string>
+    <string name="gentle">मंद समीर</string>
+    <string name="moderate">मध्यम हवा</string>
+    <string name="strong">तेज़ हवा</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">कम</string>
+    <string name="uv_high">ज़्यादा</string>
+    <string name="uv_very_high">बहुत ज़्यादा</string>
+    <string name="uv_extreme">अत्यधिक</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s घंटे</string>
+    <string name="kmh_abbr">%1$s किमी/घंटा</string>
+    <string name="time">समय</string>
+    <string name="now">अभी</string>
+    <string name="today">आज</string>
+    <string name="_10_day_forecast">10-दिन का पूर्वानुमान</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">सोमवार</string>
+    <string name="dow_2">मंगलवार</string>
+    <string name="dow_3">बुधवार</string>
+    <string name="dow_4">गुरुवार</string>
+    <string name="dow_5">शुक्रवार</string>
+    <string name="dow_6">शनिवार</string>
+    <string name="dow_7">रविवार</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">कोई इंटरनेट कनेक्शन नहीं है। कृपया अपना नेटवर्क जांचें।</string>
+    <string name="error_timeout">कनेक्शन टाइमआउट हो गया। सिग्नल कमज़ोर हो सकता है।</string>
+    <string name="error_server">मौसम सेवा वर्तमान में अनुपलब्ध है। बाद में पुन: प्रयास करें।</string>
+    <string name="error_not_found">शहर नहीं मिला। कृपया दूसरा नाम आज़माएं।</string>
+    <string name="error_unauthorized">प्रमाणीकरण विफल रहा। कृपया ऐप अपडेट करें।</string>
+    <string name="error_unknown">कुछ गलत हो गया। कृपया पुन: प्रयास करें।</string>
+</resources>

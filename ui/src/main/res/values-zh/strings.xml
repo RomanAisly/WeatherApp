@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">未知</string>
+    <string name="choose_your_city">选择您的城市</string>
+    <string name="your_city">您的城市</string>
+    <string name="search_city">搜索城市…</string>
+    <string name="geolocation_is_disabled">地理位置已禁用</string>
+    <string name="please_turn_on_gps">请开启 GPS 以自动查找您的城市，或手动进行搜索</string>
+    <string name="turn_on">开启</string>
+    <string name="search_manually">手动搜索</string>
+    <string name="finding_your_location">正在定位您的位置…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">主题</string>
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_light">浅色</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">语言</string>
+    <string name="en">英语</string>
+    <string name="ru">俄语</string>
+    <string name="zh">中文</string>
+    <string name="es">西班牙语</string>
+    <string name="fr">法语</string>
+    <string name="de">德语</string>
+    <string name="uk">乌克兰语</string>
+    <string name="ja">日语</string>
+    <string name="ko">韩语</string>
+    <string name="hi">印地语</string>
+    <string name="it">意大利语</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">晴</string>
+    <string name="fair">晴间多云</string>
+    <string name="cloudy">多云</string>
+    <string name="overcast">阴</string>
+    <string name="fog">雾</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">干</string>
+    <string name="drizzle">毛毛雨</string>
+    <string name="rain">雨</string>
+    <string name="snow">雪</string>
+    <string name="freezing">冰冻</string>
+    <string name="storm">风暴</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">无风</string>
+    <string name="light">微风</string>
+    <string name="gentle">和风</string>
+    <string name="moderate">清风</string>
+    <string name="strong">强风</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">低</string>
+    <string name="uv_high">高</string>
+    <string name="uv_very_high">很高</string>
+    <string name="uv_extreme">极高</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s 小时</string>
+    <string name="kmh_abbr">%1$s 公里/小时</string>
+    <string name="time">时间</string>
+    <string name="now">现在</string>
+    <string name="today">今天</string>
+    <string name="_10_day_forecast">10 日预报</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">星期一</string>
+    <string name="dow_2">星期二</string>
+    <string name="dow_3">星期三</string>
+    <string name="dow_4">星期四</string>
+    <string name="dow_5">星期五</string>
+    <string name="dow_6">星期六</string>
+    <string name="dow_7">星期日</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">无网络连接，请检查您的网络。</string>
+    <string name="error_timeout">连接超时，信号可能较弱。</string>
+    <string name="error_server">天气服务当前不可用，请稍后再试。</string>
+    <string name="error_not_found">未找到城市，请尝试其他名称。</string>
+    <string name="error_unauthorized">身份验证失败，请更新应用。</string>
+    <string name="error_unknown">发生了一些错误，请重试。</string>
+</resources>

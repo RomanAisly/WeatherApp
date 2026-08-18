@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">不明</string>
+    <string name="choose_your_city">都市を選択</string>
+    <string name="your_city">あなたの都市</string>
+    <string name="search_city">都市を検索…</string>
+    <string name="geolocation_is_disabled">位置情報が無効です</string>
+    <string name="please_turn_on_gps">都市を自動的に検索するにはGPSをオンにするか、手動で検索してください</string>
+    <string name="turn_on">オンにする</string>
+    <string name="search_manually">手動で検索</string>
+    <string name="finding_your_location">現在地を取得中…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">テーマ</string>
+    <string name="theme_system">システム</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme_light">ライト</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">言語</string>
+    <string name="en">英語</string>
+    <string name="ru">ロシア語</string>
+    <string name="zh">中国語</string>
+    <string name="es">スペイン語</string>
+    <string name="fr">フランス語</string>
+    <string name="de">ドイツ語</string>
+    <string name="uk">ウクライナ語</string>
+    <string name="ja">日本語</string>
+    <string name="ko">韓国語</string>
+    <string name="hi">ヒンディー語</string>
+    <string name="it">イタリア語</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">快晴</string>
+    <string name="fair">晴れ</string>
+    <string name="cloudy">曇り</string>
+    <string name="overcast">本曇り</string>
+    <string name="fog">霧</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">乾燥</string>
+    <string name="drizzle">霧雨</string>
+    <string name="rain">雨</string>
+    <string name="snow">雪</string>
+    <string name="freezing">氷点下</string>
+    <string name="storm">嵐</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">静穏</string>
+    <string name="light">至軽風</string>
+    <string name="gentle">軽風</string>
+    <string name="moderate">和風</string>
+    <string name="strong">強風</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">低い</string>
+    <string name="uv_high">高い</string>
+    <string name="uv_very_high">非常に高い</string>
+    <string name="uv_extreme">極端に高い</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s 時間</string>
+    <string name="kmh_abbr">%1$s km/h</string>
+    <string name="time">時間</string>
+    <string name="now">現在</string>
+    <string name="today">今日</string>
+    <string name="_10_day_forecast">10日間の予報</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">月曜日</string>
+    <string name="dow_2">火曜日</string>
+    <string name="dow_3">水曜日</string>
+    <string name="dow_4">木曜日</string>
+    <string name="dow_5">金曜日</string>
+    <string name="dow_6">土曜日</string>
+    <string name="dow_7">日曜日</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">インターネットに接続されていません。ネットワークを確認してください。</string>
+    <string name="error_timeout">タイムアウトしました。電波が弱い可能性があります。</string>
+    <string name="error_server">現在、天気サービスを利用できません。後でもう一度お試しください。</string>
+    <string name="error_not_found">都市が見つかりませんでした。別の名前を試してください。</string>
+    <string name="error_unauthorized">認証に失敗しました。アプリを更新してください。</string>
+    <string name="error_unknown">エラーが発生しました。もう一度お試しください。</string>
+</resources>

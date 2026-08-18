@@ -42,9 +42,11 @@ import com.ui.components.GpsWarningDialog
 import com.ui.components.LayoutMode
 import com.ui.components.PrecipitationCard
 import com.ui.components.ScreenLoader
+import com.ui.components.SnackBarFlow
 import com.ui.components.UvCard
 import com.ui.components.WeatherCard
 import com.ui.components.WindCard
+import com.ui.components.getMessageRes
 import com.ui.components.neonGlow
 import com.ui.components.radialScreenBackground
 import com.ui.theme.BaseTheme
@@ -181,6 +183,13 @@ fun HomeScreen(
                 )
             }
         }
+        SnackBarFlow(
+            snackFlow = viewModel.snack,
+            messageRes = { it.getMessageRes() },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = paddingValues.calculateBottomPadding() + 16.dp)
+        )
     }
 }
 

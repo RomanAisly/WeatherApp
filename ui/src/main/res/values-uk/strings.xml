@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">НЕВІДОМО</string>
+    <string name="choose_your_city">Виберіть ваше місто</string>
+    <string name="your_city">Ваше місто</string>
+    <string name="search_city">Пошук міста…</string>
+    <string name="geolocation_is_disabled">Геолокацію вимкнено</string>
+    <string name="please_turn_on_gps">Будь ласка, увімкніть GPS, щоб знайти ваше місто автоматично, або виконайте пошук вручну</string>
+    <string name="turn_on">Увімкнути</string>
+    <string name="search_manually">Шукати вручну</string>
+    <string name="finding_your_location">Визначення вашого місцезнаходження…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">Тема</string>
+    <string name="theme_system">Системна</string>
+    <string name="theme_dark">Темна</string>
+    <string name="theme_light">Світла</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">Мова</string>
+    <string name="en">Англійська</string>
+    <string name="ru">Російська</string>
+    <string name="zh">Китайська</string>
+    <string name="es">Іспанська</string>
+    <string name="fr">Французька</string>
+    <string name="de">Німецька</string>
+    <string name="uk">Українська</string>
+    <string name="ja">Японська</string>
+    <string name="ko">Корейська</string>
+    <string name="hi">Гінді</string>
+    <string name="it">Італійська</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">ЯСНО</string>
+    <string name="fair">ЯСНО (НЕВЕЛИКА ХМАРНІСТЬ)</string>
+    <string name="cloudy">ХМАРНО</string>
+    <string name="overcast">ПОХМУРО</string>
+    <string name="fog">ТУМАН</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">СУХО</string>
+    <string name="drizzle">МРЯКА</string>
+    <string name="rain">ДОЩ</string>
+    <string name="snow">СНІГ</string>
+    <string name="freezing">ЗАМОРОЗКИ</string>
+    <string name="storm">ШТОРМ</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">ШТИЛЬ</string>
+    <string name="light">ЛЕГКИЙ</string>
+    <string name="gentle">СЛАБКИЙ</string>
+    <string name="moderate">ПОМІРНИЙ</string>
+    <string name="strong">СИЛЬНИЙ</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">НИЗЬКИЙ</string>
+    <string name="uv_high">ВИСОКИЙ</string>
+    <string name="uv_very_high">ДУЖЕ ВИСОКИЙ</string>
+    <string name="uv_extreme">ЕКСТРЕМАЛЬНИЙ</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s год</string>
+    <string name="kmh_abbr">%1$s км/год</string>
+    <string name="time">ЧАС</string>
+    <string name="now">ЗАРАЗ</string>
+    <string name="today">Сьогодні</string>
+    <string name="_10_day_forecast">ПРОГНОЗ НА 10 ДНІВ</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">Понеділок</string>
+    <string name="dow_2">Вівторок</string>
+    <string name="dow_3">Середа</string>
+    <string name="dow_4">Четвер</string>
+    <string name="dow_5">П\'ятниця</string>
+    <string name="dow_6">Субота</string>
+    <string name="dow_7">Неділя</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">Немає підключення до інтернету. Будь ласка, перевірте мережу.</string>
+    <string name="error_timeout">Час очікування з\'єднання вичерпано. Можливо, слабкий сигнал.</string>
+    <string name="error_server">Сервіс погоди наразі недоступний. Спробуйте пізніше.</string>
+    <string name="error_not_found">Місто не знайдено. Будь ласка, спробуйте іншу назву.</string>
+    <string name="error_unauthorized">Помилка автентифікації. Будь ласка, оновіть додаток.</string>
+    <string name="error_unknown">Щось пішло не так. Будь ласка, спробуйте ще раз.</string>
+</resources>

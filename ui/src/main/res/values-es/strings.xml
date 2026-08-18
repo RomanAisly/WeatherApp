@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">DESCONOCIDO</string>
+    <string name="choose_your_city">Elige tu ciudad</string>
+    <string name="your_city">Tu ciudad</string>
+    <string name="search_city">Buscar ciudad…</string>
+    <string name="geolocation_is_disabled">La geolocalización está desactivada</string>
+    <string name="please_turn_on_gps">Por favor, activa el GPS para encontrar tu ciudad automáticamente o búscala manualmente</string>
+    <string name="turn_on">Activar</string>
+    <string name="search_manually">Buscar manualmente</string>
+    <string name="finding_your_location">Buscando tu ubicación…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">Tema</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_light">Claro</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">Idioma</string>
+    <string name="en">Inglés</string>
+    <string name="ru">Ruso</string>
+    <string name="zh">Chino</string>
+    <string name="es">Español</string>
+    <string name="fr">Francés</string>
+    <string name="de">Alemán</string>
+    <string name="uk">Ucraniano</string>
+    <string name="ja">Japonés</string>
+    <string name="ko">Coreano</string>
+    <string name="hi">Hindi</string>
+    <string name="it">Italiano</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">DESPEJADO</string>
+    <string name="fair">BUEN TIEMPO</string>
+    <string name="cloudy">NUBLADO</string>
+    <string name="overcast">CUBIERTO</string>
+    <string name="fog">NIEBLA</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">SECO</string>
+    <string name="drizzle">Llovizna</string>
+    <string name="rain">LLUVIA</string>
+    <string name="snow">NIEVE</string>
+    <string name="freezing">GÉLIDO</string>
+    <string name="storm">TORMENTA</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">CALMA</string>
+    <string name="light">LIGERO</string>
+    <string name="gentle">SUAVE</string>
+    <string name="moderate">MODERADO</string>
+    <string name="strong">FUERTE</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">BAJO</string>
+    <string name="uv_high">ALTO</string>
+    <string name="uv_very_high">MUY ALTO</string>
+    <string name="uv_extreme">EXTREMO</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s h</string>
+    <string name="kmh_abbr">%1$s km/h</string>
+    <string name="time">TIEMPO</string>
+    <string name="now">AHORA</string>
+    <string name="today">Hoy</string>
+    <string name="_10_day_forecast">PRONÓSTICO DE 10 DÍAS</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">Lunes</string>
+    <string name="dow_2">Martes</string>
+    <string name="dow_3">Miércoles</string>
+    <string name="dow_4">Jueves</string>
+    <string name="dow_5">Viernes</string>
+    <string name="dow_6">Sábado</string>
+    <string name="dow_7">Domingo</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">Sin conexión a internet. Por favor, comprueba tu red.</string>
+    <string name="error_timeout">Se agotó el tiempo de espera de la conexión. La señal podría ser débil.</string>
+    <string name="error_server">El servicio meteorológico no está disponible en este momento. Inténtalo más tarde.</string>
+    <string name="error_not_found">Ciudad no encontrada. Por favor, intenta con otro nombre.</string>
+    <string name="error_unauthorized">Error de autenticación. Por favor, actualiza la aplicación.</string>
+    <string name="error_unknown">Algo salió mal. Por favor, inténtalo de nuevo.</string>
+</resources>

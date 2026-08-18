@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL UI & DIALOGS -->
+    <string name="unknown">НЕИЗВЕСТНО</string>
+    <string name="choose_your_city">Выберите ваш город</string>
+    <string name="your_city">Ваш город</string>
+    <string name="search_city">Поиск города…</string>
+    <string name="geolocation_is_disabled">Геолокация отключена</string>
+    <string name="please_turn_on_gps">Пожалуйста, включите GPS, чтобы найти ваш город автоматически, или выполните поиск вручную</string>
+    <string name="turn_on">Включить</string>
+    <string name="search_manually">Поиск вручную</string>
+    <string name="finding_your_location">Определение вашего местоположения…</string>
+
+    <!-- SETTINGS: THEME -->
+    <string name="theme">Тема</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_light">Светлая</string>
+
+    <!-- SETTINGS: LANGUAGES -->
+    <string name="language">Язык</string>
+    <string name="en">Английский</string>
+    <string name="ru">Русский</string>
+    <string name="zh">Китайский</string>
+    <string name="es">Испанский</string>
+    <string name="fr">Французский</string>
+    <string name="de">Немецкий</string>
+    <string name="uk">Украинский</string>
+    <string name="ja">Японский</string>
+    <string name="ko">Корейский</string>
+    <string name="hi">Хинди</string>
+    <string name="it">Итальянский</string>
+
+    <!-- WEATHER CONDITIONS -->
+    <string name="clear">ЯСНО</string>
+    <string name="fair">ЯСНО (НЕБОЛЬШАЯ ОБЛАЧНОСТЬ)</string>
+    <string name="cloudy">ОБЛАЧНО</string>
+    <string name="overcast">ПАСМУРНО</string>
+    <string name="fog">ТУМАН</string>
+
+    <!-- PRECIPITATION -->
+    <string name="dry">СУХО</string>
+    <string name="drizzle">МОРОСЬ</string>
+    <string name="rain">ДОЖДЬ</string>
+    <string name="snow">СНЕГ</string>
+    <string name="freezing">ЗАМОРОЗКИ</string>
+    <string name="storm">ШТОРМ</string>
+
+    <!-- WIND STATUS  -->
+    <string name="calm">ШТИЛЬ</string>
+    <string name="light">ЛЕГКИЙ</string>
+    <string name="gentle">СЛАБЫЙ</string>
+    <string name="moderate">УМЕРЕННЫЙ</string>
+    <string name="strong">СИЛЬНЫЙ</string>
+
+    <!-- UV INDEX -->
+    <string name="uv_low">НИЗКИЙ</string>
+    <string name="uv_high">ВЫСОКИЙ</string>
+    <string name="uv_very_high">ОЧЕНЬ ВЫСОКИЙ</string>
+    <string name="uv_extreme">ЭКСТРЕМАЛЬНЫЙ</string>
+
+    <!-- TIME, DATES & FORMATS -->
+    <string name="hour_format">%1$s ч</string>
+    <string name="kmh_abbr">%1$s км/ч</string>
+    <string name="time">ВРЕМЯ</string>
+    <string name="now">СЕЙЧАС</string>
+    <string name="today">Сегодня</string>
+    <string name="_10_day_forecast">ПРОГНОЗ НА 10 ДНЕЙ</string>
+
+    <!-- DAYS OF WEEK -->
+    <string name="dow_1">Понедельник</string>
+    <string name="dow_2">Вторник</string>
+    <string name="dow_3">Среда</string>
+    <string name="dow_4">Четверг</string>
+    <string name="dow_5">Пятница</string>
+    <string name="dow_6">Суббота</string>
+    <string name="dow_7">Воскресенье</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_internet">Нет подключения к интернету. Пожалуйста, проверьте сеть.</string>
+    <string name="error_timeout">Время ожидания соединения истекло. Возможно, слабый сигнал.</string>
+    <string name="error_server">Погодный сервис в данный момент недоступен. Попробуйте позже.</string>
+    <string name="error_not_found">Город не найден. Пожалуйста, попробуйте другое название.</string>
+    <string name="error_unauthorized">Ошибка аутентификации. Пожалуйста, обновите приложение.</string>
+    <string name="error_unknown">Что-то пошло не так. Пожалуйста, попробуйте еще раз.</string>
+</resources>
