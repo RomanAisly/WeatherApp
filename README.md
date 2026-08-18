@@ -17,13 +17,14 @@ approach.
 ## 📱 Screenshots
 
 <div align="center">
-<img width="1410" height="2968" alt="Image" src="https://github.com/user-attachments/assets/95fce07a-ca95-46c1-89d4-cea599d17739" />
-<img width="1410" height="2968" alt="Image" src="https://github.com/user-attachments/assets/d81d8e01-77df-4401-bfb8-fb627159013a" />
-<img width="1410" height="2968" alt="Image" src="https://github.com/user-attachments/assets/501260aa-033b-4599-bc6d-0c39f56666c6" />
-<img width="1410" height="2968" alt="Image" src="https://github.com/user-attachments/assets/c721473a-2609-48fc-a335-a95f10da3864" />
-<img width="2201" height="2268" alt="Image" src="https://github.com/user-attachments/assets/e38ff971-8706-4f69-8ddc-8d12fd91d73e" />
-<img width="2201" height="2268" alt="Image" src="https://github.com/user-attachments/assets/16355e01-7a0a-4914-afb2-c667df0c8250" />
-<img width="2201" height="2268" alt="Image" src="https://github.com/user-attachments/assets/4fcb8984-8a7e-44ce-8fe0-a0dc839aa298" />
+  <img src="https://github.com/user-attachments/assets/6af57210-3706-4148-8430-aae3ae4a80bb" width="24%" />
+  <img src="https://github.com/user-attachments/assets/27624b8b-1e72-4dd1-818d-29d3ddd04ec7" width="24%" />
+  <img src="https://github.com/user-attachments/assets/66b775f5-d848-40fb-a09b-a3444217f291" width="24%" />
+  <img src="https://github.com/user-attachments/assets/e062b59a-318e-4973-8290-85144646c31d" width="24%" />
+<br><br>
+  <img src="https://github.com/user-attachments/assets/1fd5d415-6ade-4952-9f0d-49cfbf0b4274" width="31%" />
+  <img src="https://github.com/user-attachments/assets/13411671-cf76-415f-a6f9-ff48c7a44c11" width="31%" />
+  <img src="https://github.com/user-attachments/assets/745c3a7b-96e4-4136-b859-11dce344ba12" width="31%" />
 </div>
 
 ---
