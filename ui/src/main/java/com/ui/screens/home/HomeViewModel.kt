@@ -176,7 +176,10 @@ class HomeViewModel(
                     } else {
                         repository.searchCities(query).map { result ->
                             when (result) {
-                                is CheckDataResult.Success -> result.data
+                                is CheckDataResult.Success -> {
+                                    result.data
+
+                                }
                                 is CheckDataResult.Error -> {
                                     _snack.send(result.error)
                                     emptyList()

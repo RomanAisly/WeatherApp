@@ -394,7 +394,8 @@ fun <T> SnackBarFlow(
                     .padding(bottom = 10.dp)
                     .padding(horizontal = 18.dp)
                     .fillMaxWidth(),
-                shape = MaterialTheme.shapes.medium
+                shape = MaterialTheme.shapes.medium,
+                containerColor = BaseTheme.colors.bgCenter
             ) {
                 Row(
                     modifier = Modifier.padding(10.dp),
